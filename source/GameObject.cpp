@@ -5,13 +5,11 @@ using namespace std;
 
 GameObject::GameObject(void)
 {
-	cout << "GameObject" << endl;
 }
 
 
 GameObject::~GameObject(void)
 {
-	cout << "~GameObject" << endl;
 }
 
 bool GameObject::IsActive()
@@ -31,4 +29,9 @@ float GameObject::Width()
 float GameObject::Height()
 {
 	return height;
+}
+
+void GameObject::SetActive(bool active_)
+{
+	active = active_;
 }

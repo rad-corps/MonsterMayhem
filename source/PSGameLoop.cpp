@@ -19,7 +19,7 @@ PSGameLoop::PSGameLoop(void)
 	}
 	
 	//create some random monsters
-	for (int i = 0; i < 40; ++i )
+	for (int i = 0; i < 250; ++i )
 	{
 		Monster temp;
 		temp.RegisterTarget(&player);
@@ -27,14 +27,14 @@ PSGameLoop::PSGameLoop(void)
 	}
 
 	//create some power ups
-	for ( int i = 0; i < 3; ++i )
+	for ( int i = 0; i < 10; ++i )
 	{
 		PowerUp temp;
 		temp.Spawn(POWER_UP_TYPE::SPEED_UP);
 		powerUpList.push_back(temp);		
 	}
 	
-	for ( int i = 0; i < 3; ++i )
+	for ( int i = 0; i < 10; ++i )
 	{
 		PowerUp temp;
 		temp.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY);
@@ -86,6 +86,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 			if ( Collision::CheckCollision(&monsterList[i], &spitList[spit]))
 			{
 				monsterList[i].Hit();
+				spitList[spit].SetActive(false);
 			}
 		}
 	}
