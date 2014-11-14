@@ -91,8 +91,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="PSGameOver.cpp" />
+    <ClCompile Include="source\Collision.cpp" />
+    <ClCompile Include="source\PowerUp.cpp" />
+    <ClCompile Include="source\PSGameOver.cpp" />
     <ClCompile Include="source\Monster.cpp" />
     <ClCompile Include="source\FrameworkHelpers.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
@@ -106,7 +107,7 @@
     <ClCompile Include="source\Spit.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collision.h" />
+    <ClInclude Include="include\Collision.h" />
     <ClInclude Include="include\FrameworkHelpers.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\Enums.h" />
@@ -121,7 +122,8 @@
     <ClInclude Include="include\SpitObserver.h" />
     <ClInclude Include="include\Spit.h" />
     <ClInclude Include="include\Monster.h" />
-    <ClInclude Include="PSGameOver.h" />
+    <ClInclude Include="include\PowerUp.h" />
+    <ClInclude Include="include\PSGameOver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

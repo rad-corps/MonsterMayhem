@@ -25,6 +25,21 @@ PSGameLoop::PSGameLoop(void)
 		temp.RegisterTarget(&player);
 		monsterList.push_back(temp);
 	}
+
+	//create some power ups
+	for ( int i = 0; i < 3; ++i )
+	{
+		PowerUp temp;
+		temp.Spawn(POWER_UP_TYPE::SPEED_UP);
+		powerUpList.push_back(temp);		
+	}
+	
+	for ( int i = 0; i < 3; ++i )
+	{
+		PowerUp temp;
+		temp.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY);
+		powerUpList.push_back(temp);		
+	}
 }
 
 
@@ -54,6 +69,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 		spitList[i].Update(delta_);
 	}
 
+	//update monsters
 	for (int i = 0; i < monsterList.size(); ++i ) 
 	{
 		monsterList[i].Update(delta_);
@@ -74,6 +90,17 @@ ProgramState* PSGameLoop::Update(float delta_)
 		}
 	}
 
+	//update power ups
+	for ( int i = 0; i < powerUpList.size(); ++i )
+	{
+		powerUpList[i].Update(delta_);
+		
+		if  (Collision::CheckCollision(&player, &powerUpList[i]))
+		{
+			player.EatPowerUp(powerUpList[i]);			
+		}
+	}
+
 	return nullptr;
 }
 
@@ -82,8 +109,16 @@ void PSGameLoop::Draw()
 	DrawString( "You are now playing the game, ESC to exit", 100, 100, 1.f, SColour(255,255,255,255));
 
 	terrain.Draw();
+	
+	for ( int i = 0; i < powerUpList.size(); ++i )
+	{
+		powerUpList[i].Draw();
+	}
+	
 	player.Draw();
 	
+
+
 	for (int i = 0; i < SPIT_POOL; ++i )
 	{
 		spitList[i].Draw();
@@ -93,6 +128,8 @@ void PSGameLoop::Draw()
 	{
 		monsterList[i].Draw();
 	}
+
+
 }
 
 void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_)

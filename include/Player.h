@@ -2,6 +2,7 @@
 
 #include "gameobject.h"
 #include "SpitObserver.h"
+#include "PowerUp.h"
 
 class Player :
 	public GameObject
@@ -15,6 +16,8 @@ public:
 
 	void RegisterSpitObserver(SpitObserver* spitObserver_);
 
+	void EatPowerUp(PowerUp& powerUp);
+
 private:
 	unsigned int sprite;
 
@@ -23,5 +26,7 @@ private:
 	SpitObserver* spitObserver;
 
 	float timeSinceLoogie;
+	float speed;
+	float loogieReload;
 };
 

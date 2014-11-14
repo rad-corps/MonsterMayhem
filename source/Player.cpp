@@ -11,6 +11,8 @@ Player::Player(void)
 	sprite = CreateSprite ( "./images/Player_monster.png", width, height, true);
 	pos = Vector2(BATTLE_FIELD_W/2, BATTLE_FIELD_H/2);
 	timeSinceLoogie = 0.f;
+	speed = PLAYER_SPEED;
+	loogieReload = LOOGIE_RELOAD;
 }
 
 
@@ -25,19 +27,19 @@ void Player::Update(float delta_)
 	//handle user input
 	if ( IsKeyDown(KEY_W) )
 	{
-		pos.y += PLAYER_SPEED * delta_;
+		pos.y += speed * delta_;
 	}
 	if ( IsKeyDown(KEY_S) )
 	{
-		pos.y -= PLAYER_SPEED * delta_;
+		pos.y -= speed * delta_;
 	}
 	if ( IsKeyDown(KEY_A) )
 	{
-		pos.x -= PLAYER_SPEED * delta_;
+		pos.x -= speed * delta_;
 	}
 	if ( IsKeyDown(KEY_D) )
 	{
-		pos.x += PLAYER_SPEED * delta_;
+		pos.x += speed * delta_;
 	}
 	
 	//get the mouse coordinate. used our own function as AIE one is inverted
@@ -62,7 +64,7 @@ void Player::Update(float delta_)
 	MoveCamera(camPos.x, camPos.y);	
 
 	//	check for spit ... ewww
-	if ( GetMouseButtonDown(0) && timeSinceLoogie > LOOGIE_RELOAD )
+	if ( GetMouseButtonDown(0) && timeSinceLoogie > loogieReload )
 	{
 		timeSinceLoogie = 0.0f;
 		spitObserver->SpitEvent(pos, angle, 1.0f);
@@ -77,4 +79,20 @@ void Player::Draw()
 void Player::RegisterSpitObserver(SpitObserver* spitObserver_)
 {
 	spitObserver = spitObserver_;
+}
+
+void Player::EatPowerUp(PowerUp& powerUp)
+{
+	POWER_UP_TYPE type = powerUp.Eat();
+
+	if ( type == POWER_UP_TYPE::SPEED_UP ) 
+	{
+		cout << "SPEED UP" << endl;
+		speed *= 1.25f;
+	}
+	if ( type == POWER_UP_TYPE::SPIT_FREQUENCY ) 
+	{
+		cout << "SPIT FREQUENCY UP" << endl;
+		loogieReload *= 0.75f;
+	}
 }

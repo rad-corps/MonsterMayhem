@@ -10,13 +10,19 @@ enum PROGRAM_STATES
 	GAME_LOOP
 };
 
+enum POWER_UP_TYPE
+{
+	SPIT_FREQUENCY,
+	SPEED_UP
+};
+
 #define SCREEN_W 1680
 #define SCREEN_H 1050
 
 #define PLAYER_W 64
 #define PLAYER_H 64
 
-#define PLAYER_SPEED 300.0
+#define PLAYER_SPEED 150.0
 
 #define TERRAIN_COLS 32
 #define TERRAIN_ROWS 32
@@ -31,3 +37,6 @@ enum PROGRAM_STATES
 #define LOOGIE_H 16
 #define LOOGIE_VELOCITY 31.0
 #define SPIT_POOL 20
+
+#define POWER_UP_W 64
+#define POWER_UP_H 64
