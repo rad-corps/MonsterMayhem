@@ -11,6 +11,9 @@ public:
 	virtual void Update(float delta_) = 0;
 	virtual void Draw() = 0;
 
+	float Width();
+	float Height();
+
 	bool IsActive();
 	Vector2 Pos();
 

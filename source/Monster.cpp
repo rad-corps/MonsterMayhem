@@ -12,8 +12,12 @@ Monster::Monster(void)
 	int xPos = rand() % BATTLE_FIELD_W;
 	int yPos = rand() % BATTLE_FIELD_H;
 
+	width = 32;
+	height = 32;
+
 	pos = Vector2(xPos,yPos);
 	sprite = CreateSprite("./images/Monster_Medium.png", 32, 32, true);
+	active = true;
 
 }
 
@@ -30,6 +34,9 @@ void Monster::RegisterTarget(GameObject* target_)
 
 void Monster::Update(float delta_)
 {
+	if ( !active ) 
+		return;
+	
 	//move towards target
 
 	//player pos:
@@ -40,9 +47,16 @@ void Monster::Update(float delta_)
 	direction.SetMagnitude(speed); //monster speed
 	pos += direction;
 	MoveSprite(sprite, pos.x, pos.y);
+	
+}
+
+void Monster::Hit(float hit_ )
+{
+	active = false;
 }
 
 void Monster::Draw()
 {
-	DrawSprite(sprite);
+	if ( active ) 
+		DrawSprite(sprite);
 }

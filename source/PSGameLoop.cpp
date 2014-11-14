@@ -2,6 +2,8 @@
 #include "PSMainMenu.h"
 #include "AIE.h"
 #include "Enums.h"
+#include "Collision.h"
+#include "PSGameOver.h"
 
 
 PSGameLoop::PSGameLoop(void)
@@ -55,6 +57,21 @@ ProgramState* PSGameLoop::Update(float delta_)
 	for (int i = 0; i < monsterList.size(); ++i ) 
 	{
 		monsterList[i].Update(delta_);
+		
+		//check collision with player, game over if collided
+		if ( Collision::CheckCollision(&monsterList[i], &player) )
+		{
+			return new PSGameOver();
+		}
+
+		//check this monster against each spit (BRUTE FORCE OH YEAH)
+		for (int spit = 0; spit < spitList.size(); ++ spit )
+		{
+			if ( Collision::CheckCollision(&monsterList[i], &spitList[spit]))
+			{
+				monsterList[i].Hit();
+			}
+		}
 	}
 
 	return nullptr;

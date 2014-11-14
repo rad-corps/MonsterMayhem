@@ -4,6 +4,8 @@
 
 Spit::Spit(void)
 {
+	width = LOOGIE_W;
+	height = LOOGIE_H;
 	sprite = CreateSprite("./images/Spit_Large.png", LOOGIE_W, LOOGIE_H, true);
 	active = false;
 }

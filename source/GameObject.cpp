@@ -23,3 +23,12 @@ Vector2 GameObject::Pos()
 {
 	return pos;
 }
+
+float GameObject::Width()
+{
+	return width;
+}
+float GameObject::Height()
+{
+	return height;
+}

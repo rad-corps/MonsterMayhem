@@ -10,7 +10,7 @@ public:
 	~Monster(void);
 
 	void RegisterTarget(GameObject* target_);
-
+	void Hit(float power_ = 1.0f);
 	virtual void Update(float delta_);
 	virtual void Draw();
 
