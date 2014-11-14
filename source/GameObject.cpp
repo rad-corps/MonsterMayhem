@@ -18,3 +18,8 @@ bool GameObject::IsActive()
 {
 	return active;
 }
+
+Vector2 GameObject::Pos()
+{
+	return pos;
+}

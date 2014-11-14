@@ -5,6 +5,7 @@
 #include "Terrain.h"
 #include "SpitObserver.h"
 #include "Spit.h"
+#include "Monster.h"
 
 class PSGameLoop :
 	public ProgramState, public SpitObserver
@@ -24,5 +25,6 @@ private:
 	Player player;
 	Terrain terrain;
 	vector<Spit> spitList;
+	vector<Monster> monsterList;
 };
 

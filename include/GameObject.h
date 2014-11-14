@@ -12,6 +12,7 @@ public:
 	virtual void Draw() = 0;
 
 	bool IsActive();
+	Vector2 Pos();
 
 protected:
 	Vector2 pos;

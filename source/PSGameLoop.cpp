@@ -15,11 +15,20 @@ PSGameLoop::PSGameLoop(void)
 	{
 		spitList.push_back(Spit());
 	}
+	
+	//create some random monsters
+	for (int i = 0; i < 40; ++i )
+	{
+		Monster temp;
+		temp.RegisterTarget(&player);
+		monsterList.push_back(temp);
+	}
 }
 
 
 PSGameLoop::~PSGameLoop(void)
 {
+	MoveCamera(0.0f, 0.0f);
 	cout << "~PSGameLoop()" << endl;
 }
 
@@ -43,6 +52,11 @@ ProgramState* PSGameLoop::Update(float delta_)
 		spitList[i].Update(delta_);
 	}
 
+	for (int i = 0; i < monsterList.size(); ++i ) 
+	{
+		monsterList[i].Update(delta_);
+	}
+
 	return nullptr;
 }
 
@@ -56,6 +70,11 @@ void PSGameLoop::Draw()
 	for (int i = 0; i < SPIT_POOL; ++i )
 	{
 		spitList[i].Draw();
+	}
+
+	for (int i = 0; i < monsterList.size(); ++i ) 
+	{
+		monsterList[i].Draw();
 	}
 }
 
