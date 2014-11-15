@@ -19,7 +19,7 @@ PSGameLoop::PSGameLoop(void)
 	}
 	
 	//create some random monsters
-	for (int i = 0; i < 250; ++i )
+	for (int i = 0; i < 100; ++i )
 	{
 		Monster temp;
 		temp.RegisterTarget(&player);
@@ -77,6 +77,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 		//check collision with player, game over if collided
 		if ( Collision::CheckCollision(&monsterList[i], &player) )
 		{
+			cout << "GAME OVER" << endl;
 			return new PSGameOver();
 		}
 

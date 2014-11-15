@@ -13,6 +13,7 @@ Player::Player(void)
 	timeSinceLoogie = 0.f;
 	speed = PLAYER_SPEED;
 	loogieReload = LOOGIE_RELOAD;
+	active = true;
 }
 
 
