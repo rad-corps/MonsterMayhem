@@ -28,5 +28,6 @@ private:
 	vector<Spit> spitList;
 	vector<Monster> monsterList;
 	vector<PowerUp> powerUpList;
+	int wave;
 };
 

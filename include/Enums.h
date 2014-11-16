@@ -16,6 +16,7 @@ enum POWER_UP_TYPE
 	SPEED_UP
 };
 
+
 #define SCREEN_W 1680
 #define SCREEN_H 1050
 
@@ -24,8 +25,8 @@ enum POWER_UP_TYPE
 
 #define PLAYER_SPEED 150.0
 
-#define TERRAIN_COLS 32
-#define TERRAIN_ROWS 32
+#define TERRAIN_COLS 16
+#define TERRAIN_ROWS 16
 #define TERRAIN_W 256
 #define TERRAIN_H 256
 

@@ -105,6 +105,7 @@
     <ClCompile Include="source\Vector.cpp" />
     <ClCompile Include="source\Terrain.cpp" />
     <ClCompile Include="source\Spit.cpp" />
+    <ClCompile Include="source\WaveGen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Collision.h" />
@@ -124,6 +125,8 @@
     <ClInclude Include="include\Monster.h" />
     <ClInclude Include="include\PowerUp.h" />
     <ClInclude Include="include\PSGameOver.h" />
+    <ClInclude Include="include\WaveGen.h" />
+    <ClInclude Include="include\WaveItems.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
