@@ -12,6 +12,7 @@ PowerUp::PowerUp(void)
 
 PowerUp::~PowerUp(void)
 {
+	
 }
 
 void PowerUp::Update(float delta_)
@@ -51,5 +52,9 @@ void PowerUp::Spawn(POWER_UP_TYPE type_)
 POWER_UP_TYPE PowerUp::Eat()
 {	
 	active = false;
+	
+	//we can assume that sprite is set if we get to here. 
+	DestroySprite(sprite);
+	
 	return type;
 }

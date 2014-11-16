@@ -60,6 +60,12 @@
     <ClCompile Include="source\WaveGen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\IniFile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\FileSettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ProgramState.h">
@@ -117,6 +123,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\WaveItems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FileSettings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IniFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

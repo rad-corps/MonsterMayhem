@@ -6,24 +6,37 @@
 using namespace std;
 
 
-Monster::Monster(void)
+Monster::Monster(MONSTER_TYPE type_, Vector2 pos_)
 {
-	//randomise a position
-	int xPos = rand() % BATTLE_FIELD_W;
-	int yPos = rand() % BATTLE_FIELD_H;
-
-	width = 32;
-	height = 32;
-
-	pos = Vector2(xPos,yPos);
-	sprite = CreateSprite("./images/Monster_Medium.png", 32, 32, true);
+	pos = pos_;
+	switch (type_)
+	{
+		case MONSTER_TYPE::MEDIUM :
+			width = 32;
+			height = 32;
+			health = 10;
+			sprite = CreateSprite("./images/Monster_Medium.png", width, height, true);
+			break;
+		case MONSTER_TYPE::LARGE : 
+			width = 64;
+			height = 64;
+			health = 30;
+			sprite = CreateSprite("./images/Monster_Large.png", width, height, true);
+			break;
+		case MONSTER_TYPE::BOSS: 
+			width = 128;
+			height = 128;
+			health = 100;
+			sprite = CreateSprite("./images/Monster_Boss.png", width, height, true);
+			break;
+	}
 	active = true;
-
 }
 
 
 Monster::~Monster(void)
 {
+	
 }
 
 void Monster::RegisterTarget(GameObject* target_)
@@ -50,9 +63,14 @@ void Monster::Update(float delta_)
 	
 }
 
-void Monster::Hit(float hit_ )
+void Monster::Hit(int hit_ )
 {
-	active = false;
+	health -= hit_;
+	if ( health <= 0 )
+	{
+		active = false;
+		DestroySprite(sprite);
+	}
 }
 
 void Monster::Draw()

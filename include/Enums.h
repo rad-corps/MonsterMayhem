@@ -4,16 +4,17 @@
 #include <iostream>
 using namespace std;
 
-enum PROGRAM_STATES
-{
-	MAIN_MENU,
-	GAME_LOOP
-};
-
 enum POWER_UP_TYPE
 {
 	SPIT_FREQUENCY,
 	SPEED_UP
+};
+
+enum MONSTER_TYPE
+{
+	MEDIUM,
+	LARGE,
+	BOSS
 };
 
 
@@ -41,3 +42,5 @@ enum POWER_UP_TYPE
 
 #define POWER_UP_W 64
 #define POWER_UP_H 64
+
+#define SAFE_SPAWN_DISTANCE 500.0

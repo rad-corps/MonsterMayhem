@@ -12,53 +12,6 @@
 
 using namespace std;
 
-struct Vector4
-{
-	Vector4()
-	{
-
-	}
-
-	Vector4(float x_, float y_, float z_, float w_)
-	{
-		x = x_;
-		y = y_;
-		z = z_;
-		w = w_;
-	}
-
-	float x, y, z, w;
-
-
-	string ToString()
-	{
-		string ret = "";
-		ret += "x: " + to_string(x) + "\ty: " + to_string(y) + "\tz: " + to_string(z) + "\tw: " + to_string(w);
-		return ret;
-	}
-};
-
-struct Vector3
-{
-	Vector3();
-	Vector3(float x_, float y_, float z_);
-
-	float GetAngle();
-	void SetAngle(float angle);
-
-	void Normalise();
-
-	Vector3 operator*(float scalar_);
-	void operator+=(Vector3 vec_);
-	Vector3 operator-(Vector3 vec_);
-	float magnitude();
-	
-	const float GetMagnitude();
-	std::string ToString();
-
-	float x, y, z;
-};
-
 class Vector2
 {
 public: 

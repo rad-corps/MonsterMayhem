@@ -92,6 +92,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Collision.cpp" />
+    <ClCompile Include="source\FileSettings.cpp" />
+    <ClCompile Include="source\IniFile.cpp" />
     <ClCompile Include="source\PowerUp.cpp" />
     <ClCompile Include="source\PSGameOver.cpp" />
     <ClCompile Include="source\Monster.cpp" />
@@ -109,10 +111,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Collision.h" />
+    <ClInclude Include="include\FileSettings.h" />
     <ClInclude Include="include\FrameworkHelpers.h" />
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\Enums.h" />
     <ClInclude Include="include\AIE.h" />
+    <ClInclude Include="include\IniFile.h" />
     <ClInclude Include="include\ProgramState.h" />
     <ClInclude Include="include\OuterLoop.h" />
     <ClInclude Include="include\PSMainMenu.h" />
