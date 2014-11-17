@@ -7,13 +7,8 @@
 #include "Spit.h"
 #include "Monster.h"
 #include "PowerUp.h"
+#include "GameGUI.h"
 
-enum GAME_LOOP_STATE
-{
-	WAVE_BEGIN,
-	WAVE_RUNNING,
-	WAVE_END,	
-};
 
 class PSGameLoop :
 	public ProgramState, public SpitObserver
@@ -30,24 +25,20 @@ public:
 	virtual void SpitEvent(Vector2 position_, float rotation_, float activeTime_); 
 
 private:
+	//game objects
 	Player player;
 	Terrain terrain;
 	vector<Spit> spitList;
 	vector<Monster> monsterList;
 	vector<PowerUp> powerUpList;
+	GameGUI gui;
+	
+	//keep track of current wave number
 	int wave;
 
-	//sprites
-	unsigned int sprBegWave;
-	unsigned int sprEndWave;
-	unsigned int sprDigit[10];
-
-	Vector2 sprEndPos;
-	Vector2 sprBegPos;
-
+	//timers
 	float waveBeginTimer;
 	float waveEndTimer;
-
 	float currentTimer;
 
 	//state

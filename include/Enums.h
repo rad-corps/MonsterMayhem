@@ -17,6 +17,12 @@ enum MONSTER_TYPE
 	BOSS
 };
 
+enum GAME_LOOP_STATE
+{
+	WAVE_BEGIN,
+	WAVE_RUNNING,
+	WAVE_END,	
+};
 
 #define SCREEN_W 1680
 #define SCREEN_H 1050

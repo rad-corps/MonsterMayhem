@@ -26,31 +26,8 @@ PSGameLoop::PSGameLoop(void)
 		spitList.push_back(Spit());
 	}
 
-	//create the sprites
-	sprBegWave = CreateSprite("./images/Wave_Begin.png", 
-		FileSettings::GetInt("BEG_WAVE_WIDTH"),
-		FileSettings::GetInt("BEG_WAVE_HEIGHT"),
-		false);
-
-	sprEndWave = CreateSprite("./images/Wave_Complete.png", 
-		FileSettings::GetInt("COMPLETE_WAVE_WIDTH"),
-		FileSettings::GetInt("COMPLETE_WAVE_HEIGHT"),
-		false);
-
-	for (int i = 0; i < 10; ++i )
-	{
-		string fileName = string("./images/") + std::to_string(i) + string(".png");
-		sprDigit[i] = CreateSprite(fileName.c_str(), 
-			FileSettings::GetInt("WAVE_DIGIT_WIDTH"),
-			FileSettings::GetInt("WAVE_DIGIT_HEIGHT"),
-			false);
-	}
-
 	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
-
-	sprBegPos = Vector2( FileSettings::GetFloat("BEG_WAVE_X"), FileSettings::GetFloat("BEG_WAVE_Y"));
-	sprEndPos = Vector2( FileSettings::GetFloat("COMPLETE_WAVE_X"), FileSettings::GetFloat("COMPLETE_WAVE_Y"));
 }
 
 
@@ -139,9 +116,6 @@ ProgramState* PSGameLoop::Update(float delta_)
 		currentTimer = 0.0f;
 	}
 
-	MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y);
-	MoveSpriteAbs(sprEndWave, sprEndPos.x, sprEndPos.y);
-
 	//update power ups
 	for ( int i = 0; i < powerUpList.size(); ++i )
 	{
@@ -153,6 +127,11 @@ ProgramState* PSGameLoop::Update(float delta_)
 		}
 	}
 
+	//update gui
+	gui.SetGameState(gameState);
+	gui.Update(delta_);
+
+	//return null (do not change current ProgramState)
 	return nullptr;
 }
 
@@ -179,15 +158,7 @@ void PSGameLoop::Draw()
 		monsterList[i].Draw();
 	}
 
-	if ( gameState == GAME_LOOP_STATE::WAVE_END )
-	{
-		DrawSprite(sprEndWave);
-	}
-	
-	if ( gameState == GAME_LOOP_STATE::WAVE_BEGIN )
-	{
-		DrawSprite(sprBegWave);
-	}
+	gui.Draw();
 }
 
 void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_)
