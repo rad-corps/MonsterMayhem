@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Fence.cpp" />
     <ClCompile Include="source\GameGUI.cpp" />
     <ClCompile Include="source\Collision.cpp" />
     <ClCompile Include="source\FileSettings.cpp" />
@@ -111,6 +112,7 @@
     <ClCompile Include="source\WaveGen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\Fence.h" />
     <ClInclude Include="include\GameGUI.h" />
     <ClInclude Include="include\Collision.h" />
     <ClInclude Include="include\FileSettings.h" />
@@ -123,6 +125,7 @@
     <ClInclude Include="include\OuterLoop.h" />
     <ClInclude Include="include\PSMainMenu.h" />
     <ClInclude Include="include\PSGameLoop.h" />
+    <ClInclude Include="include\Rect.h" />
     <ClInclude Include="include\Vector.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Terrain.h" />

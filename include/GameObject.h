@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector.h"
+#include "Rect.h"
 
 class GameObject
 {
@@ -17,6 +18,8 @@ public:
 	bool IsActive();
 	void SetActive(bool active_);
 	Vector2 Pos();
+
+	Rect GetRect();
 
 protected:
 	Vector2 pos;

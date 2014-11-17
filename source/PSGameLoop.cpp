@@ -28,6 +28,22 @@ PSGameLoop::PSGameLoop(void)
 
 	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
+
+	//LHS
+	fences.push_back(Fence(Vector2(TERRAIN_W, TERRAIN_H), FENCE_DIRECTION::FENCE_DIRECTION_UP, BORDER_FENCE_TILES));
+	//RHS
+	fences.push_back(Fence(Vector2(TERRAIN_W * TERRAIN_COLS - TERRAIN_W * 2, TERRAIN_H ), FENCE_DIRECTION::FENCE_DIRECTION_UP, BORDER_FENCE_TILES));
+	//BOTTOM
+	fences.push_back(Fence(Vector2(TERRAIN_W, TERRAIN_H), FENCE_DIRECTION::FENCE_DIRECTION_RIGHT, BORDER_FENCE_TILES));
+	//TOP
+	fences.push_back(Fence(Vector2(TERRAIN_W, TERRAIN_H * TERRAIN_ROWS - TERRAIN_H * 2), FENCE_DIRECTION::FENCE_DIRECTION_RIGHT, BORDER_FENCE_TILES));
+	
+	//add all the fences to the collision list
+	for (int i = 0; i < fences.size(); ++i ) 
+	{
+		vector<Rect> temp =  fences[i].GetCollisionRects();
+		fenceRects.insert(fenceRects.end(), temp.begin(), temp.end());
+	}
 }
 
 
@@ -62,6 +78,15 @@ ProgramState* PSGameLoop::Update(float delta_)
 	//check if all enemies have been killed
 	bool waveStillRunning = false;
 
+	//check for collision with fence and player
+	for (int i = 0; i < fenceRects.size(); ++i )
+	{
+		if ( Collision::RectCollision(fenceRects[i], player.GetRect()) )
+		{
+			player.UndoUpdate();
+		}
+	}
+
 	//update monsters
 	for (int i = 0; i < monsterList.size(); ++i ) 
 	{
@@ -76,7 +101,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 		{
 			cout << "GAME OVER" << endl;
 			return new PSGameOver();
-		}
+		}		
 
 		//check this monster against each spit (BRUTE FORCE OH YEAH)
 		for (int spit = 0; spit < spitList.size(); ++ spit )
@@ -130,6 +155,13 @@ ProgramState* PSGameLoop::Update(float delta_)
 	//update gui
 	gui.SetGameState(gameState);
 	gui.Update(delta_);
+	
+
+	//environmental
+	for (int i = 0; i < fences.size(); ++i )
+	{
+		fences[i].Update();
+	}
 
 	//return null (do not change current ProgramState)
 	return nullptr;
@@ -137,9 +169,13 @@ ProgramState* PSGameLoop::Update(float delta_)
 
 void PSGameLoop::Draw()
 {
-	DrawString( "You are now playing the game, ESC to exit", 100, 100, 1.f, SColour(255,255,255,255));
-
 	terrain.Draw();
+	
+	//draw fences
+	for (int i = 0; i < fences.size(); ++i )
+	{
+		fences[i].Draw();
+	}
 	
 	for ( int i = 0; i < powerUpList.size(); ++i )
 	{

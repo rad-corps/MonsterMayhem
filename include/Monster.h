@@ -20,6 +20,7 @@ private:
 	GameObject* target;
 	Vector2 velocity;
 	unsigned int sprite;
+	float speed;
 	int health;
 };
 

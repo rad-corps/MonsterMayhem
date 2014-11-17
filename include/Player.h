@@ -18,6 +18,8 @@ public:
 
 	void EatPowerUp(PowerUp& powerUp);
 
+	void UndoUpdate();
+
 private:
 	unsigned int sprite;
 
@@ -28,5 +30,9 @@ private:
 	float timeSinceLoogie;
 	float speed;
 	float loogieReload;
+
+
+	//allow undo for fence/terrain collision
+	Vector2 previousPos;
 };
 

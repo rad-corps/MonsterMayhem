@@ -68,14 +68,14 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_)
 	}
 
 	//create some power ups
-	for ( int i = 0; i < 1*waveNum_; ++i )
+	for ( int i = 0; i < 3 + waveNum_ * 0.2f; ++i )
 	{
 		PowerUp temp;
 		temp.Spawn(POWER_UP_TYPE::SPEED_UP);
 		powerUpList.push_back(temp);		
 	}
 	
-	for ( int i = 0; i < 1*waveNum_; ++i )
+	for ( int i = 0; i < 3 + waveNum_ * 0.2f; ++i )
 	{
 		PowerUp temp;
 		temp.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY);

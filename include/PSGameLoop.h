@@ -8,6 +8,7 @@
 #include "Monster.h"
 #include "PowerUp.h"
 #include "GameGUI.h"
+#include "Fence.h"
 
 
 class PSGameLoop :
@@ -31,7 +32,11 @@ private:
 	vector<Spit> spitList;
 	vector<Monster> monsterList;
 	vector<PowerUp> powerUpList;
+	vector<Rect> fenceRects;
+	vector<Fence> fences;
+	
 	GameGUI gui;
+	
 	
 	//keep track of current wave number
 	int wave;

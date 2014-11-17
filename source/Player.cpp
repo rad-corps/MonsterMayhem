@@ -2,6 +2,7 @@
 #include "AIE.h"
 #include "FrameworkHelpers.h"
 #include "Enums.h"
+#include "FileSettings.h"
 
 
 Player::Player(void)
@@ -21,26 +22,46 @@ Player::~Player(void)
 {
 }
 
+void Player::UndoUpdate()
+{
+	pos = previousPos;
+}
+
 void Player::Update(float delta_)
 {	
+	previousPos = pos;
+	
 	timeSinceLoogie += delta_;
 
+	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
+	
 	//handle user input
 	if ( IsKeyDown(KEY_W) )
 	{
 		pos.y += speed * delta_;
+		speed -= staminaReduction;
+		
 	}
 	if ( IsKeyDown(KEY_S) )
 	{
 		pos.y -= speed * delta_;
+		speed -= staminaReduction;
 	}
 	if ( IsKeyDown(KEY_A) )
 	{
 		pos.x -= speed * delta_;
+		speed -= staminaReduction;
 	}
 	if ( IsKeyDown(KEY_D) )
 	{
 		pos.x += speed * delta_;
+		speed -= staminaReduction;
+	}
+	
+	//dont let our player get below the min speed
+	if ( speed < FileSettings::GetFloat("MIN_PLAYER_SPEED") )
+	{
+		speed = FileSettings::GetFloat("MIN_PLAYER_SPEED");
 	}
 	
 	//get the mouse coordinate. used our own function as AIE one is inverted
@@ -66,8 +87,18 @@ void Player::Update(float delta_)
 
 	//	check for spit ... ewww
 	if ( GetMouseButtonDown(0) && timeSinceLoogie > loogieReload )
-	{
+	{		
+		//reduce saliva
+		loogieReload += FileSettings::GetFloat("SALIVA_REDUCER");
+		
+		//dont let saliva get too low
+		if ( loogieReload > FileSettings::GetFloat("MAX_SPIT_RELOAD_TIME") )
+			loogieReload = FileSettings::GetFloat("MAX_SPIT_RELOAD_TIME");
+
+		//reset timer 
 		timeSinceLoogie = 0.0f;
+		
+		//tell the observer (PSGameLoop) to create a spit
 		spitObserver->SpitEvent(pos, angle, 1.0f);
 	}
 }
@@ -87,13 +118,17 @@ void Player::EatPowerUp(PowerUp& powerUp)
 	POWER_UP_TYPE type = powerUp.Eat();
 
 	if ( type == POWER_UP_TYPE::SPEED_UP ) 
-	{
-		cout << "SPEED UP" << endl;
+	{		
 		speed *= 1.25f;
+		if ( speed > FileSettings::GetFloat("MAX_PLAYER_SPEED") )
+			speed = FileSettings::GetFloat("MAX_PLAYER_SPEED");
+		cout << "SPEED = " << to_string(speed) << endl;
 	}
 	if ( type == POWER_UP_TYPE::SPIT_FREQUENCY ) 
-	{
-		cout << "SPIT FREQUENCY UP" << endl;
+	{		
 		loogieReload *= 0.75f;
+		if ( loogieReload < FileSettings::GetFloat("MIN_SPIT_RELOAD_TIME") )
+			loogieReload = FileSettings::GetFloat("MIN_SPIT_RELOAD_TIME");
+		cout << "SPIT FREQUENCY = " << to_string(loogieReload) << endl;
 	}
 }

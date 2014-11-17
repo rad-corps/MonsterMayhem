@@ -2,6 +2,7 @@
 #include "AIE.h"
 #include <iostream>
 #include "Enums.h"
+#include "FrameworkHelpers.h"
 
 using namespace std;
 
@@ -15,18 +16,21 @@ Monster::Monster(MONSTER_TYPE type_, Vector2 pos_)
 			width = 32;
 			height = 32;
 			health = 10;
+			speed = 100.f;
 			sprite = CreateSprite("./images/Monster_Medium.png", width, height, true);
 			break;
 		case MONSTER_TYPE::LARGE : 
 			width = 64;
 			height = 64;
-			health = 30;
+			health = 20;
+			speed = 133.f;
 			sprite = CreateSprite("./images/Monster_Large.png", width, height, true);
 			break;
 		case MONSTER_TYPE::BOSS: 
 			width = 128;
 			height = 128;
-			health = 100;
+			health = 40;
+			speed = 200.f;
 			sprite = CreateSprite("./images/Monster_Boss.png", width, height, true);
 			break;
 	}
@@ -56,11 +60,11 @@ void Monster::Update(float delta_)
 	//target->pos;
 	Vector2 direction = target->Pos() - pos;
 	direction.Normalise();
-	float speed = 100.0f * delta_;
-	direction.SetMagnitude(speed); //monster speed
+	float deltaSpeed = speed * delta_;
+	direction.SetMagnitude(deltaSpeed); //monster speed
 	pos += direction;
 	MoveSprite(sprite, pos.x, pos.y);
-	
+	RotateSpriteToVector(sprite, direction);
 }
 
 void Monster::Hit(int hit_ )

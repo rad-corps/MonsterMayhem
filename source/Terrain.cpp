@@ -5,7 +5,7 @@
 
 Terrain::Terrain(void)
 {
-	masterGrassTile = CreateSprite("./images/Terrain_grass_256.png", TERRAIN_W, TERRAIN_H, false);
+	masterGrassTile = CreateSprite("./images/Terrain_grass_256.png", TERRAIN_W, TERRAIN_H, true);
 
 	for (int row = 0; row < TERRAIN_ROWS; ++row )
 	{

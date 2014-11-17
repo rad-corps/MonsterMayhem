@@ -31,6 +31,11 @@ float GameObject::Height()
 	return height;
 }
 
+Rect GameObject::GetRect()
+{
+	return Rect(pos, width, height);
+}
+
 void GameObject::SetActive(bool active_)
 {
 	active = active_;
