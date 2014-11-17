@@ -41,6 +41,7 @@ void GameGUI::SetGameState(GAME_LOOP_STATE state_)
 
 void GameGUI::Update(float delta_)
 {
+	//must use our own MoveSpriteAbs function because of the camera. 
 	MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y);
 	MoveSpriteAbs(sprEndWave, sprEndPos.x, sprEndPos.y);
 }
