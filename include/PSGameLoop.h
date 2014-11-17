@@ -8,6 +8,13 @@
 #include "Monster.h"
 #include "PowerUp.h"
 
+enum GAME_LOOP_STATE
+{
+	WAVE_BEGIN,
+	WAVE_RUNNING,
+	WAVE_END,	
+};
+
 class PSGameLoop :
 	public ProgramState, public SpitObserver
 {
@@ -29,5 +36,21 @@ private:
 	vector<Monster> monsterList;
 	vector<PowerUp> powerUpList;
 	int wave;
+
+	//sprites
+	unsigned int sprBegWave;
+	unsigned int sprEndWave;
+	unsigned int sprDigit[10];
+
+	Vector2 sprEndPos;
+	Vector2 sprBegPos;
+
+	float waveBeginTimer;
+	float waveEndTimer;
+
+	float currentTimer;
+
+	//state
+	GAME_LOOP_STATE gameState;
 };
 

@@ -21,7 +21,7 @@ ProgramState* PSGameOver::Update(float delta_)
 {
 	MoveSprite(sprite, 0.0f, SCREEN_H);
 
-	if ( GetMouseButtonDown(0) )
+	if (  GetMouseButtonDown(0) )
 	{
 		double mouseX; 
 		double mouseY;

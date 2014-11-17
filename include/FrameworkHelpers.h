@@ -29,3 +29,7 @@ void GetMouseLocationEx(double& mouseX_, double& mouseY_, const int& screenHeigh
 
 Vector2 GetGameObjectScreenPosition( Vector2 pos_ );
 Vector2 GetGameObjectActualPosition( Vector2 screenPos_ );
+
+
+//Move Sprite to absolute position (useful for GUI elements that should be unneffected by camera position)
+void MoveSpriteAbs(unsigned int sprite_, float posX_, float posY_);

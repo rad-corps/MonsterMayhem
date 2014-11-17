@@ -5,11 +5,16 @@
 #include "Collision.h"
 #include "PSGameOver.h"
 #include "WaveGen.h"
+#include "FileSettings.h"
+#include "FrameworkHelpers.h"
 
 
 PSGameLoop::PSGameLoop(void)
 {
 	cout << "PSGameLoop()" << endl;
+
+	gameState = GAME_LOOP_STATE::WAVE_BEGIN;
+	currentTimer = 0.0f;
 
 	player.RegisterSpitObserver(this);
 
@@ -21,9 +26,31 @@ PSGameLoop::PSGameLoop(void)
 		spitList.push_back(Spit());
 	}
 
-	WaveItems waveItems = WaveGen::Generate(wave++, &player);
-	monsterList = waveItems.monsterList;
-	powerUpList = waveItems.powerUpList;
+	//create the sprites
+	sprBegWave = CreateSprite("./images/Wave_Begin.png", 
+		FileSettings::GetInt("BEG_WAVE_WIDTH"),
+		FileSettings::GetInt("BEG_WAVE_HEIGHT"),
+		false);
+
+	sprEndWave = CreateSprite("./images/Wave_Complete.png", 
+		FileSettings::GetInt("COMPLETE_WAVE_WIDTH"),
+		FileSettings::GetInt("COMPLETE_WAVE_HEIGHT"),
+		false);
+
+	for (int i = 0; i < 10; ++i )
+	{
+		string fileName = string("./images/") + std::to_string(i) + string(".png");
+		sprDigit[i] = CreateSprite(fileName.c_str(), 
+			FileSettings::GetInt("WAVE_DIGIT_WIDTH"),
+			FileSettings::GetInt("WAVE_DIGIT_HEIGHT"),
+			false);
+	}
+
+	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
+	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
+
+	sprBegPos = Vector2( FileSettings::GetFloat("BEG_WAVE_X"), FileSettings::GetFloat("BEG_WAVE_Y"));
+	sprEndPos = Vector2( FileSettings::GetFloat("COMPLETE_WAVE_X"), FileSettings::GetFloat("COMPLETE_WAVE_Y"));
 }
 
 
@@ -40,6 +67,8 @@ ProgramState* PSGameLoop::Update(float delta_)
 	{
 		return new PSMainMenu();
 	}
+
+	currentTimer += delta_;
 
 	//update the terrain (does nothing at this stage)
 	terrain.Update(delta_);
@@ -83,13 +112,35 @@ ProgramState* PSGameLoop::Update(float delta_)
 		}
 	}
 
-	//should we gen a new wave? 
-	if ( !waveStillRunning)
+	//is this the end of the current wave?
+	if ( gameState == GAME_LOOP_STATE::WAVE_RUNNING && !waveStillRunning) 
 	{
+		cout << "GAME_LOOP_STATE::WAVE_END" << endl;
+		gameState = GAME_LOOP_STATE::WAVE_END;
+		currentTimer = 0.0f;		
+	}
+
+	//wave begin has shown long enough, lets gen the wave.
+	if ( gameState == GAME_LOOP_STATE::WAVE_BEGIN && currentTimer > waveBeginTimer) 
+	{
+		cout << "GAME_LOOP_STATE::WAVE_RUNNING" << endl;
+		gameState = GAME_LOOP_STATE::WAVE_RUNNING;
 		WaveItems waveItems = WaveGen::Generate(wave++, &player);
 		monsterList = waveItems.monsterList;
 		powerUpList = waveItems.powerUpList;
+		currentTimer = 0.0f;		
 	}
+
+	//should we gen a new wave? 
+	if ( gameState == GAME_LOOP_STATE::WAVE_END && currentTimer > waveEndTimer )
+	{
+		cout << "GAME_LOOP_STATE::WAVE_BEGIN" << endl;
+		gameState = GAME_LOOP_STATE::WAVE_BEGIN;	
+		currentTimer = 0.0f;
+	}
+
+	MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y);
+	MoveSpriteAbs(sprEndWave, sprEndPos.x, sprEndPos.y);
 
 	//update power ups
 	for ( int i = 0; i < powerUpList.size(); ++i )
@@ -118,8 +169,6 @@ void PSGameLoop::Draw()
 	
 	player.Draw();
 	
-
-
 	for (int i = 0; i < SPIT_POOL; ++i )
 	{
 		spitList[i].Draw();
@@ -130,7 +179,15 @@ void PSGameLoop::Draw()
 		monsterList[i].Draw();
 	}
 
-
+	if ( gameState == GAME_LOOP_STATE::WAVE_END )
+	{
+		DrawSprite(sprEndWave);
+	}
+	
+	if ( gameState == GAME_LOOP_STATE::WAVE_BEGIN )
+	{
+		DrawSprite(sprBegWave);
+	}
 }
 
 void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_)

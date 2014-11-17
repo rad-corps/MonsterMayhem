@@ -110,3 +110,10 @@ Vector2 GetGameObjectActualPosition( Vector2 screenPos_ )
 	cam = Vector2(camX, camY);
 	return cam - screenPos_;
 }
+
+void MoveSpriteAbs(unsigned int sprite_, float posX_, float posY_)
+{
+	float camX, camY;
+	GetCameraPosition(camX, camY);
+	MoveSprite(sprite_, camX + posX_, camY + posY_);
+}

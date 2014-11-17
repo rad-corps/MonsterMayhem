@@ -26,11 +26,11 @@ ProgramState* PSMainMenu::Update(float delta_)
 	MoveSprite(sprite, 0.0f, SCREEN_H);
 
 	if ( GetMouseButtonDown(0) )
-	{
+	{		
 		double mouseX; 
 		double mouseY;
 		GetMouseLocation(mouseX, mouseY);
-		cout << "X: " << mouseX << "\tY: " << mouseY << endl;
+		cout << "MouseLoc - X: " << mouseX << "\tY: " << mouseY << endl;
 		
 		if ( mouseX >= startButtonPos.x && 
 			mouseX <=  startButtonPos.x + startButtonSize.x &&
