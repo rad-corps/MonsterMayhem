@@ -117,3 +117,10 @@ void MoveSpriteAbs(unsigned int sprite_, float posX_, float posY_)
 	GetCameraPosition(camX, camY);
 	MoveSprite(sprite_, camX + posX_, camY + posY_);
 }
+
+void DrawStringAbs(const char * str_, int x_, int y_ )
+{
+	float camX, camY;
+	GetCameraPosition(camX, camY);
+	DrawString(str_, camX + x_, camY + y_);
+}

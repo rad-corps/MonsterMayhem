@@ -45,6 +45,8 @@ void GameGUI::Update(float delta_)
 	MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y - 200);
 	MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y);
 	MoveSpriteAbs(sprEndWave, sprEndPos.x, sprEndPos.y);
+
+	fps = 1 / delta_;
 }
 
 void GameGUI::Draw()
@@ -58,4 +60,6 @@ void GameGUI::Draw()
 	{
 		DrawSprite(sprBegWave);
 	}
+
+	DrawStringAbs(to_string(fps).c_str(), 50,50);
 }

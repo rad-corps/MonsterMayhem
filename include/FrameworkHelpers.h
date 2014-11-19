@@ -33,3 +33,4 @@ Vector2 GetGameObjectActualPosition( Vector2 screenPos_ );
 
 //Move Sprite to absolute position (useful for GUI elements that should be unneffected by camera position)
 void MoveSpriteAbs(unsigned int sprite_, float posX_, float posY_);
+void DrawStringAbs(const char * str_, int x_, int y_ );

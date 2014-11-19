@@ -30,13 +30,13 @@ PSGameLoop::PSGameLoop(void)
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
 
 	//LHS
-	fences.push_back(Fence(Vector2(TERRAIN_W, TERRAIN_H), FENCE_DIRECTION::FENCE_DIRECTION_UP, BORDER_FENCE_TILES));
+	fences.push_back(Fence(Vector2(0, 0), FENCE_DIRECTION::FENCE_DIRECTION_UP, BORDER_FENCE_TILES));
 	//RHS
-	fences.push_back(Fence(Vector2(TERRAIN_W * TERRAIN_COLS - TERRAIN_W * 2, TERRAIN_H ), FENCE_DIRECTION::FENCE_DIRECTION_UP, BORDER_FENCE_TILES));
+	fences.push_back(Fence(Vector2(TERRAIN_W * (TERRAIN_COLS - 1), TERRAIN_H ), FENCE_DIRECTION::FENCE_DIRECTION_UP, BORDER_FENCE_TILES));
 	//BOTTOM
-	fences.push_back(Fence(Vector2(TERRAIN_W, TERRAIN_H), FENCE_DIRECTION::FENCE_DIRECTION_RIGHT, BORDER_FENCE_TILES));
+	fences.push_back(Fence(Vector2(0, 0), FENCE_DIRECTION::FENCE_DIRECTION_RIGHT, BORDER_FENCE_TILES));
 	//TOP
-	fences.push_back(Fence(Vector2(TERRAIN_W, TERRAIN_H * TERRAIN_ROWS - TERRAIN_H * 2), FENCE_DIRECTION::FENCE_DIRECTION_RIGHT, BORDER_FENCE_TILES));
+	fences.push_back(Fence(Vector2(0, TERRAIN_H * (TERRAIN_ROWS-1)), FENCE_DIRECTION::FENCE_DIRECTION_RIGHT, BORDER_FENCE_TILES));
 	
 	//add all the fences to the collision list
 	for (int i = 0; i < fences.size(); ++i ) 

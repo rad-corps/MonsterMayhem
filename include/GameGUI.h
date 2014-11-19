@@ -27,5 +27,7 @@ private:
 	Vector2 sprBegPos;
 
 	GAME_LOOP_STATE state;
+
+	float fps;
 };
 

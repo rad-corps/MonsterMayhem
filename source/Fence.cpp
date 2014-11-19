@@ -26,6 +26,10 @@ Fence::Fence()
 
 Fence::~Fence(void)
 {
+	for (map<unsigned int,Rect>::iterator it = tileSprites.begin(); it != tileSprites.end(); ++it)
+	{
+		//DestroySprite(it->first);
+	}
 }
 
 vector<Rect>
