@@ -10,7 +10,7 @@ class Fence
 {
 public:
 	Fence();
-	Fence(Vector2 startingPos_, FENCE_DIRECTION direction_, int numTiles_);
+	Fence(Vector2 startingPos_, TERRAIN_DIRECTION direction_, int numTiles_);
 	~Fence(void);
 
 	void Update();
@@ -19,13 +19,13 @@ public:
 	vector<Rect> GetCollisionRects();
 
 private:
-	map<unsigned int, Rect> tileSprites;
+	//map<unsigned int, Rect> tileSprites;
+
+	unsigned int fenceSprite;
 	
 	//this duplicates the above in memory but will be easier to access when we just want the Rects
 	vector<Rect> tileRects; 
 	
-	Vector2 startingPos;
-	FENCE_DIRECTION direction;
 	
 
 };

@@ -29,14 +29,41 @@ PSGameLoop::PSGameLoop(void)
 	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
 
-	//LHS
-	fences.push_back(Fence(Vector2(0, 0), FENCE_DIRECTION::FENCE_DIRECTION_UP, BORDER_FENCE_TILES));
-	//RHS
-	fences.push_back(Fence(Vector2(TERRAIN_W * (TERRAIN_COLS - 1), TERRAIN_H ), FENCE_DIRECTION::FENCE_DIRECTION_UP, BORDER_FENCE_TILES));
-	//BOTTOM
-	fences.push_back(Fence(Vector2(0, 0), FENCE_DIRECTION::FENCE_DIRECTION_RIGHT, BORDER_FENCE_TILES));
-	//TOP
-	fences.push_back(Fence(Vector2(0, TERRAIN_H * (TERRAIN_ROWS-1)), FENCE_DIRECTION::FENCE_DIRECTION_RIGHT, BORDER_FENCE_TILES));
+	
+	//create the boundary fences.
+	fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//LHS	
+	fences.push_back(Fence(Vector2(TERRAIN_W * (TERRAIN_COLS - 1), 0 ), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//RHS	
+	fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT, BORDER_FENCE_TILES));//BOTTOM	
+	fences.push_back(Fence(Vector2(0, TERRAIN_H * (TERRAIN_ROWS-1)), TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT, BORDER_FENCE_TILES));//TOP
+
+	//create rivers
+	terrain.SetRiverTile(5,15, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(5,14, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::CORNER);
+	terrain.SetRiverTile(6,14, FOUR_WAY_ROTATION::ROT_90, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(7,14, FOUR_WAY_ROTATION::ROT_180, RIVER_TILE_TYPE::CORNER);
+	terrain.SetRiverTile(7,13, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(7,12, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(7,11, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::CORNER);
+	terrain.SetRiverTile(8,11, FOUR_WAY_ROTATION::ROT_90, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(9,11, FOUR_WAY_ROTATION::ROT_180, RIVER_TILE_TYPE::CORNER);
+	terrain.SetRiverTile(9,10, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+	
+	//BRIDGE
+	
+	terrain.SetRiverTile(9,8,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(9,7,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(9,6,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::CORNER);
+	terrain.SetRiverTile(10,6, FOUR_WAY_ROTATION::ROT_180, RIVER_TILE_TYPE::CORNER);
+	terrain.SetRiverTile(10,5, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(10,4, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(10,3, FOUR_WAY_ROTATION::ROT_90, RIVER_TILE_TYPE::CORNER);
+	terrain.SetRiverTile(9,3,  FOUR_WAY_ROTATION::ROT_90, RIVER_TILE_TYPE::STRAIGHT);
+	terrain.SetRiverTile(8,3,  FOUR_WAY_ROTATION::ROT_270, RIVER_TILE_TYPE::CORNER);
+	terrain.SetRiverTile(8,2,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+
+	//BRIDGE
+
+	terrain.SetRiverTile(8,0,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 	
 	//add all the fences to the collision list
 	for (int i = 0; i < fences.size(); ++i ) 
@@ -82,6 +109,16 @@ ProgramState* PSGameLoop::Update(float delta_)
 	for (int i = 0; i < fenceRects.size(); ++i )
 	{
 		if ( Collision::RectCollision(fenceRects[i], player.GetRect()) )
+		{
+			player.UndoUpdate();
+		}
+	}
+
+	//check for collision with terrain and player
+	vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
+	for (int i = 0; i < unwalkableTerrain.size(); ++i )
+	{
+		if ( Collision::RectCollision(unwalkableTerrain[i], player.GetRect()) )
 		{
 			player.UndoUpdate();
 		}

@@ -2,22 +2,22 @@
 #include "AIE.h"
 
 
-Fence::Fence(Vector2 startingPos_, FENCE_DIRECTION direction_, int numTiles_)
+Fence::Fence(Vector2 startingPos_, TERRAIN_DIRECTION direction_, int numTiles_)
 {
+	//create the master sprite that all fences will use
+	fenceSprite = CreateSprite("./images/Fence.png", 32, 32, true);
+
+	//create all the fence tile positions
 	for ( int i = 0; i < numTiles_; ++i )
 	{
 		Rect tempRect(startingPos_, FENCE_TILE, FENCE_TILE);
-		if ( direction_ == FENCE_DIRECTION::FENCE_DIRECTION_UP) 
-			tempRect.SetY(startingPos.y + FENCE_TILE * i);
-		if ( direction_ == FENCE_DIRECTION::FENCE_DIRECTION_RIGHT) 
-			tempRect.SetX(startingPos.x + FENCE_TILE * i);
-
-		tileSprites[CreateSprite("./images/Fence.png", 32, 32, true)] = tempRect;
+		if ( direction_ == TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP) 
+			tempRect.SetY(startingPos_.y + FENCE_TILE * i);
+		if ( direction_ == TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT) 
+			tempRect.SetX(startingPos_.x + FENCE_TILE * i);
 
 		tileRects.push_back(tempRect);
 	}
-	direction = direction_;
-	startingPos = startingPos_;
 }
 
 Fence::Fence()
@@ -26,10 +26,6 @@ Fence::Fence()
 
 Fence::~Fence(void)
 {
-	for (map<unsigned int,Rect>::iterator it = tileSprites.begin(); it != tileSprites.end(); ++it)
-	{
-		//DestroySprite(it->first);
-	}
 }
 
 vector<Rect>
@@ -41,17 +37,14 @@ vector<Rect>
 void 
 Fence::Update()
 {
-	for (map<unsigned int,Rect>::iterator it = tileSprites.begin(); it != tileSprites.end(); ++it)
-	{
-		MoveSprite(it->first, it->second.Centre().x, it->second.Centre().y);
-	}
 }
 
 void 
 Fence::Draw()
 {
-	for (map<unsigned int,Rect>::iterator it = tileSprites.begin(); it != tileSprites.end(); ++it)
+	for (int i = 0; i < tileRects.size(); ++i )
 	{
-		DrawSprite(it->first);
+		MoveSprite(fenceSprite,tileRects[i].Centre().x, tileRects[i].Centre().y);
+		DrawSprite(fenceSprite);
 	}
 }
