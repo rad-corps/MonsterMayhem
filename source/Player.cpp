@@ -119,14 +119,14 @@ void Player::EatPowerUp(PowerUp& powerUp)
 
 	if ( type == POWER_UP_TYPE::SPEED_UP ) 
 	{		
-		speed *= 1.25f;
+		speed *= FileSettings::GetFloat("SPEED_INCREASER");
 		if ( speed > FileSettings::GetFloat("MAX_PLAYER_SPEED") )
 			speed = FileSettings::GetFloat("MAX_PLAYER_SPEED");
 		cout << "SPEED = " << to_string(speed) << endl;
 	}
 	if ( type == POWER_UP_TYPE::SPIT_FREQUENCY ) 
 	{		
-		loogieReload *= 0.75f;
+		loogieReload *= FileSettings::GetFloat("SPIT_RELOAD_DECREASER");
 		if ( loogieReload < FileSettings::GetFloat("MIN_SPIT_RELOAD_TIME") )
 			loogieReload = FileSettings::GetFloat("MIN_SPIT_RELOAD_TIME");
 		cout << "SPIT FREQUENCY = " << to_string(loogieReload) << endl;
