@@ -36,41 +36,41 @@ Terrain::Terrain(void)
 			{
 				nodes[row][col].neighbours.push_back(&nodes[row][col+1]);
 			}
-			//add north east pointer
-			if ( col < TERRAIN_COLS - 2 && row < TERRAIN_ROWS - 2 )
-			{
-				nodes[row][col].neighbours.push_back(&nodes[row+1][col+1]);
-			}
+			////add north east pointer
+			//if ( col < TERRAIN_COLS - 2 && row < TERRAIN_ROWS - 2 )
+			//{
+			//	nodes[row][col].neighbours.push_back(&nodes[row+1][col+1]);
+			//}
 			//add north pointer
 			if ( row < TERRAIN_ROWS - 2 )
 			{
 				nodes[row][col].neighbours.push_back(&nodes[row+1][col]);
 			}
-			//add north west pointer
-			if ( col > 0 && row < TERRAIN_ROWS - 2 )
-			{
-				nodes[row][col].neighbours.push_back(&nodes[row+1][col-1]);
-			}			
+			////add north west pointer
+			//if ( col > 0 && row < TERRAIN_ROWS - 2 )
+			//{
+			//	nodes[row][col].neighbours.push_back(&nodes[row+1][col-1]);
+			//}			
 			//add west pointer
 			if ( col > 0 )
 			{
 				nodes[row][col].neighbours.push_back(&nodes[row][col-1]);
 			}
-			//add south west pointer
-			if ( col > 0 && row > 0 )
-			{
-				nodes[row][col].neighbours.push_back(&nodes[row-1][col-1]);
-			}
+			////add south west pointer
+			//if ( col > 0 && row > 0 )
+			//{
+			//	nodes[row][col].neighbours.push_back(&nodes[row-1][col-1]);
+			//}
 			//add south pointer
 			if ( col > 0 && row > 0 )
 			{
 				nodes[row][col].neighbours.push_back(&nodes[row-1][col]);
 			}
-			//add south east pointer
-			if ( col < TERRAIN_COLS - 2 && row > 0 )
-			{
-				nodes[row][col].neighbours.push_back(&nodes[row-1][col+1]);
-			}
+			////add south east pointer
+			//if ( col < TERRAIN_COLS - 2 && row > 0 )
+			//{
+			//	nodes[row][col].neighbours.push_back(&nodes[row-1][col+1]);
+			//}
 		}
 	}
 }

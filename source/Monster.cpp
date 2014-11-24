@@ -36,12 +36,6 @@ Monster::Monster(MONSTER_TYPE type_, Vector2 pos_)
 			break;
 	}
 	active = true;
-
-	//add a couple of test nums to the queue
-	cout << "adding test nums to queue" << endl;
-	
-	
-
 }
 
 
@@ -64,6 +58,12 @@ void Monster::GetNextNode()
 		path = pf.FindPath(pos, target->Pos());		
 	}
 	currentDest = path.front();
+
+	////add some randomness to currentDest so the enemies dont look like they are on rails
+	float xpos = (rand() % TERRAIN_W) - (TERRAIN_W / 2);
+	float ypos = (rand() % TERRAIN_W) - (TERRAIN_W / 2);
+	currentDest.pos = currentDest.pos + Vector2(xpos, ypos);
+
 	path.pop();
 }
 

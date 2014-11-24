@@ -77,18 +77,18 @@ PathFinder::FindPath(Vector2 start_, Vector2 dest_)
 		//2.3.2 switch current node to the closed list and erase from open list
 		closed.push_back(currentNode);
 
-		if ( currentNode == destNode )
-		{
+		if ( currentNode == destNode || closed.size() >= 3)
 			break;
-		}
 
-		open.erase(toClose);
+		//open.erase(toClose);
+		open.clear();
 
 		//2.3.3  For each of the 8 squares adjacent to this current square
 		for (int neighbour = 0; neighbour < currentNode.neighbours.size(); ++neighbour )
 		{
 			//2.3.3.1 If it is walkable and not on the closed list - 
-			if ( currentNode.neighbours[neighbour]->walkable && !IsOnClosedList(*currentNode.neighbours[neighbour]))
+			//if ( currentNode.neighbours[neighbour]->walkable && !IsOnClosedList(*currentNode.neighbours[neighbour]))
+			if ( currentNode.neighbours[neighbour]->walkable)
 			{
 				// 2.3.3.1.1 add to the open list
 				// 2.3.3.1.2 make current square the parent of this square

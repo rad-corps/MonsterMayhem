@@ -33,6 +33,6 @@ private:
 	PathFinder pf;
 
 	queue<Node> path;
-	Node currentDest;
+	Node currentDest;	
 };
 
