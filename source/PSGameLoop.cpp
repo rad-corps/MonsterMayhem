@@ -7,6 +7,8 @@
 #include "WaveGen.h"
 #include "FileSettings.h"
 #include "FrameworkHelpers.h"
+#include "Node.h"
+#include "PathFinder.h"
 
 
 PSGameLoop::PSGameLoop(void)
@@ -17,6 +19,9 @@ PSGameLoop::PSGameLoop(void)
 	currentTimer = 0.0f;
 
 	player.RegisterSpitObserver(this);
+
+	
+
 
 	wave = 1;
 	
@@ -62,7 +67,6 @@ PSGameLoop::PSGameLoop(void)
 	terrain.SetRiverTile(8,2,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 
 	//BRIDGE
-
 	terrain.SetRiverTile(8,0,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 	
 	//add all the fences to the collision list
@@ -70,6 +74,21 @@ PSGameLoop::PSGameLoop(void)
 	{
 		vector<Rect> temp =  fences[i].GetCollisionRects();
 		fenceRects.insert(fenceRects.end(), temp.begin(), temp.end());
+	}
+
+	PathFinder::SetNodes(terrain.GetNodes());
+
+	//TESTING
+	//display all the walkable terrain array
+	vector<vector<Node>> nodes = terrain.GetNodes();
+	cout << "\n\n Walkable Terrain (Inversed)\n--------------------------" << endl;
+	for ( int row = 0; row < nodes.size(); ++row)
+	{		
+		for (int col = 0; col < nodes[0].size(); ++col)
+		{
+			nodes[row][col].walkable ? cout << "." : cout << "X";
+		}
+		cout << endl;
 	}
 }
 

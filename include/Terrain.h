@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Enums.h"
 #include "Rect.h"
+#include "Node.h"
 
 struct RiverTileInfo
 {
@@ -24,11 +25,17 @@ public:
 	virtual void Draw();
 
 	void SetRiverTile(int col_, int row_,FOUR_WAY_ROTATION direction_, RIVER_TILE_TYPE type_);
+	
+	//used for collision detection
 	vector<Rect> GetUnwalkableTerrain();
+	
+	//used for pathfinding
+	vector<vector<Node>>& GetNodes();
 
 private:
 	vector<RiverTileInfo> riverTiles;
 	vector<Rect> unwalkableTerrain;
+	vector<vector<Node>> nodes;
 
 	unsigned int masterGrassTile;
 	unsigned int straightRiver;

@@ -35,6 +35,25 @@ Monster WaveGen::SpawnMonster(MONSTER_TYPE type_, Player* player_, float safetyD
 	return temp;
 }
 
+//Monster WaveGen::SpawnMonster(MONSTER_TYPE type_, Player* player_, float safetyDistance_)
+//{
+//	cout << "test implementation of WaveGen::SpawnMonster" << endl;
+//	Vector2 pos(1,1);
+//	Monster temp(type_, pos);
+//	temp.RegisterTarget(player_);
+//	return temp;
+//}
+
+//WaveItems WaveGen::Generate(int waveNum_, Player* player_)
+//{
+//	cout << "test implementation of WaveGen::Generate" << endl;
+//	WaveItems ret;
+//	vector<Monster> monsterList;
+//	monsterList.push_back(SpawnMonster(MONSTER_TYPE::MEDIUM, player_, SAFE_SPAWN_DISTANCE));
+//	ret.monsterList = monsterList;	
+//	return ret;
+//}
+
 WaveItems WaveGen::Generate(int waveNum_, Player* player_)
 {
 	cout << "Generating Wave " << waveNum_ << endl;
@@ -46,7 +65,7 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_)
 	
 
 	//create some random monsters
-	for (int i = 0; i < 20*(waveNum_%3); ++i )
+	for (int i = 0; i < 20; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::MEDIUM, player_, SAFE_SPAWN_DISTANCE));
 	}

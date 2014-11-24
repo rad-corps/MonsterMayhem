@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\PathFinder.cpp" />
     <ClCompile Include="source\Fence.cpp" />
     <ClCompile Include="source\GameGUI.cpp" />
     <ClCompile Include="source\Collision.cpp" />
@@ -121,6 +122,7 @@
     <ClInclude Include="include\Enums.h" />
     <ClInclude Include="include\AIE.h" />
     <ClInclude Include="include\IniFile.h" />
+    <ClInclude Include="include\Node.h" />
     <ClInclude Include="include\ProgramState.h" />
     <ClInclude Include="include\OuterLoop.h" />
     <ClInclude Include="include\PSMainMenu.h" />
@@ -136,6 +138,7 @@
     <ClInclude Include="include\PSGameOver.h" />
     <ClInclude Include="include\WaveGen.h" />
     <ClInclude Include="include\WaveItems.h" />
+    <ClInclude Include="include\PathFinder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Enums.h"
 #include "FrameworkHelpers.h"
+#include "PathFinder.h"
 
 using namespace std;
 
@@ -35,6 +36,12 @@ Monster::Monster(MONSTER_TYPE type_, Vector2 pos_)
 			break;
 	}
 	active = true;
+
+	//add a couple of test nums to the queue
+	cout << "adding test nums to queue" << endl;
+	
+	
+
 }
 
 
@@ -46,19 +53,48 @@ Monster::~Monster(void)
 void Monster::RegisterTarget(GameObject* target_)
 {
 	target = target_;
+	path = pf.FindPath(pos, target_->Pos());
+	GetNextNode();
 }
 
+void Monster::GetNextNode()
+{
+	if ( path.size() == 0 )
+	{
+		path = pf.FindPath(pos, target->Pos());		
+	}
+	currentDest = path.front();
+	path.pop();
+}
+
+
+//void Monster::Update(float delta_)
+//{
+//	if ( !active ) 
+//		return;
+//	
+//	//move towards target
+//	Vector2 direction = target->Pos() - pos;
+//	direction.Normalise();
+//	float deltaSpeed = speed * delta_;
+//	direction.SetMagnitude(deltaSpeed); //monster speed
+//	pos += direction;
+//	MoveSprite(sprite, pos.x, pos.y);
+//	RotateSpriteToVector(sprite, direction);
+//}
 
 void Monster::Update(float delta_)
 {
 	if ( !active ) 
 		return;
 	
-	//move towards target
-
-	//player pos:
-	//target->pos;
-	Vector2 direction = target->Pos() - pos;
+	//do we need to get the next node from the queue? 
+	float distToNode = (currentDest.pos - pos).GetMagnitude();
+	if ( distToNode < 10.0f )
+		GetNextNode();
+	
+	//move towards target node
+	Vector2 direction = currentDest.pos - pos;
 	direction.Normalise();
 	float deltaSpeed = speed * delta_;
 	direction.SetMagnitude(deltaSpeed); //monster speed
