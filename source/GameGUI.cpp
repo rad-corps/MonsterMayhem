@@ -5,6 +5,11 @@
 
 GameGUI::GameGUI(void)
 {
+	blueBar = CreateSprite("./images/blue_bar.png", 36, 20, false);
+	greenBar = CreateSprite("./images/green_bar.png", 36, 20, false);;
+	yellowBar;
+	barBG;
+
 	//create the sprites
 	sprBegWave = CreateSprite("./images/Wave_Begin.png", 
 		FileSettings::GetInt("BEG_WAVE_WIDTH"),
@@ -27,6 +32,8 @@ GameGUI::GameGUI(void)
 
 	sprBegPos = Vector2( FileSettings::GetFloat("BEG_WAVE_X"), FileSettings::GetFloat("BEG_WAVE_Y"));
 	sprEndPos = Vector2( FileSettings::GetFloat("COMPLETE_WAVE_X"), FileSettings::GetFloat("COMPLETE_WAVE_Y"));
+	staminaPos = Vector2(FileSettings::GetInt("STAMINA_X"),FileSettings::GetInt("STAMINA_Y"));
+	salivaPos = Vector2(FileSettings::GetInt("SALIVA_X"),FileSettings::GetInt("SALIVA_Y"));
 }
 
 
@@ -49,6 +56,13 @@ void GameGUI::Update(float delta_)
 	fps = 1 / delta_;
 }
 
+//saliva and stamina between 0 and 1
+void GameGUI::UpdatePlayerGUI(float saliva_, float stamina_)
+{
+	staminaBars = stamina_ * 5;
+	salivaBars = saliva_ * 5;
+}
+
 void GameGUI::Draw()
 {
 	if ( state == GAME_LOOP_STATE::WAVE_END )
@@ -62,4 +76,22 @@ void GameGUI::Draw()
 	}
 
 	DrawStringAbs(to_string(fps).c_str(), 50,50);
+
+	//draw stamina bars
+	for ( int i = 0; i < staminaBars; ++i )
+	{
+		//find position
+		float posx = staminaPos.x + (i * (FileSettings::GetInt("BAR_W") + (FileSettings::GetInt("BAR_H_MARGIN"))));
+		MoveSpriteAbs(blueBar, posx, staminaPos.y);
+		DrawSprite(blueBar);
+	}
+
+	//draw saliva bars
+	for ( int i = 0; i < salivaBars; ++i )
+	{
+		//find position
+		float posx = salivaPos.x + (i * (FileSettings::GetInt("BAR_W") + (FileSettings::GetInt("BAR_H_MARGIN"))));
+		MoveSpriteAbs(greenBar, posx, salivaPos.y);
+		DrawSprite(greenBar);
+	}
 }

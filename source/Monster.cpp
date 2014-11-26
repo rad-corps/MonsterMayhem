@@ -47,54 +47,34 @@ Monster::~Monster(void)
 void Monster::RegisterTarget(GameObject* target_)
 {
 	target = target_;
-	path = pf.FindPath(pos, target_->Pos());
-	GetNextNode();
+	//path = pf.FindPath(pos, target_->Pos());
+	//GetNextNode();
 }
 
-void Monster::GetNextNode()
-{
-	if ( path.size() == 0 )
-	{
-		path = pf.FindPath(pos, target->Pos());		
-	}
-	currentDest = path.front();
-
-	////add some randomness to currentDest so the enemies dont look like they are on rails
-	float xpos = (rand() % TERRAIN_W) - (TERRAIN_W / 2);
-	float ypos = (rand() % TERRAIN_W) - (TERRAIN_W / 2);
-	currentDest.pos = currentDest.pos + Vector2(xpos, ypos);
-
-	path.pop();
-}
-
-
-//void Monster::Update(float delta_)
+//void Monster::GetNextNode()
 //{
-//	if ( !active ) 
-//		return;
-//	
-//	//move towards target
-//	Vector2 direction = target->Pos() - pos;
-//	direction.Normalise();
-//	float deltaSpeed = speed * delta_;
-//	direction.SetMagnitude(deltaSpeed); //monster speed
-//	pos += direction;
-//	MoveSprite(sprite, pos.x, pos.y);
-//	RotateSpriteToVector(sprite, direction);
+//	if ( path.size() == 0 )
+//	{
+//		path = pf.FindPath(pos, target->Pos());		
+//	}
+//	currentDest = path.front();
+//
+//	////add some randomness to currentDest so the enemies dont look like they are on rails
+//	float xpos = (rand() % TERRAIN_W) - (TERRAIN_W / 2);
+//	float ypos = (rand() % TERRAIN_W) - (TERRAIN_W / 2);
+//	currentDest.pos = currentDest.pos + Vector2(xpos, ypos);
+//
+//	path.pop();
 //}
+
 
 void Monster::Update(float delta_)
 {
 	if ( !active ) 
 		return;
 	
-	//do we need to get the next node from the queue? 
-	float distToNode = (currentDest.pos - pos).GetMagnitude();
-	if ( distToNode < 10.0f )
-		GetNextNode();
-	
-	//move towards target node
-	Vector2 direction = currentDest.pos - pos;
+	//move towards target
+	Vector2 direction = target->Pos() - pos;
 	direction.Normalise();
 	float deltaSpeed = speed * delta_;
 	direction.SetMagnitude(deltaSpeed); //monster speed
@@ -102,6 +82,28 @@ void Monster::Update(float delta_)
 	MoveSprite(sprite, pos.x, pos.y);
 	RotateSpriteToVector(sprite, direction);
 }
+
+
+//A* pathfinding Update method
+//void Monster::Update(float delta_)
+//{
+//	if ( !active ) 
+//		return;
+//	
+//	//do we need to get the next node from the queue? 
+//	float distToNode = (currentDest.pos - pos).GetMagnitude();
+//	if ( distToNode < 10.0f )
+//		GetNextNode();
+//	
+//	//move towards target node
+//	Vector2 direction = currentDest.pos - pos;
+//	direction.Normalise();
+//	float deltaSpeed = speed * delta_;
+//	direction.SetMagnitude(deltaSpeed); //monster speed
+//	pos += direction;
+//	MoveSprite(sprite, pos.x, pos.y);
+//	RotateSpriteToVector(sprite, direction);
+//}
 
 void Monster::Hit(int hit_ )
 {

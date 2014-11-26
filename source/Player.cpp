@@ -101,6 +101,15 @@ void Player::Update(float delta_)
 		//tell the observer (PSGameLoop) to create a spit
 		spitObserver->SpitEvent(pos, angle, 1.0f);
 	}
+
+	CalcGUIBars();
+}
+
+void Player::CalcGUIBars()
+{
+	float saliva = FileSettings::GetFloat("MIN_SPIT_RELOAD_TIME") / loogieReload;
+	float stamina = speed / FileSettings::GetFloat("MAX_PLAYER_SPEED");	
+	playerObserver->UpdatePlayerGUI(saliva, stamina);
 }
 
 void Player::Draw()
@@ -111,6 +120,11 @@ void Player::Draw()
 void Player::RegisterSpitObserver(SpitObserver* spitObserver_)
 {
 	spitObserver = spitObserver_;
+}
+
+void Player::RegisterPlayerObserver(PlayerObserver* playerObserver_)
+{
+	playerObserver = playerObserver_;
 }
 
 void Player::EatPowerUp(PowerUp& powerUp)

@@ -19,10 +19,8 @@ PSGameLoop::PSGameLoop(void)
 	currentTimer = 0.0f;
 
 	player.RegisterSpitObserver(this);
-
+	player.RegisterPlayerObserver(&gui);
 	
-
-
 	wave = 1;
 	
 	//SPIT_POOL is arbitrary at this stage. its the number in the pool of spit *shakes head at own pun*
@@ -76,7 +74,7 @@ PSGameLoop::PSGameLoop(void)
 		fenceRects.insert(fenceRects.end(), temp.begin(), temp.end());
 	}
 
-	PathFinder::SetNodes(terrain.GetNodes());
+	//PathFinder::SetNodes(terrain.GetNodes());
 
 	//TESTING
 	//display all the walkable terrain array

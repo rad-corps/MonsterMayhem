@@ -123,6 +123,7 @@
     <ClInclude Include="include\AIE.h" />
     <ClInclude Include="include\IniFile.h" />
     <ClInclude Include="include\Node.h" />
+    <ClInclude Include="include\PlayerObserver.h" />
     <ClInclude Include="include\ProgramState.h" />
     <ClInclude Include="include\OuterLoop.h" />
     <ClInclude Include="include\PSMainMenu.h" />

@@ -30,7 +30,7 @@ private:
 	float speed;
 	int health;
 
-	PathFinder pf;
+//	PathFinder pf;
 
 	queue<Node> path;
 	Node currentDest;	
