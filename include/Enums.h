@@ -44,6 +44,12 @@ enum RIVER_TILE_TYPE
 	CORNER
 };
 
+enum MONSTER_STATE
+{
+	MOVING,
+	PAUSED
+};
+
 #define SCREEN_W 1680
 #define SCREEN_H 1050
 
@@ -75,3 +81,5 @@ enum RIVER_TILE_TYPE
 #define POWER_UP_H 64
 
 #define SAFE_SPAWN_DISTANCE 500.0
+
+#define PI 3.14159

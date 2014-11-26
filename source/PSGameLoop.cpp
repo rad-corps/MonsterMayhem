@@ -155,7 +155,28 @@ ProgramState* PSGameLoop::Update(float delta_)
 		{
 			cout << "GAME OVER" << endl;
 			return new PSGameOver();
-		}		
+		}	
+
+		//check collision between fence and monster			
+		for (int fence = 0; fence < fenceRects.size(); ++fence )
+		{
+			if ( Collision::RectCollision(fenceRects[fence], monsterList[i].GetRect()) )
+			{
+				monsterList[i].UndoUpdate();
+				monsterList[i].ResetMovementDirection();
+			}
+		}
+
+		//check for collision with terrain and monster
+		vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
+		for (int terrain = 0; terrain < unwalkableTerrain.size(); ++terrain )
+		{
+			if ( Collision::RectCollision(unwalkableTerrain[terrain], monsterList[i].GetRect()) )
+			{
+				monsterList[i].UndoUpdate();
+				monsterList[i].ResetMovementDirection();
+			}
+		}
 
 		//check this monster against each spit (BRUTE FORCE OH YEAH)
 		for (int spit = 0; spit < spitList.size(); ++ spit )
@@ -209,13 +230,6 @@ ProgramState* PSGameLoop::Update(float delta_)
 	//update gui
 	gui.SetGameState(gameState);
 	gui.Update(delta_);
-	
-
-	//environmental
-	for (int i = 0; i < fences.size(); ++i )
-	{
-		fences[i].Update();
-	}
 
 	//return null (do not change current ProgramState)
 	return nullptr;
