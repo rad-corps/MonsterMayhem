@@ -22,12 +22,14 @@ public:
 	virtual void Draw();
 	void ResetMovementDirection();
 	void UndoUpdate();
+	bool CanSeePlayer();
 
 private:
 	//void GetNextNode();
 	Vector2 RandomiseDirection();
 	void RandomiseMovementTime();
 	void RandomisePauseTime();
+	
 	
 
 	GameObject* target;

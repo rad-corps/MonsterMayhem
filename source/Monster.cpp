@@ -9,6 +9,12 @@
 using namespace std;
 
 
+float subtractSmallerNumber(float num1_, float num2_)
+{
+	if ( num1_ < num2_ )
+		return num2_ - num1_;
+	return num1_ - num2_;
+}
 
 
 Monster::Monster(MONSTER_TYPE type_, Vector2 pos_)
@@ -131,6 +137,23 @@ void Monster::UndoUpdate()
 //	RotateSpriteToVector(sprite, direction);
 //}
 
+bool Monster::CanSeePlayer()
+{
+	//are we within the enemy seeing distance? 
+	float distanceToPlayer = (target->Pos() - pos).GetMagnitude();		
+	if ( distanceToPlayer > FileSettings::GetFloat("SWARM_PLAYER_DISTANCE") )
+		return false;
+
+	//is the player within our cone? 
+	Vector2 directionToPlayer = (target->Pos() - pos).GetNormal();
+	Vector2 enemyFacing = direction.GetNormal();
+	float difference = enemyFacing.AngleBetweenVectors(directionToPlayer);
+	if ( difference > FileSettings::GetFloat("ENEMY_VIEW_FRUSTRUM") ) 
+		return false;
+
+	return true;
+}
+
 void Monster::Update(float delta_)
 {
 	if ( !active ) 
@@ -138,6 +161,36 @@ void Monster::Update(float delta_)
 
 	previousPos = pos;
 
+
+
+
+	//if ( IsKeyDown(KEY_UP) )
+	//{
+	//	direction.SetAngle(PI / 2);
+	//	direction.SetMagnitude(speed * delta_);
+	//}
+	//else if ( IsKeyDown(KEY_RIGHT) )
+	//{
+	//	direction.SetAngle(0);
+	//	direction.SetMagnitude(speed * delta_);
+	//}
+	//else if ( IsKeyDown(KEY_LEFT) )
+	//{
+	//	direction.SetAngle(PI);
+	//	direction.SetMagnitude(speed * delta_);
+	//}
+	//else if ( IsKeyDown(KEY_DOWN) )
+	//{
+	//	direction.SetAngle(PI + PI / 2);
+	//	direction.SetMagnitude(speed * delta_);
+	//}
+	//else 
+	//{
+	//	direction.SetMagnitude(0);
+	//}
+	//pos += direction;
+
+	
 	if ( state == MONSTER_STATE::PAUSED )
 	{
 		pauseTimer += delta_;
@@ -154,7 +207,7 @@ void Monster::Update(float delta_)
 		float distanceToPlayer = (target->Pos() - pos).GetMagnitude();
 		
 		//if within SWARM_PLAYER_DISTANCE then swarm
-		if ( distanceToPlayer <= FileSettings::GetFloat("SWARM_PLAYER_DISTANCE") )
+		if ( CanSeePlayer() )
 		{
 			//move towards target
 			direction = target->Pos() - pos;
@@ -175,8 +228,9 @@ void Monster::Update(float delta_)
 			}
 		
 			float deltaSpeed = speed * delta_;
-			direction.SetMagnitude(deltaSpeed); //monster speed
-			pos += direction;
+			velocity = direction;
+			velocity.SetMagnitude(deltaSpeed);
+			pos += velocity;
 		}
 	}
 }

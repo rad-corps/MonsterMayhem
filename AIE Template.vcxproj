@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\SafeZone.cpp" />
     <ClCompile Include="source\PathFinder.cpp" />
     <ClCompile Include="source\Fence.cpp" />
     <ClCompile Include="source\GameGUI.cpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="include\WaveGen.h" />
     <ClInclude Include="include\WaveItems.h" />
     <ClInclude Include="include\PathFinder.h" />
+    <ClInclude Include="include\SafeZone.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

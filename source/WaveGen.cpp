@@ -44,6 +44,7 @@ Monster WaveGen::SpawnMonster(MONSTER_TYPE type_, Player* player_, float safetyD
 //	return temp;
 //}
 
+//test Generate function that spawns only one enemy
 //WaveItems WaveGen::Generate(int waveNum_, Player* player_)
 //{
 //	cout << "test implementation of WaveGen::Generate" << endl;
@@ -65,7 +66,7 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_)
 	
 
 	//create some random monsters
-	for (int i = 0; i < 20; ++i )
+	for (int i = 0; i < 5; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::MEDIUM, player_, SAFE_SPAWN_DISTANCE));
 	}

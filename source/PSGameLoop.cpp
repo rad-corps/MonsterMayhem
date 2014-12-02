@@ -17,6 +17,7 @@ PSGameLoop::PSGameLoop(void)
 
 	gameState = GAME_LOOP_STATE::WAVE_BEGIN;
 	currentTimer = 0.0f;
+	paused = false;
 
 	player.RegisterSpitObserver(this);
 	player.RegisterPlayerObserver(&gui);
@@ -103,6 +104,21 @@ ProgramState* PSGameLoop::Update(float delta_)
 	if ( IsKeyDown(KEY_ESCAPE) ) 
 	{
 		return new PSMainMenu();
+	}
+
+	if ( IsKeyDown (KEY_P))
+	{
+		paused = true;
+	}
+
+	if ( IsKeyDown(KEY_SPACE ))
+	{
+		paused = false;
+	}
+
+	if ( paused ) 
+	{
+		return nullptr;
 	}
 
 	currentTimer += delta_;
@@ -238,6 +254,8 @@ ProgramState* PSGameLoop::Update(float delta_)
 void PSGameLoop::Draw()
 {
 	terrain.Draw();
+
+	
 	
 	//draw fences
 	for (int i = 0; i < fences.size(); ++i )
@@ -261,6 +279,8 @@ void PSGameLoop::Draw()
 	{
 		monsterList[i].Draw();
 	}
+
+	safeZone.Draw();
 
 	gui.Draw();
 }

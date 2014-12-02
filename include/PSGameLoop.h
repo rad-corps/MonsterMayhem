@@ -9,6 +9,7 @@
 #include "PowerUp.h"
 #include "GameGUI.h"
 #include "Fence.h"
+#include "SafeZone.h"
 
 
 class PSGameLoop :
@@ -34,7 +35,7 @@ private:
 	vector<PowerUp> powerUpList;
 	vector<Rect> fenceRects;
 	vector<Fence> fences;
-	
+	SafeZone safeZone;
 	GameGUI gui;
 	
 	
@@ -46,7 +47,11 @@ private:
 	float waveEndTimer;
 	float currentTimer;
 
+	bool paused;
+
 	//state
 	GAME_LOOP_STATE gameState;
+
+	
 };
 
