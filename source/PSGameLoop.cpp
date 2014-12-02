@@ -218,7 +218,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 	{
 		cout << "GAME_LOOP_STATE::WAVE_RUNNING" << endl;
 		gameState = GAME_LOOP_STATE::WAVE_RUNNING;
-		WaveItems waveItems = WaveGen::Generate(wave++, &player);
+		WaveItems waveItems = WaveGen::Generate(wave++, &player, terrain.GetUnwalkableTerrain());
 		monsterList = waveItems.monsterList;
 		powerUpList = waveItems.powerUpList;
 		currentTimer = 0.0f;		

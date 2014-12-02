@@ -1,5 +1,8 @@
 #include "WaveGen.h"
+#include "Collision.h"
 
+
+vector<Rect> WaveGen::unwalkableTerrain;
 
 WaveGen::WaveGen(void)
 {
@@ -15,6 +18,7 @@ WaveGen::~WaveGen(void)
 //keep it fair ;)
 Vector2 WaveGen::RandomiseSafePosition(Vector2 target_, float safetyDistance_)
 {
+	
 	//randomise a position
 	int xPos = rand() % (BATTLE_FIELD_W - TERRAIN_W * 4) + (TERRAIN_W * 2);
 	int yPos = rand() % (BATTLE_FIELD_H - TERRAIN_H * 4) + (TERRAIN_H * 2);
@@ -24,6 +28,17 @@ Vector2 WaveGen::RandomiseSafePosition(Vector2 target_, float safetyDistance_)
 	float distance = (target_ - pos).GetMagnitude();
 	if ( distance < safetyDistance_ ) 
 		return RandomiseSafePosition(target_, safetyDistance_); //try again
+
+
+	//Check pos against the unwalkable terrain
+	Rect newPos(Vector2(xPos, yPos), 64, 64);
+	for ( int i = 0; i < unwalkableTerrain.size(); ++i )
+	{
+		if ( Collision::RectCollision(newPos, unwalkableTerrain[i]))
+		{
+			return RandomiseSafePosition(target_, safetyDistance_); //try again
+		}
+	}	
 	return pos;
 }
 
@@ -55,10 +70,12 @@ Monster WaveGen::SpawnMonster(MONSTER_TYPE type_, Player* player_, float safetyD
 //	return ret;
 //}
 
-WaveItems WaveGen::Generate(int waveNum_, Player* player_)
+WaveItems WaveGen::Generate(int waveNum_, Player* player_, vector<Rect> unwalkableTerrain_)
 {
 	cout << "Generating Wave " << waveNum_ << endl;
-	
+
+	unwalkableTerrain = unwalkableTerrain_;
+
 	//set up the return value
 	WaveItems ret;
 	vector<Monster> monsterList;
