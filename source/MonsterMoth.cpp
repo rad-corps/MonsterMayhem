@@ -52,15 +52,17 @@ MonsterMoth::~MonsterMoth(void)
 
 void MonsterMoth::Update(float delta_)
 {
-	float deltaAccel = MOTH_ACCEL * delta_;
-	velocity += direction * deltaAccel;
 
-	if ( velocity.GetMagnitude() > MOTH_MAX_SPEED * delta_)
-		velocity.SetMagnitude(MOTH_MAX_SPEED * delta_);
+	Vector2 previousPos = pos;
+	
+	velocity += direction * MOTH_ACCEL * delta_;
 
-	pos += velocity;
+	if ( velocity.GetMagnitude() > MOTH_MAX_SPEED )
+		velocity.SetMagnitude(MOTH_MAX_SPEED);
 
-	distTravelledSinceDirectionCalc += velocity.GetMagnitude();
+	pos += velocity * delta_;
+
+	distTravelledSinceDirectionCalc += (pos - previousPos).GetMagnitude();
 
 	if ( distTravelledSinceDirectionCalc > TERRAIN_W )
 	{

@@ -84,5 +84,5 @@ enum MONSTER_STATE
 
 #define PI 3.14159
 
-#define MOTH_MAX_SPEED 150.0
-#define MOTH_ACCEL 10.0
+#define MOTH_MAX_SPEED 200
+#define MOTH_ACCEL 150
