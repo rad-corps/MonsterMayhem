@@ -55,6 +55,18 @@ void MonsterMoth::Update(float delta_)
 
 	Vector2 previousPos = pos;
 	
+	if ( pos.x < 0 || pos.x > BATTLE_FIELD_W )
+	{
+		velocity.x = -(velocity.x);
+		direction.x = -(direction.x);
+	}
+	if ( pos.y < 0 || pos.y > BATTLE_FIELD_H )
+	{
+		velocity.y = -(velocity.y);
+		direction.y = -(direction.y);
+	}
+	
+	
 	velocity += direction * MOTH_ACCEL * delta_;
 
 	if ( velocity.GetMagnitude() > MOTH_MAX_SPEED )

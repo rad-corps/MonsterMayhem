@@ -286,7 +286,7 @@ void PSGameLoop::Draw()
 		monsterList[i]->Draw();
 	}
 
-	safeZone.Draw();
+	//safeZone.Draw();
 
 	gui.Draw();
 }
