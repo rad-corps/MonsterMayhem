@@ -3,6 +3,7 @@
 #include "WaveItems.h"
 #include "Player.h"
 #include <vector>
+#include <memory>
 #include "Rect.h"
 
 using namespace std;
@@ -18,7 +19,7 @@ private:
 	WaveGen(void);
 
 	static Vector2 RandomiseSafePosition(Vector2 target_, float safetyDistance_);
-	static Monster SpawnMonster(MONSTER_TYPE type_, Player* player_, float safetyDistance_);
+	static Monster* SpawnMonster(MONSTER_TYPE type_, Player* player_, float safetyDistance_);
 
 	static vector<Rect> unwalkableTerrain;
 	

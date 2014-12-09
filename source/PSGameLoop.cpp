@@ -98,6 +98,15 @@ PSGameLoop::~PSGameLoop(void)
 	cout << "~PSGameLoop()" << endl;
 }
 
+void PSGameLoop::CleanMonsterList()
+{
+	for (int i = 0; i < monsterList.size(); ++i )
+	{
+		delete monsterList[i];
+	}
+	monsterList.clear();
+}
+
 ProgramState* PSGameLoop::Update(float delta_)
 {
 	//check if we want to switch states
@@ -160,14 +169,14 @@ ProgramState* PSGameLoop::Update(float delta_)
 	//update monsters
 	for (int i = 0; i < monsterList.size(); ++i ) 
 	{
-		monsterList[i].Update(delta_);
+		monsterList[i]->Update(delta_);
 
 		//is there at least one enemy still alive? 
-		if ( monsterList[i].IsActive() )
+		if ( monsterList[i]->IsActive() )
 			waveStillRunning = true;
 		
 		//check collision with player, game over if collided
-		if ( Collision::CheckCollision(&monsterList[i], &player) )
+		if ( Collision::CheckCollision(monsterList[i], &player) )
 		{
 			cout << "GAME OVER" << endl;
 			return new PSGameOver();
@@ -176,10 +185,9 @@ ProgramState* PSGameLoop::Update(float delta_)
 		//check collision between fence and monster			
 		for (int fence = 0; fence < fenceRects.size(); ++fence )
 		{
-			if ( Collision::RectCollision(fenceRects[fence], monsterList[i].GetRect()) )
+			if ( Collision::RectCollision(fenceRects[fence], monsterList[i]->GetRect()) )
 			{
-				monsterList[i].UndoUpdate();
-				monsterList[i].ResetMovementDirection();
+				monsterList[i]->HandleTerrainCollision();
 			}
 		}
 
@@ -187,19 +195,18 @@ ProgramState* PSGameLoop::Update(float delta_)
 		vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
 		for (int terrain = 0; terrain < unwalkableTerrain.size(); ++terrain )
 		{
-			if ( Collision::RectCollision(unwalkableTerrain[terrain], monsterList[i].GetRect()) )
+			if ( Collision::RectCollision(unwalkableTerrain[terrain], monsterList[i]->GetRect()) )
 			{
-				monsterList[i].UndoUpdate();
-				monsterList[i].ResetMovementDirection();
+				monsterList[i]->HandleTerrainCollision();
 			}
 		}
 
 		//check this monster against each spit (BRUTE FORCE OH YEAH)
 		for (int spit = 0; spit < spitList.size(); ++ spit )
 		{
-			if ( Collision::CheckCollision(&monsterList[i], &spitList[spit]))
+			if ( Collision::CheckCollision(monsterList[i], &spitList[spit]))
 			{
-				monsterList[i].Hit();
+				monsterList[i]->Hit();
 				spitList[spit].SetActive(false);
 			}
 		}
@@ -218,6 +225,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 	{
 		cout << "GAME_LOOP_STATE::WAVE_RUNNING" << endl;
 		gameState = GAME_LOOP_STATE::WAVE_RUNNING;
+		CleanMonsterList();
 		WaveItems waveItems = WaveGen::Generate(wave++, &player, terrain.GetUnwalkableTerrain());
 		monsterList = waveItems.monsterList;
 		powerUpList = waveItems.powerUpList;
@@ -255,8 +263,6 @@ void PSGameLoop::Draw()
 {
 	terrain.Draw();
 
-	
-	
 	//draw fences
 	for (int i = 0; i < fences.size(); ++i )
 	{
@@ -277,7 +283,7 @@ void PSGameLoop::Draw()
 
 	for (int i = 0; i < monsterList.size(); ++i ) 
 	{
-		monsterList[i].Draw();
+		monsterList[i]->Draw();
 	}
 
 	safeZone.Draw();

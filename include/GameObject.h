@@ -7,8 +7,11 @@ class GameObject
 {
 public:
 	GameObject(void);
+	
+	//destructor must be virtual to ensure it is called
 	virtual ~GameObject(void);
 
+	//pure virtuals
 	virtual void Update(float delta_) = 0;
 	virtual void Draw() = 0;
 

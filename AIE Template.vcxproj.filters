@@ -45,9 +45,6 @@
     <ClCompile Include="source\Spit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\Monster.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\PowerUp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -76,6 +73,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\SafeZone.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MonsterSlug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Monster.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\MonsterMoth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,9 +125,6 @@
     <ClInclude Include="include\Spit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\Monster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\PSGameOver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -162,6 +165,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SafeZone.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MonsterSlug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Monster.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MonsterMoth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

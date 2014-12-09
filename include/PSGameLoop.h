@@ -5,12 +5,12 @@
 #include "Terrain.h"
 #include "SpitObserver.h"
 #include "Spit.h"
-#include "Monster.h"
+#include "MonsterSlug.h"
 #include "PowerUp.h"
 #include "GameGUI.h"
 #include "Fence.h"
 #include "SafeZone.h"
-
+#include <memory>
 
 class PSGameLoop :
 	public ProgramState, public SpitObserver
@@ -27,11 +27,13 @@ public:
 	virtual void SpitEvent(Vector2 position_, float rotation_, float activeTime_); 
 
 private:
+	void CleanMonsterList();
+
 	//game objects
 	Player player;
 	Terrain terrain;
 	vector<Spit> spitList;
-	vector<Monster> monsterList;
+	vector<Monster*> monsterList;
 	vector<PowerUp> powerUpList;
 	vector<Rect> fenceRects;
 	vector<Fence> fences;

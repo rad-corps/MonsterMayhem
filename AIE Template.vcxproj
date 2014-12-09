@@ -91,6 +91,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Monster.cpp" />
+    <ClCompile Include="source\MonsterMoth.cpp" />
     <ClCompile Include="source\SafeZone.cpp" />
     <ClCompile Include="source\PathFinder.cpp" />
     <ClCompile Include="source\Fence.cpp" />
@@ -100,7 +102,7 @@
     <ClCompile Include="source\IniFile.cpp" />
     <ClCompile Include="source\PowerUp.cpp" />
     <ClCompile Include="source\PSGameOver.cpp" />
-    <ClCompile Include="source\Monster.cpp" />
+    <ClCompile Include="source\MonsterSlug.cpp" />
     <ClCompile Include="source\FrameworkHelpers.cpp" />
     <ClCompile Include="source\GameObject.cpp" />
     <ClCompile Include="source\Player.cpp" />
@@ -123,6 +125,8 @@
     <ClInclude Include="include\Enums.h" />
     <ClInclude Include="include\AIE.h" />
     <ClInclude Include="include\IniFile.h" />
+    <ClInclude Include="include\Monster.h" />
+    <ClInclude Include="include\MonsterMoth.h" />
     <ClInclude Include="include\Node.h" />
     <ClInclude Include="include\PlayerObserver.h" />
     <ClInclude Include="include\ProgramState.h" />
@@ -135,7 +139,7 @@
     <ClInclude Include="include\Terrain.h" />
     <ClInclude Include="include\SpitObserver.h" />
     <ClInclude Include="include\Spit.h" />
-    <ClInclude Include="include\Monster.h" />
+    <ClInclude Include="include\MonsterSlug.h" />
     <ClInclude Include="include\PowerUp.h" />
     <ClInclude Include="include\PSGameOver.h" />
     <ClInclude Include="include\WaveGen.h" />

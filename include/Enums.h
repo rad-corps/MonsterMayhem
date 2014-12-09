@@ -12,9 +12,9 @@ enum POWER_UP_TYPE
 
 enum MONSTER_TYPE
 {
-	MEDIUM,
-	LARGE,
-	BOSS
+	SLUG,
+	MOTH,
+	FAT_WALKER
 };
 
 enum GAME_LOOP_STATE
@@ -74,7 +74,7 @@ enum MONSTER_STATE
 #define LOOGIE_RELOAD 0.6
 #define LOOGIE_W 16
 #define LOOGIE_H 16
-#define LOOGIE_VELOCITY 31.0
+#define LOOGIE_VELOCITY 1500.0
 #define SPIT_POOL 20
 
 #define POWER_UP_W 64
@@ -83,3 +83,6 @@ enum MONSTER_STATE
 #define SAFE_SPAWN_DISTANCE 500.0
 
 #define PI 3.14159
+
+#define MOTH_MAX_SPEED 150.0
+#define MOTH_ACCEL 10.0

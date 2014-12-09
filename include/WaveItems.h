@@ -1,14 +1,15 @@
 #pragma once
 
 #include <vector>
-#include "Monster.h"
+#include "MonsterSlug.h"
 #include "PowerUp.h"
+#include <memory>
 
 using namespace std;
 
 struct WaveItems
 {
-	vector<Monster> monsterList;
+	vector<Monster*> monsterList;
 	vector<PowerUp> powerUpList;
 };
 

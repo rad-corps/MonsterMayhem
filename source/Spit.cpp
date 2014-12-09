@@ -24,7 +24,7 @@ void Spit::Update(float delta_)
 	}
 
 	activeCounter += delta_;
-	pos += velocity;
+	pos += velocity * delta_;
 	MoveSprite(sprite, pos.x, pos.y);
 }
 
