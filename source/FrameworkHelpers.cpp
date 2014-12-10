@@ -124,3 +124,10 @@ void DrawStringAbs(const char * str_, int x_, int y_ )
 	GetCameraPosition(camX, camY);
 	DrawString(str_, camX + x_, camY + y_);
 }
+
+float subtractSmallerNumber(float num1_, float num2_)
+{
+	if ( num1_ < num2_ )
+		return num2_ - num1_;
+	return num1_ - num2_;
+}

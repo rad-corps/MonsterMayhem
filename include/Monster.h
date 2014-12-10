@@ -20,4 +20,6 @@ public :
 protected:
 	int health;
 	GameObject* target;
+	Vector2 direction;
+	bool CanSeePlayer();
 };

@@ -1,4 +1,4 @@
-#include "MonsterSlug.h"
+#include "MonsterFatWalker.h"
 #include "AIE.h"
 #include <iostream>
 #include "Enums.h"
@@ -8,28 +8,26 @@
 
 using namespace std;
 
-unsigned int MonsterSlug::sprite = 0;
+unsigned int MonsterFatWalker::sprite = 0;
 
-
-
-void MonsterSlug::HandleTerrainCollision()
+void MonsterFatWalker::HandleTerrainCollision()
 {
 	UndoUpdate();
 	ResetMovementDirection();
 }
 
 
-MonsterSlug::MonsterSlug(Vector2 pos_)
+MonsterFatWalker::MonsterFatWalker(Vector2 pos_)
 {
 	pos = pos_;
 	//default width and height for enemies
 	width = 64;
 	height = 64;
-	health = 10;
-	speed = 100.f;
+	health = 40;
+	speed = 150.f;
 	if ( sprite == 0 )
 	{
-		sprite = CreateSprite("./images/Monster_Slug.png", width, height, true);
+		sprite = CreateSprite("./images/Monster_FatWalker.png", width, height, true);
 	}
 	active = true;
 	movementTimer = 0.0f;
@@ -40,13 +38,13 @@ MonsterSlug::MonsterSlug(Vector2 pos_)
 }
 
 
-MonsterSlug::~MonsterSlug(void)
+MonsterFatWalker::~MonsterFatWalker(void)
 {
 	
 }
 
 //return up, down, left or right
-Vector2 MonsterSlug::RandomiseDirection()
+Vector2 MonsterFatWalker::RandomiseDirection()
 {
 	Vector2 ret; 
 	int num = rand() % 4; //number between 0 and 3 inclusive	
@@ -54,7 +52,7 @@ Vector2 MonsterSlug::RandomiseDirection()
 	return ret;
 }
 
-void MonsterSlug::RandomisePauseTime()
+void MonsterFatWalker::RandomisePauseTime()
 {
 	float random = ((float) rand()) / (float) RAND_MAX;
     float diff = FileSettings::GetFloat("PAUSE_TIME_MAX") - FileSettings::GetFloat("PAUSE_TIME_MIN");
@@ -62,7 +60,7 @@ void MonsterSlug::RandomisePauseTime()
 	pauseTimeLimit = FileSettings::GetFloat("PAUSE_TIME_MIN") + r;
 }
 
-void MonsterSlug::RandomiseMovementTime()
+void MonsterFatWalker::RandomiseMovementTime()
 {
 	float random = ((float) rand()) / (float) RAND_MAX;
     float diff = FileSettings::GetFloat("MOVEMENT_TIMER_MAX") - FileSettings::GetFloat("MOVEMENT_TIMER_MIN");
@@ -70,21 +68,21 @@ void MonsterSlug::RandomiseMovementTime()
     movementTimeLimit = FileSettings::GetFloat("MOVEMENT_TIMER_MIN") + r;
 }
 
-void MonsterSlug::ResetMovementDirection()
+void MonsterFatWalker::ResetMovementDirection()
 {
 	direction = RandomiseDirection();
 	RandomiseMovementTime();
 	state = MONSTER_STATE::MOVING;	
 }
 
-void MonsterSlug::UndoUpdate()
+void MonsterFatWalker::UndoUpdate()
 {
 	pos = previousPos;
 }
 
 
 
-void MonsterSlug::Update(float delta_)
+void MonsterFatWalker::Update(float delta_)
 {
 	if ( !active ) 
 		return;
@@ -150,7 +148,7 @@ void MonsterSlug::Update(float delta_)
 
 
 
-void MonsterSlug::Draw()
+void MonsterFatWalker::Draw()
 {
 	if ( active ) 
 	{

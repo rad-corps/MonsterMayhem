@@ -66,6 +66,10 @@ void MonsterMoth::Update(float delta_)
 		direction.y = -(direction.y);
 	}
 	
+	if ( CanSeePlayer() )
+	{
+		direction = (target->Pos() - pos ).GetNormal();
+	}
 	
 	velocity += direction * MOTH_ACCEL * delta_;
 
@@ -74,13 +78,18 @@ void MonsterMoth::Update(float delta_)
 
 	pos += velocity * delta_;
 
-	distTravelledSinceDirectionCalc += (pos - previousPos).GetMagnitude();
-
-	if ( distTravelledSinceDirectionCalc > TERRAIN_W )
+	
+	if ( !CanSeePlayer() )
 	{
-		distTravelledSinceDirectionCalc = 0.0f;
-		RandomiseNewDirection();
+		distTravelledSinceDirectionCalc += (pos - previousPos).GetMagnitude();
+
+		if ( distTravelledSinceDirectionCalc > TERRAIN_W )
+		{
+			distTravelledSinceDirectionCalc = 0.0f;
+			RandomiseNewDirection();
+		}
 	}
+	
 }
 
 

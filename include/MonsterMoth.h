@@ -21,15 +21,12 @@ public:
 	virtual void Draw();
 	virtual void HandleTerrainCollision();
 
-	bool CanSeePlayer();
-
 private:
 
 	void RandomiseInitialDirection();
 	void RandomiseNewDirection();
 
-	static unsigned int sprite;
-	Vector2 direction;
+	static unsigned int sprite;	
 	Vector2 velocity;
 
 	float distTravelledSinceDirectionCalc;

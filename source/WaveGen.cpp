@@ -2,7 +2,7 @@
 #include "Collision.h"
 #include "MonsterMoth.h"
 #include "MonsterSlug.h"
-//#include "MonsterFatWalker.h"
+#include "MonsterFatWalker.h"
 
 
 vector<Rect> WaveGen::unwalkableTerrain;
@@ -53,6 +53,8 @@ Monster* WaveGen::SpawnMonster(MONSTER_TYPE type_, Player* player_, float safety
 		ret = new MonsterSlug(pos);
 	if ( type_ == MONSTER_TYPE::MOTH )
 		ret = new MonsterMoth(pos);
+	if ( type_ == MONSTER_TYPE::FAT_WALKER )
+		ret = new MonsterFatWalker(pos);
 	
 	ret->RegisterTarget(player_);
 	return ret;
@@ -91,24 +93,24 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_, vector<Rect> unwalkab
 	
 
 	//create some random monsters
-	for (int i = 0; i < 5; ++i )
+	int numOfSlugs = 5 + waveNum_ * 3;
+	for (int i = 0; i < numOfSlugs; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::SLUG, player_, SAFE_SPAWN_DISTANCE));
 	}
 
-	for (int i = 0; i < 5; ++i )
+	int numOfMoths = 0 + waveNum_ * 5;
+	for (int i = 0; i < numOfMoths; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::MOTH, player_, SAFE_SPAWN_DISTANCE));
 	}
 	
-
-	if ( waveNum_ >= 5 ) 
+	int numOfFatWalkers = waveNum_ * 3;
+	for (int i = 0; i < numOfFatWalkers; ++i )
 	{
-		for (int i = 0; i < 2*(waveNum_%3+4); ++i )
-		{
-			monsterList.push_back(SpawnMonster(MONSTER_TYPE::FAT_WALKER, player_, SAFE_SPAWN_DISTANCE));
-		}
+		monsterList.push_back(SpawnMonster(MONSTER_TYPE::FAT_WALKER, player_, SAFE_SPAWN_DISTANCE));
 	}
+	
 
 	//create some power ups
 	for ( int i = 0; i < 3 + waveNum_ * 0.2f; ++i )

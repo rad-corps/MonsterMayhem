@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MonsterFatWalker.cpp" />
     <ClCompile Include="source\Monster.cpp" />
     <ClCompile Include="source\MonsterMoth.cpp" />
     <ClCompile Include="source\SafeZone.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="include\WaveItems.h" />
     <ClInclude Include="include\PathFinder.h" />
     <ClInclude Include="include\SafeZone.h" />
+    <ClInclude Include="MonsterFatWalker.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -47,6 +47,7 @@ enum RIVER_TILE_TYPE
 enum MONSTER_STATE
 {
 	MOVING,
+	CHARGING,
 	PAUSED
 };
 
@@ -85,4 +86,4 @@ enum MONSTER_STATE
 #define PI 3.14159
 
 #define MOTH_MAX_SPEED 200
-#define MOTH_ACCEL 150
+#define MOTH_ACCEL 250

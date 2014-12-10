@@ -3,18 +3,15 @@
 #include "Monster.h"
 #include "Enums.h"
 #include "Vector.h"
-#include <queue>
 #include "Node.h"
-#include "PathFinder.h"
 
-using namespace std;
-
-class MonsterSlug :
+class MonsterFatWalker :
 	public Monster
 {
+
 public:
-	MonsterSlug(Vector2 pos_);
-	~MonsterSlug(void);
+	MonsterFatWalker(Vector2 pos_);
+	~MonsterFatWalker(void);
 
 	//virtuals overridden
 	virtual void Update(float delta_);
@@ -41,7 +38,5 @@ private:
 
 	MONSTER_STATE state;
 
-	queue<Node> path;
 	Node currentDest;	
 };
-
