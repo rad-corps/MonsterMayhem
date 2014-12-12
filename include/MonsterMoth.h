@@ -21,6 +21,8 @@ public:
 	virtual void Draw();
 	virtual void HandleTerrainCollision();
 
+	void Hit(int power = 10);
+
 private:
 
 	void RandomiseInitialDirection();
@@ -28,6 +30,8 @@ private:
 
 	static unsigned int sprite;	
 	Vector2 velocity;
+	float animationTimer;
+	MOTH_ANIMATION animation;
 
 	float distTravelledSinceDirectionCalc;
 

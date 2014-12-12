@@ -15,7 +15,7 @@ public :
 	virtual ~Monster();
 
 	void RegisterTarget(GameObject* target_);
-	void Hit(int power_ = 10.0f);
+	virtual void Hit(int power_ = 10.0f);
 
 protected:
 	int health;

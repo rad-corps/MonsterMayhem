@@ -6,10 +6,10 @@
 #include "PathFinder.h"
 #include "FileSettings.h"
 
-float MOVEMENT1_UV[4] = { PLAYER_U_MIN + PLAYER_U_STEP    , PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 2, PLAYER_V_MIN + PLAYER_V_STEP };
-float MOVEMENT2_UV[4] = { PLAYER_U_MIN + PLAYER_U_STEP * 2, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 3, PLAYER_V_MIN + PLAYER_V_STEP };
-float MOVEMENT3_UV[4] = { PLAYER_U_MIN + PLAYER_U_STEP * 3, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 4, PLAYER_V_MIN + PLAYER_V_STEP };
-float HIT_UV[4] =       { PLAYER_U_MIN + PLAYER_U_STEP * 4, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 5, PLAYER_V_MIN + PLAYER_V_STEP };
+float MOVEMENT1_UV[4] = { MOTH_U_MIN                      , MOTH_V_MIN  , MOTH_U_MIN +   MOTH_U_STEP    , MOTH_V_MIN + MOTH_V_STEP };
+float MOVEMENT2_UV[4] = { MOTH_U_MIN + MOTH_U_STEP        , MOTH_V_MIN  , MOTH_U_MIN +   MOTH_U_STEP * 2, MOTH_V_MIN + MOTH_V_STEP };                        
+float MOVEMENT3_UV[4] = { MOTH_U_MIN + MOTH_U_STEP     * 2, MOTH_V_MIN  , MOTH_U_MIN +   MOTH_U_STEP * 3, MOTH_V_MIN + MOTH_V_STEP };
+float HIT_UV[4] =       { MOTH_U_MIN + MOTH_U_STEP     * 3, MOTH_V_MIN  , MOTH_U_MIN +   MOTH_U_STEP * 4, MOTH_V_MIN + MOTH_V_STEP };
 
 
 using namespace std;
@@ -22,17 +22,26 @@ MonsterMoth::MonsterMoth(Vector2 pos_)
 	//default width and height for enemies
 	width = 64;
 	height = 64;
-	health = 10;
+	health = 20;
+
+	float sprite_size[2] = { 64.0f, 64.0f };
+	float origin[2] = { 32.0f, 32.0f };
+
+
 	
 	//only create the sprite once.
 	if ( sprite == 0 )
-		sprite = CreateSprite("./images/Monster_Moth.png", width, height, true);
+		sprite = CreateSprite ( "./images/Character_sprite_sheet.png", sprite_size, origin, MOVEMENT1_UV);
+		//sprite = CreateSprite("./images/Character_sprite_sheet.png", width, height, true);
 
 	active = true;
 
 	distTravelledSinceDirectionCalc = 0.0f;
 	RandomiseInitialDirection();
-	velocity.SetAngle(direction.GetAngle());	
+	velocity.SetAngle(direction.GetAngle());
+
+	animationTimer = 0.0f;
+	animation = MOTH_ANIMATION::MOTH_ANIM_MOVE1;
 }
 
 //return up, down, left or right
@@ -56,10 +65,46 @@ MonsterMoth::~MonsterMoth(void)
 	
 }
 
+void MonsterMoth::Hit(int power_)
+{
+	Monster::Hit(power_);
+	animation = MOTH_ANIMATION::MOTH_ANIM_HIT;
+	animationTimer = 0.0f;
+}
+
 void MonsterMoth::Update(float delta_)
 {
 
 	Vector2 previousPos = pos;
+
+	animationTimer += delta_;
+
+	if ( animation == MOTH_ANIMATION::MOTH_ANIM_HIT && animationTimer > 1.0f )
+	{
+		animation = MOTH_ANIMATION::MOTH_ANIM_MOVE1;
+	}
+	else if ( animationTimer > 0.2f && animation != MOTH_ANIMATION::MOTH_ANIM_HIT )
+	{
+		animationTimer = 0.0f;
+		switch ( animation ) 
+		{
+		case MOTH_ANIMATION::MOTH_ANIM_MOVE1 :
+			animation = MOTH_ANIMATION::MOTH_ANIM_MOVE2;
+			break;
+		case MOTH_ANIMATION::MOTH_ANIM_MOVE2 :
+			animation = MOTH_ANIMATION::MOTH_ANIM_MOVE3;
+			break;
+		case MOTH_ANIMATION::MOTH_ANIM_MOVE3 :
+			animation = MOTH_ANIMATION::MOTH_ANIM_MOVE4;
+			break;
+		case MOTH_ANIMATION::MOTH_ANIM_MOVE4 :
+			animation = MOTH_ANIMATION::MOTH_ANIM_MOVE1;
+			break;
+		case MOTH_ANIMATION::MOTH_ANIM_HIT :
+			animation = MOTH_ANIMATION::MOTH_ANIM_MOVE1;
+			break;
+		}
+	}
 	
 	if ( pos.x < 0 || pos.x > BATTLE_FIELD_W )
 	{
@@ -77,7 +122,8 @@ void MonsterMoth::Update(float delta_)
 		direction = (target->Pos() - pos ).GetNormal();
 	}
 	
-	velocity += direction * MOTH_ACCEL * delta_;
+	if ( animation != MOTH_ANIMATION::MOTH_ANIM_HIT ) 
+		velocity += direction * MOTH_ACCEL * delta_;
 
 	if ( velocity.GetMagnitude() > MOTH_MAX_SPEED )
 		velocity.SetMagnitude(MOTH_MAX_SPEED);
@@ -103,8 +149,18 @@ void MonsterMoth::Draw()
 {
 	if ( active ) 
 	{
+		if ( animation == MOTH_ANIMATION::MOTH_ANIM_MOVE1)
+			SetSpriteUVCoordinates	( sprite, MOVEMENT1_UV);
+		if ( animation == MOTH_ANIMATION::MOTH_ANIM_MOVE2 || animation == MOTH_ANIMATION::MOTH_ANIM_MOVE4)
+			SetSpriteUVCoordinates	( sprite, MOVEMENT2_UV);
+		if ( animation == MOTH_ANIMATION::MOTH_ANIM_MOVE3)
+			SetSpriteUVCoordinates	( sprite, MOVEMENT3_UV);
+		if ( animation == MOTH_ANIMATION::MOTH_ANIM_HIT)
+			SetSpriteUVCoordinates	( sprite, HIT_UV);
+
 		MoveSprite(sprite, pos.x, pos.y);
 		RotateSpriteToVector(sprite, direction);
+		RotateSprite(sprite, 270.0f);
 		DrawSprite(sprite);
 	}
 }
