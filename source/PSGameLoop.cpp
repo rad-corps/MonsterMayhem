@@ -21,7 +21,8 @@ PSGameLoop::PSGameLoop(void)
 
 	player.RegisterSpitObserver(this);
 	player.RegisterPlayerObserver(&gui);
-	
+	Monster::RegisterExplosionObserver(this);
+
 	wave = 1;
 	
 	//SPIT_POOL is arbitrary at this stage. its the number in the pool of spit *shakes head at own pun*
@@ -33,7 +34,7 @@ PSGameLoop::PSGameLoop(void)
 	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
 
-	Monster::RegisterExplosionObserver(this);
+	
 
 	
 	//create the boundary fences.
@@ -146,6 +147,12 @@ ProgramState* PSGameLoop::Update(float delta_)
 		explosions[i].Update(delta_);
 	}
 
+	//update the hit animations
+	for (int i = 0; i < hitAnimations.size(); ++i )
+	{
+		hitAnimations[i].Update(delta_);
+	}
+
 	//update the pool of loogies
 	for (int i = 0; i < SPIT_POOL; ++i )
 	{
@@ -214,7 +221,9 @@ ProgramState* PSGameLoop::Update(float delta_)
 		{
 			if ( Collision::CheckCollision(monsterList[i], &spitList[spit]))
 			{
+				//TODO add hit animation
 				monsterList[i]->Hit();
+				hitAnimations.push_back(HitAnimation(spitList[spit].Pos()));
 				spitList[spit].SetActive(false);
 			}
 		}
@@ -299,6 +308,11 @@ void PSGameLoop::Draw()
 		explosions[i].Draw();
 	}
 
+	for (int i = 0; i < hitAnimations.size(); ++i ) 
+	{
+		hitAnimations[i].Draw();
+	}
+
 	//safeZone.Draw();
 
 	gui.Draw();
@@ -320,4 +334,9 @@ void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_
 void PSGameLoop::ExplosionEvent(Vector2 position_, Vector2 direction_)
 {
 	explosions.push_back(Explosion(position_, direction_));
+}
+
+void PSGameLoop::HitEvent(Vector2 position_)
+{
+	cout << "HIT" << endl;
 }

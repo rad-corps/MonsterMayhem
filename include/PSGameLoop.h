@@ -12,6 +12,7 @@
 #include "SafeZone.h"
 #include "ExplosionObserver.h"
 #include "Explosion.h"
+#include "HitAnimation.h"
 #include <memory>
 
 class PSGameLoop :
@@ -30,6 +31,9 @@ public:
 	
 	//implementation of ExplosionObserver interface
 	virtual void ExplosionEvent(Vector2 position_, Vector2 direction_); 
+	
+	//implementation of HitObserver interface
+	virtual void HitEvent(Vector2 position_); 
 
 private:
 	void CleanMonsterList();
@@ -43,6 +47,7 @@ private:
 	vector<Rect> fenceRects;
 	vector<Fence> fences;
 	vector<Explosion> explosions;
+	vector<HitAnimation> hitAnimations;
 	SafeZone safeZone;
 	GameGUI gui;
 	

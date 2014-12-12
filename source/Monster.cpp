@@ -10,8 +10,8 @@ void Monster::RegisterTarget(GameObject* target_)
 
 void Monster::Hit(int hit_ )
 {
-	cout << "Monster::Hit()" << endl;
 	health -= hit_;
+
 	if ( health <= 0 )
 	{
 		active = false;

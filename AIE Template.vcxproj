@@ -91,6 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="HitAnimation.cpp" />
     <ClCompile Include="source\Explosion.cpp" />
     <ClCompile Include="source\MonsterFatWalker.cpp" />
     <ClCompile Include="source\Monster.cpp" />
@@ -118,6 +119,7 @@
     <ClCompile Include="source\WaveGen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="HitAnimation.h" />
     <ClInclude Include="include\Explosion.h" />
     <ClInclude Include="include\ExplosionObserver.h" />
     <ClInclude Include="include\Fence.h" />

@@ -85,6 +85,12 @@ enum EXPLOSION_ANIMATION
 	EXP_ANIM_4,
 };
 
+enum HIT_ANIMATION
+{
+	HIT_ANIM_1,
+	HIT_ANIM_2
+};
+
 #define SCREEN_W 1680
 #define SCREEN_H 1050
 
@@ -136,3 +142,9 @@ enum EXPLOSION_ANIMATION
 #define EXPLOSION_V_MIN 0
 #define EXPLOSION_U_STEP 0.25
 #define EXPLOSION_V_STEP 1
+
+#define HIT_U_MIN 0
+#define HIT_V_MIN 0
+#define HIT_U_STEP 0.5
+#define HIT_V_STEP 1
+

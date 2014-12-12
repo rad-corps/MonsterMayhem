@@ -15,6 +15,7 @@ Spit::~Spit(void)
 {
 }
 
+
 void Spit::Update(float delta_)
 {
 	if ( activeCounter > activeTime )
