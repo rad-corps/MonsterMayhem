@@ -32,6 +32,7 @@ MonsterFatWalker::MonsterFatWalker(Vector2 pos_)
 	active = true;
 	movementTimer = 0.0f;
 	pauseTimer = 0.0f;
+	timeSinceHit = 100.f;
 	//ResetMovementDirection();
 	RandomisePauseTime();
 	state = MONSTER_STATE::PAUSED;
@@ -88,6 +89,10 @@ void MonsterFatWalker::Update(float delta_)
 		return;
 
 	previousPos = pos;
+	timeSinceHit += delta_;
+
+	if ( timeSinceHit < 0.05f )
+		return;
 
 	if ( state == MONSTER_STATE::PAUSED )
 	{
@@ -156,4 +161,10 @@ void MonsterFatWalker::Draw()
 		RotateSpriteToVector(sprite, direction);
 		DrawSprite(sprite);
 	}
+}
+
+void MonsterFatWalker::Hit(int power_)
+{
+	Monster::Hit(power_);
+	timeSinceHit = 0.0f;
 }

@@ -18,6 +18,8 @@ public:
 	virtual void Draw();
 	virtual void HandleTerrainCollision();
 
+	void Hit(int power = 10);
+
 private:
 	void ResetMovementDirection();
 	void UndoUpdate();
@@ -34,6 +36,7 @@ private:
 	float pauseTimer;
 	float movementTimeLimit;
 	float pauseTimeLimit;
+	float timeSinceHit;
 	
 
 	MONSTER_STATE state;
