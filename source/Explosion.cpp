@@ -1,6 +1,7 @@
 #include "Explosion.h"
 #include "AIE.h"
 #include "Enums.h"
+#include "FrameworkHelpers.h"
 
 unsigned int Explosion::sprite = 0;
 
@@ -9,11 +10,12 @@ float EXPLOSION_2_UV[4] = { EXPLOSION_U_MIN + EXPLOSION_U_STEP   , EXPLOSION_V_M
 float EXPLOSION_3_UV[4] = { EXPLOSION_U_MIN + EXPLOSION_U_STEP *2, EXPLOSION_V_MIN, EXPLOSION_U_MIN + EXPLOSION_U_STEP * 3, EXPLOSION_V_MIN + EXPLOSION_V_STEP };
 float EXPLOSION_4_UV[4] = { EXPLOSION_U_MIN + EXPLOSION_U_STEP *3, EXPLOSION_V_MIN, EXPLOSION_U_MIN + EXPLOSION_U_STEP * 4, EXPLOSION_V_MIN + EXPLOSION_V_STEP };
 
-Explosion::Explosion(Vector2 pos_)
+Explosion::Explosion(Vector2 pos_, Vector2 direction_)
 {
 	pos = pos_;
 	width = 64;
 	height = 64;
+	direction = direction_;
 
 	float sprite_size[2] = { 64.0f, 64.0f };
 	float origin[2] = { 32.0f, 32.0f };
@@ -47,7 +49,7 @@ void Explosion::Draw()
 			SetSpriteUVCoordinates	( sprite, EXPLOSION_4_UV);
 
 		MoveSprite(sprite, pos.x, pos.y);
-		//RotateSpriteToVector(sprite, direction);
+		RotateSpriteToVector(sprite, direction);
 		RotateSprite(sprite, 270.0f);
 		DrawSprite(sprite);
 	}
@@ -57,7 +59,7 @@ void Explosion::Update(float delta_)
 {
 	animationTimer += delta_;
 
-	if ( animationTimer > 0.3f ) 
+	if ( animationTimer > 0.2f ) 
 	{
 		animationTimer = 0.0f;
 		switch (animation)

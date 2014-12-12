@@ -8,7 +8,7 @@ class Explosion :
 	public GameObject
 {
 public:
-	Explosion(Vector2 pos_);
+	Explosion(Vector2 pos_, Vector2 direction_);
 	~Explosion(void);
 
 	virtual void Draw();
@@ -18,5 +18,6 @@ private:
 	EXPLOSION_ANIMATION animation;
 	float animationTimer;
 	static unsigned int sprite;
+	Vector2 direction;
 };
 

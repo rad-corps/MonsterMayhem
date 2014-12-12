@@ -317,7 +317,7 @@ void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_
 	}
 }
 
-void PSGameLoop::ExplosionEvent(Vector2 position_)
+void PSGameLoop::ExplosionEvent(Vector2 position_, Vector2 direction_)
 {
-	explosions.push_back(Explosion(position_));
+	explosions.push_back(Explosion(position_, direction_));
 }

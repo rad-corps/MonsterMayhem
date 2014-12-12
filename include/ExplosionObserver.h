@@ -5,5 +5,5 @@
 class ExplosionObserver
 {
 public: 
-	virtual void ExplosionEvent(Vector2 position_) = 0; 
+	virtual void ExplosionEvent(Vector2 position_, Vector2 direction_) = 0; 
 };
