@@ -33,6 +33,8 @@ PSGameLoop::PSGameLoop(void)
 	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
 
+	Monster::RegisterExplosionObserver(this);
+
 	
 	//create the boundary fences.
 	fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//LHS	
@@ -137,6 +139,12 @@ ProgramState* PSGameLoop::Update(float delta_)
 
 	//update the player
 	player.Update(delta_);
+
+	//update the explosions
+	for (int i = 0; i < explosions.size(); ++i )
+	{
+		explosions[i].Update(delta_);
+	}
 
 	//update the pool of loogies
 	for (int i = 0; i < SPIT_POOL; ++i )
@@ -286,6 +294,11 @@ void PSGameLoop::Draw()
 		monsterList[i]->Draw();
 	}
 
+	for (int i = 0; i < explosions.size(); ++i ) 
+	{
+		explosions[i].Draw();
+	}
+
 	//safeZone.Draw();
 
 	gui.Draw();
@@ -302,4 +315,9 @@ void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_
 			break;
 		}
 	}
+}
+
+void PSGameLoop::ExplosionEvent(Vector2 position_)
+{
+	explosions.push_back(Explosion(position_));
 }

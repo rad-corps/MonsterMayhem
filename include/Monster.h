@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "ExplosionObserver.h"
 
 class Monster : public GameObject
 {
@@ -15,6 +16,7 @@ public :
 	virtual ~Monster();
 
 	void RegisterTarget(GameObject* target_);
+	static void RegisterExplosionObserver(ExplosionObserver* explosionObserver_);
 	virtual void Hit(int power_ = 10.0f);
 
 protected:
@@ -22,4 +24,7 @@ protected:
 	GameObject* target;
 	Vector2 direction;
 	bool CanSeePlayer();
+
+private:
+	static ExplosionObserver* explosionObserver;
 };

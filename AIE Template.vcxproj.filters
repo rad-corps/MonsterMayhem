@@ -84,7 +84,10 @@
     <ClCompile Include="source\MonsterMoth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MonsterFatWalker.cpp">
+    <ClCompile Include="source\MonsterFatWalker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Explosion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,7 +182,13 @@
     <ClInclude Include="include\MonsterMoth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MonsterFatWalker.h">
+    <ClInclude Include="include\MonsterFatWalker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Explosion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ExplosionObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

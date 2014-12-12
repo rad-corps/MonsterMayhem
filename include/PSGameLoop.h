@@ -10,10 +10,12 @@
 #include "GameGUI.h"
 #include "Fence.h"
 #include "SafeZone.h"
+#include "ExplosionObserver.h"
+#include "Explosion.h"
 #include <memory>
 
 class PSGameLoop :
-	public ProgramState, public SpitObserver
+	public ProgramState, public SpitObserver, public ExplosionObserver
 {
 public:
 	PSGameLoop(void);
@@ -25,6 +27,9 @@ public:
 
 	//implementation of SpitObserver interface
 	virtual void SpitEvent(Vector2 position_, float rotation_, float activeTime_); 
+	
+	//implementation of ExplosionObserver interface
+	virtual void ExplosionEvent(Vector2 position_); 
 
 private:
 	void CleanMonsterList();
@@ -37,6 +42,7 @@ private:
 	vector<PowerUp> powerUpList;
 	vector<Rect> fenceRects;
 	vector<Fence> fences;
+	vector<Explosion> explosions;
 	SafeZone safeZone;
 	GameGUI gui;
 	

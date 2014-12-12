@@ -1,6 +1,8 @@
 #include "Monster.h"
 #include "FileSettings.h"
 
+ExplosionObserver* Monster::explosionObserver = nullptr;
+
 void Monster::RegisterTarget(GameObject* target_)
 {
 	target = target_;
@@ -13,6 +15,7 @@ void Monster::Hit(int hit_ )
 	if ( health <= 0 )
 	{
 		active = false;
+		explosionObserver->ExplosionEvent(pos);
 		//DestroySprite(sprite);
 	}
 }
@@ -32,6 +35,11 @@ bool Monster::CanSeePlayer()
 		return false;
 
 	return true;
+}
+
+void Monster::RegisterExplosionObserver(ExplosionObserver* explosionObserver_)
+{
+	explosionObserver = explosionObserver_;
 }
 
 Monster::Monster(){}
