@@ -56,7 +56,7 @@ void Player::Update(float delta_)
 
 	if ( status == PLAYER_STATUS::PLAYER_SPITTING ) 
 	{
-		if ( animationTimer > 0.1f ) 
+		if ( animationTimer > 0.06f ) 
 		{
 			animationTimer = 0.0f;
 			switch (animation)

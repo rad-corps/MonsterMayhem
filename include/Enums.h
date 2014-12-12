@@ -106,7 +106,11 @@ enum MONSTER_STATE
 #define MOTH_ACCEL 250
 
 #define PLAYER_U_MIN 0
-#define PLAYER_V_MIN 0.85
+#define PLAYER_V_MIN 0.80
 #define PLAYER_U_STEP 0.125
-#define PLAYER_V_STEP 0.15
+#define PLAYER_V_STEP 0.2
 
+#define MOTH_U_MIN 0
+#define MOTH_V_MIN 0.6
+#define MOTH_U_STEP 0.125
+#define MOTH_V_STEP 0.15
