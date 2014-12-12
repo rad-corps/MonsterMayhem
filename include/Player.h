@@ -31,12 +31,16 @@ private:
 	double mouseY;
 	SpitObserver* spitObserver;
 	PlayerObserver* playerObserver;
+	Vector2 direction;
+
+	float animationTimer;
 
 	float timeSinceLoogie;
 	float speed;
 	float loogieReload;
 
-
+	PLAYER_STATUS status;
+	PLAYER_ANIMATION animation;
 	//allow undo for fence/terrain collision
 	Vector2 previousPos;
 };

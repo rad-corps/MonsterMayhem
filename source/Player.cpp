@@ -4,17 +4,35 @@
 #include "Enums.h"
 #include "FileSettings.h"
 
+float PLAYER_STATIONARY_UV[4] = { PLAYER_U_MIN                   , PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP    , PLAYER_V_MIN + PLAYER_V_STEP };
+float PLAYER_MOVEMENT1_UV[4] = { PLAYER_U_MIN + PLAYER_U_STEP    , PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 2, PLAYER_V_MIN + PLAYER_V_STEP };
+float PLAYER_MOVEMENT2_UV[4] = { PLAYER_U_MIN + PLAYER_U_STEP * 2, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 3, PLAYER_V_MIN + PLAYER_V_STEP };
+float PLAYER_SPIT1_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 3, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 4, PLAYER_V_MIN + PLAYER_V_STEP };
+float PLAYER_SPIT2_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 4, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 5, PLAYER_V_MIN + PLAYER_V_STEP };
+float PLAYER_SPIT3_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 5, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 6, PLAYER_V_MIN + PLAYER_V_STEP };
 
 Player::Player(void)
 {
 	width = PLAYER_W;
 	height = PLAYER_H;
-	sprite = CreateSprite ( "./images/Player_monster.png", width, height, true);
+	
+
+	float sprite_size[2] = { 64.0f, 64.0f };
+	float origin[2] = { 32.0f, 32.0f };
+	//float uv[4] = { PLAYER_U_MIN, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP, PLAYER_V_MIN + PLAYER_V_STEP};
+
+	//sprite = CreateSprite ( "./images/Character_sprite_sheet.png", sprite_size, origin, uv);
+	sprite = CreateSprite ( "./images/Character_sprite_sheet.png", sprite_size, origin, PLAYER_STATIONARY_UV);
+
+	//sprite = CreateSprite ( "./images/Character_sprite_sheet.png", 512, 320, false);
 	pos = Vector2(BATTLE_FIELD_W/2, BATTLE_FIELD_H/2);
 	timeSinceLoogie = 0.f;
 	speed = PLAYER_SPEED;
 	loogieReload = LOOGIE_RELOAD;
 	active = true;
+
+	animationTimer = 0.0f;
+	status = PLAYER_STATUS::PLAYER_STATIONARY;
 }
 
 
@@ -32,30 +50,79 @@ void Player::Update(float delta_)
 	previousPos = pos;
 	
 	timeSinceLoogie += delta_;
+	animationTimer += delta_;
 
 	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
+
+	if ( status == PLAYER_STATUS::PLAYER_SPITTING ) 
+	{
+		if ( animationTimer > 0.1f ) 
+		{
+			animationTimer = 0.0f;
+			switch (animation)
+			{
+			case PLAYER_ANIMATION::PLAYER_ANIM_SPITTING1 : 
+				animation = PLAYER_ANIMATION::PLAYER_ANIM_SPITTING2;
+			    break;
+			case PLAYER_ANIMATION::PLAYER_ANIM_SPITTING2 : 
+				animation = PLAYER_ANIMATION::PLAYER_ANIM_SPITTING3;
+			    break;
+			case PLAYER_ANIMATION::PLAYER_ANIM_SPITTING3 : 
+				status = PLAYER_STATUS::PLAYER_STATIONARY;
+			    break;
+			}
+		}
+	}
 	
-	//handle user input
-	if ( IsKeyDown(KEY_W) )
+	if ( IsKeyDown(KEY_W) || IsKeyDown(KEY_S) || IsKeyDown(KEY_A) || IsKeyDown(KEY_D) )
 	{
-		pos.y += speed * delta_;
-		speed -= staminaReduction;
+		if ( animationTimer > 0.2f ) 
+		{
+			animationTimer = 0.0f;
+			if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_WALKING1)
+			{
+				animation = PLAYER_ANIMATION::PLAYER_ANIM_WALKING2;
+			}
+			else if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_WALKING2)
+			{
+				animation = PLAYER_ANIMATION::PLAYER_ANIM_WALKING1;
+			}
+		}
+
+		if  (status == PLAYER_STATUS::PLAYER_STATIONARY)
+		{
+			status = PLAYER_STATUS::PLAYER_MOVING;
+			animationTimer = 0.0f;
+			animation = PLAYER_ANIMATION::PLAYER_ANIM_WALKING1;
+		}
+
+		//handle user input
+		if ( IsKeyDown(KEY_W) )
+		{
+			pos.y += speed * delta_;
+			speed -= staminaReduction;
 		
+		}
+		if ( IsKeyDown(KEY_S) )
+		{
+			pos.y -= speed * delta_;
+			speed -= staminaReduction;
+		}
+		if ( IsKeyDown(KEY_A) )
+		{
+			pos.x -= speed * delta_;
+			speed -= staminaReduction;
+		}
+		if ( IsKeyDown(KEY_D) )
+		{
+			pos.x += speed * delta_;
+			speed -= staminaReduction;
+		}
 	}
-	if ( IsKeyDown(KEY_S) )
+	else if ( status != PLAYER_STATUS::PLAYER_SPITTING )
 	{
-		pos.y -= speed * delta_;
-		speed -= staminaReduction;
-	}
-	if ( IsKeyDown(KEY_A) )
-	{
-		pos.x -= speed * delta_;
-		speed -= staminaReduction;
-	}
-	if ( IsKeyDown(KEY_D) )
-	{
-		pos.x += speed * delta_;
-		speed -= staminaReduction;
+		animation = PLAYER_ANIMATION::PLAYER_ANIM_STATIONARY;
+		status = PLAYER_STATUS::PLAYER_STATIONARY;
 	}
 	
 	//dont let our player get below the min speed
@@ -70,7 +137,7 @@ void Player::Update(float delta_)
 	//get the variables needed to calc player pos, rotation and camera pos. 
 	Vector2 screenPos = GetGameObjectScreenPosition(pos);
 	Vector2 mouse(mouseX, mouseY);
-	Vector2 dir = mouse - screenPos;	
+	direction = mouse - screenPos;	
 	
 	//calculate camera position
 	Vector2 camAnchor(pos.x - SCREEN_W, pos.y - SCREEN_H);
@@ -78,8 +145,8 @@ void Player::Update(float delta_)
 	camPos = camPos + camAnchor;
 
 	//rotate player based on position and mouse
-	float angle = dir.GetAngle();
-	RotateSpriteToVector(sprite, dir);
+	float angle = direction.GetAngle();
+	
 	
 	//move the player and the camera
 	MoveSprite(sprite, pos.x, pos.y);
@@ -100,6 +167,9 @@ void Player::Update(float delta_)
 		
 		//tell the observer (PSGameLoop) to create a spit
 		spitObserver->SpitEvent(pos, angle, 1.0f);
+		animation = PLAYER_ANIMATION::PLAYER_ANIM_SPITTING1;
+		status = PLAYER_STATUS::PLAYER_SPITTING;
+		animationTimer = 0.0f;
 	}
 
 	CalcGUIBars();
@@ -114,6 +184,21 @@ void Player::CalcGUIBars()
 
 void Player::Draw()
 {
+	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_STATIONARY)
+		SetSpriteUVCoordinates	( sprite, PLAYER_STATIONARY_UV);
+	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_WALKING1)
+		SetSpriteUVCoordinates	( sprite, PLAYER_MOVEMENT1_UV);
+	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_WALKING2)
+		SetSpriteUVCoordinates	( sprite, PLAYER_MOVEMENT2_UV);
+	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING1)
+		SetSpriteUVCoordinates	( sprite, PLAYER_SPIT1_UV);
+	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING2)
+		SetSpriteUVCoordinates	( sprite, PLAYER_SPIT2_UV);
+	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING3)
+		SetSpriteUVCoordinates	( sprite, PLAYER_SPIT3_UV);
+
+	RotateSpriteToVector(sprite, direction);
+	RotateSprite(sprite, 270.0f);
 	DrawSprite(sprite);
 }
 
