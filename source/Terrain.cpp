@@ -9,12 +9,13 @@ Terrain::Terrain(void)
 	masterGrassTile = CreateSprite("./images/Terrain_grass_256.png", TERRAIN_W, TERRAIN_H, true);
 	straightRiver = CreateSprite("./images/river_straight_256.png", TERRAIN_W, TERRAIN_H, true);
 	cornerRiver = CreateSprite("./images/river_corner_256.png", TERRAIN_W, TERRAIN_H, true);
+	treeTile = CreateSprite("./images/tree_02.png", TERRAIN_W, TERRAIN_H, true);
 
 	//initialise walkable terrain array
 	for (int row = 0; row < TERRAIN_ROWS; ++row)
 	{
 		//add the row to the vector
-		nodes.push_back(vector<Node>());
+		//nodes.push_back(vector<Node>());
 		
 		for (int col = 0; col < TERRAIN_COLS; ++col)
 		{
@@ -22,55 +23,7 @@ Terrain::Terrain(void)
 			Node temp;
 			temp.pos =  Vector2(col * TERRAIN_W, row * TERRAIN_H);
 			temp.walkable = true;
-			nodes[row].push_back(temp);	
-		}
-	}
-
-	//setup node pointers
-	for (int row = 0; row < TERRAIN_ROWS; ++row)
-	{
-		for (int col = 0; col < TERRAIN_COLS; ++col)
-		{
-			//add east pointer
-			if ( col < TERRAIN_COLS - 2 )
-			{
-				nodes[row][col].neighbours.push_back(&nodes[row][col+1]);
-			}
-			////add north east pointer
-			//if ( col < TERRAIN_COLS - 2 && row < TERRAIN_ROWS - 2 )
-			//{
-			//	nodes[row][col].neighbours.push_back(&nodes[row+1][col+1]);
-			//}
-			//add north pointer
-			if ( row < TERRAIN_ROWS - 2 )
-			{
-				nodes[row][col].neighbours.push_back(&nodes[row+1][col]);
-			}
-			////add north west pointer
-			//if ( col > 0 && row < TERRAIN_ROWS - 2 )
-			//{
-			//	nodes[row][col].neighbours.push_back(&nodes[row+1][col-1]);
-			//}			
-			//add west pointer
-			if ( col > 0 )
-			{
-				nodes[row][col].neighbours.push_back(&nodes[row][col-1]);
-			}
-			////add south west pointer
-			//if ( col > 0 && row > 0 )
-			//{
-			//	nodes[row][col].neighbours.push_back(&nodes[row-1][col-1]);
-			//}
-			//add south pointer
-			if ( col > 0 && row > 0 )
-			{
-				nodes[row][col].neighbours.push_back(&nodes[row-1][col]);
-			}
-			////add south east pointer
-			//if ( col < TERRAIN_COLS - 2 && row > 0 )
-			//{
-			//	nodes[row][col].neighbours.push_back(&nodes[row-1][col+1]);
-			//}
+			//nodes[row].push_back(temp);	
 		}
 	}
 }
@@ -95,7 +48,14 @@ void Terrain::SetRiverTile(int col_, int row_,FOUR_WAY_ROTATION direction_, RIVE
 	Rect temp(Vector2(col_ * TERRAIN_W, row_ * TERRAIN_H), TERRAIN_W, TERRAIN_H);
 	unwalkableTerrain.push_back(temp);
 
-	nodes[row_][col_].walkable = false;
+	//nodes[row_][col_].walkable = false;
+}
+
+void Terrain::SetTreeTile(int col_, int row_)
+{
+	treeTiles.push_back(make_pair(col_, row_));
+	Rect temp(Vector2(col_ * TERRAIN_W, row_ * TERRAIN_H), TERRAIN_W, TERRAIN_H);
+	unwalkableTerrain.push_back(temp);
 }
 
 
@@ -117,6 +77,18 @@ void Terrain::Draw()
 			MoveSprite(masterGrassTile, xPos, yPos);
 			DrawSprite(masterGrassTile);			
 		}
+	}
+
+	//draw the tree tiles
+	for (int i = 0; i != treeTiles.size(); ++i )
+	{
+		//determine position
+		float xPos = treeTiles[i].first * (TERRAIN_W);
+		float yPos = treeTiles[i].second * (TERRAIN_W);
+
+		MoveSprite(treeTile, xPos, yPos);			
+		//RotateSprite(tempSprite, rotation);
+		DrawSprite(treeTile);	
 	}
 
 	//draw the river tiles
@@ -164,11 +136,6 @@ void Terrain::Draw()
 		DrawSprite(tempSprite);	
 		RotateSprite(tempSprite, -rotation);
 	}
-}
-
-vector<vector<Node>>& Terrain::GetNodes()
-{
-	return nodes;
 }
 
 vector<Rect> 

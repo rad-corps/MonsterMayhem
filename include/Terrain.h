@@ -25,20 +25,19 @@ public:
 	virtual void Draw();
 
 	void SetRiverTile(int col_, int row_,FOUR_WAY_ROTATION direction_, RIVER_TILE_TYPE type_);
+	void SetTreeTile(int col_, int row_);
 	
 	//used for collision detection
 	vector<Rect> GetUnwalkableTerrain();
-	
-	//used for pathfinding
-	vector<vector<Node>>& GetNodes();
 
 private:
 	vector<RiverTileInfo> riverTiles;
+	vector<pair<int,int>> treeTiles;
 	vector<Rect> unwalkableTerrain;
-	vector<vector<Node>> nodes;
 
 	unsigned int masterGrassTile;
 	unsigned int straightRiver;
 	unsigned int cornerRiver;
+	unsigned int treeTile;
 };
 

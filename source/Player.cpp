@@ -45,14 +45,50 @@ void Player::UndoUpdate()
 	pos = previousPos;
 }
 
+void Player::UpdateXMovement(float delta_)
+{
+	previousPos = pos;
+
+	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
+
+	if ( IsKeyDown(KEY_A) )
+	{
+		pos.x -= speed * delta_;
+		speed -= staminaReduction;
+	}
+	if ( IsKeyDown(KEY_D) )
+	{
+		pos.x += speed * delta_;
+		speed -= staminaReduction;
+	}
+}
+
+void Player::UpdateYMovement(float delta_)
+{
+	previousPos = pos;
+
+	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
+
+	//handle user input
+	if ( IsKeyDown(KEY_W) )
+	{
+		pos.y += speed * delta_;
+		speed -= staminaReduction;	
+	}
+	if ( IsKeyDown(KEY_S) )
+	{
+		pos.y -= speed * delta_;
+		speed -= staminaReduction;
+	}
+}
+
 void Player::Update(float delta_)
 {	
-	previousPos = pos;
 	
 	timeSinceLoogie += delta_;
 	animationTimer += delta_;
 
-	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
+	
 
 	if ( status == PLAYER_STATUS::PLAYER_SPITTING ) 
 	{
@@ -95,29 +131,6 @@ void Player::Update(float delta_)
 			animationTimer = 0.0f;
 			animation = PLAYER_ANIMATION::PLAYER_ANIM_WALKING1;
 		}
-
-		//handle user input
-		if ( IsKeyDown(KEY_W) )
-		{
-			pos.y += speed * delta_;
-			speed -= staminaReduction;
-		
-		}
-		if ( IsKeyDown(KEY_S) )
-		{
-			pos.y -= speed * delta_;
-			speed -= staminaReduction;
-		}
-		if ( IsKeyDown(KEY_A) )
-		{
-			pos.x -= speed * delta_;
-			speed -= staminaReduction;
-		}
-		if ( IsKeyDown(KEY_D) )
-		{
-			pos.x += speed * delta_;
-			speed -= staminaReduction;
-		}
 	}
 	else if ( status != PLAYER_STATUS::PLAYER_SPITTING )
 	{
@@ -146,7 +159,6 @@ void Player::Update(float delta_)
 
 	//rotate player based on position and mouse
 	float angle = direction.GetAngle();
-	
 	
 	//move the player and the camera
 	MoveSprite(sprite, pos.x, pos.y);

@@ -15,6 +15,9 @@ public:
 	virtual void Update(float delta_);
 	virtual void Draw();
 
+	void UpdateXMovement(float delta_);
+	void UpdateYMovement(float delta_);
+
 	void RegisterSpitObserver(SpitObserver* spitObserver_);
 	void RegisterPlayerObserver(PlayerObserver* playerObserver_);
 

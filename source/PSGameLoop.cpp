@@ -68,6 +68,11 @@ PSGameLoop::PSGameLoop(void)
 	terrain.SetRiverTile(8,3,  FOUR_WAY_ROTATION::ROT_270, RIVER_TILE_TYPE::CORNER);
 	terrain.SetRiverTile(8,2,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 
+	for (int i = 0; i < 5; ++i )
+	{
+		terrain.SetTreeTile(i,i);
+	}
+
 	//BRIDGE
 	terrain.SetRiverTile(8,0,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 	
@@ -76,21 +81,6 @@ PSGameLoop::PSGameLoop(void)
 	{
 		vector<Rect> temp =  fences[i].GetCollisionRects();
 		fenceRects.insert(fenceRects.end(), temp.begin(), temp.end());
-	}
-
-	//PathFinder::SetNodes(terrain.GetNodes());
-
-	//TESTING
-	//display all the walkable terrain array
-	vector<vector<Node>> nodes = terrain.GetNodes();
-	cout << "\n\n Walkable Terrain (Inversed)\n--------------------------" << endl;
-	for ( int row = 0; row < nodes.size(); ++row)
-	{		
-		for (int col = 0; col < nodes[0].size(); ++col)
-		{
-			nodes[row][col].walkable ? cout << "." : cout << "X";
-		}
-		cout << endl;
 	}
 }
 
@@ -108,6 +98,28 @@ void PSGameLoop::CleanMonsterList()
 		delete monsterList[i];
 	}
 	monsterList.clear();
+}
+
+void PSGameLoop::CheckPlayerTerrainCollision()
+{
+	//check for collision with fence and player
+	for (int i = 0; i < fenceRects.size(); ++i )
+	{
+		if ( Collision::RectCollision(fenceRects[i], player.GetRect()) )
+		{
+			player.UndoUpdate();
+		}
+	}
+
+	//check for collision with terrain and player
+	vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
+	for (int i = 0; i < unwalkableTerrain.size(); ++i )
+	{
+		if ( Collision::RectCollision(unwalkableTerrain[i], player.GetRect()) )
+		{
+			player.UndoUpdate();
+		}
+	}
 }
 
 ProgramState* PSGameLoop::Update(float delta_)
@@ -140,6 +152,10 @@ ProgramState* PSGameLoop::Update(float delta_)
 
 	//update the player
 	player.Update(delta_);
+	player.UpdateXMovement(delta_);
+	CheckPlayerTerrainCollision();
+	player.UpdateYMovement(delta_);
+	CheckPlayerTerrainCollision();
 
 	//update the explosions
 	for (int i = 0; i < explosions.size(); ++i )
@@ -162,24 +178,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 	//check if all enemies have been killed
 	bool waveStillRunning = false;
 
-	//check for collision with fence and player
-	for (int i = 0; i < fenceRects.size(); ++i )
-	{
-		if ( Collision::RectCollision(fenceRects[i], player.GetRect()) )
-		{
-			player.UndoUpdate();
-		}
-	}
 
-	//check for collision with terrain and player
-	vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
-	for (int i = 0; i < unwalkableTerrain.size(); ++i )
-	{
-		if ( Collision::RectCollision(unwalkableTerrain[i], player.GetRect()) )
-		{
-			player.UndoUpdate();
-		}
-	}
 
 	//update monsters
 	for (int i = 0; i < monsterList.size(); ++i ) 
