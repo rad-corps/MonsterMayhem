@@ -1,3 +1,4 @@
+set PATH=%PATH%;C:\Program Files (x86)\7-Zip\
 for /f "delims=" %%a in ('wmic OS Get localdatetime  ^| find "."') do set dt=%%a
 set datestamp=%dt:~0,8%
 set timestamp=%dt:~8,6%
@@ -15,4 +16,9 @@ Xcopy ".\bin\MonsterMayhem.exe" ".\resources\" /y
 XCopy ".\resources" ".\%dirName%" /y /i /s /e
 
 7z a "%dirName%.zip" "%dirName%\"
+
+RD /S /Q %dirName% 
+
+XCopy "%dirName%.zip" "G:\GoogleDrive\AIE\Practice Production Assignment 2 (Group 1)\DevBuilds" /y 
+
 pause
