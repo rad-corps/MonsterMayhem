@@ -15,7 +15,7 @@ void Monster::Hit(int hit_ )
 	if ( health <= 0 )
 	{
 		active = false;
-		explosionObserver->ExplosionEvent(pos, direction);
+		explosionObserver->ExplosionEvent(pos, direction, score);
 		//DestroySprite(sprite);
 	}
 }

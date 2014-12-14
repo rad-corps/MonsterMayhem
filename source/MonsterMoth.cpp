@@ -23,6 +23,7 @@ MonsterMoth::MonsterMoth(Vector2 pos_)
 	width = 64;
 	height = 64;
 	health = 20;
+	score = 30;
 
 	float sprite_size[2] = { 64.0f, 64.0f };
 	float origin[2] = { 32.0f, 32.0f };

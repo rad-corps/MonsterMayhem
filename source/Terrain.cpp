@@ -9,7 +9,7 @@ Terrain::Terrain(void)
 	masterGrassTile = CreateSprite("./images/Terrain_grass_256.png", TERRAIN_W, TERRAIN_H, true);
 	straightRiver = CreateSprite("./images/river_straight_256.png", TERRAIN_W, TERRAIN_H, true);
 	cornerRiver = CreateSprite("./images/river_corner_256.png", TERRAIN_W, TERRAIN_H, true);
-	treeTile = CreateSprite("./images/tree_02.png", TERRAIN_W, TERRAIN_H, true);
+	treeTile = CreateSprite("./images/tree_top_01.png", TERRAIN_W, TERRAIN_H, true);
 
 	//initialise walkable terrain array
 	for (int row = 0; row < TERRAIN_ROWS; ++row)

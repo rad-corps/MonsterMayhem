@@ -27,6 +27,7 @@ MonsterSlug::MonsterSlug(Vector2 pos_)
 	height = 64;
 	health = 10;
 	speed = 100.f;
+	score = 20;
 	if ( sprite == 0 )
 	{
 		sprite = CreateSprite("./images/Monster_Slug.png", width, height, true);

@@ -3,6 +3,7 @@
 #include "PSMainMenu.h"
 #include "FileSettings.h"
 #include "Enums.h"
+#include "FrameworkHelpers.h"
 
 PSGameOver::PSGameOver(void)
 {
@@ -16,11 +17,16 @@ PSGameOver::~PSGameOver(void)
 {
 }
 
+void PSGameOver::SetScore(int score_)
+{
+	score = score_;
+}
+
 
 ProgramState* PSGameOver::Update(float delta_)
 {
 	MoveSprite(sprite, 0.0f, SCREEN_H);
-
+	
 	if (  GetMouseButtonDown(0) )
 	{
 		double mouseX; 
@@ -41,4 +47,5 @@ ProgramState* PSGameOver::Update(float delta_)
 void PSGameOver::Draw()
 {
 	DrawSprite(sprite);
+	DrawStringAbs((string("FINAL SCORE - ") + to_string(score)).c_str(), (SCREEN_W/2) - 100 , (SCREEN_H/2)-100);
 }

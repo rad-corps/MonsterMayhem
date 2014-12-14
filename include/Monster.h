@@ -21,9 +21,11 @@ public :
 
 protected:
 	int health;
+	int score;
 	GameObject* target;
 	Vector2 direction;
 	bool CanSeePlayer();
+
 
 private:
 	static ExplosionObserver* explosionObserver;

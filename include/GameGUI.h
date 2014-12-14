@@ -17,8 +17,10 @@ public:
 
 	virtual void Update(float delta_);
 	virtual void Draw();
-
 	virtual void UpdatePlayerGUI(float saliva_, float stamina_) ; 
+
+	void AddScore(int score_);
+	int Score();
 
 private:
 
@@ -37,6 +39,8 @@ private:
 		
 	int staminaBars;
 	int salivaBars;
+
+	int score;
 
 	Vector2 sprEndPos;
 	Vector2 sprBegPos;

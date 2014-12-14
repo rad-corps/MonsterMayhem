@@ -25,6 +25,7 @@ MonsterFatWalker::MonsterFatWalker(Vector2 pos_)
 	height = 64;
 	health = 40;
 	speed = 150.f;
+	score = 50;
 	if ( sprite == 0 )
 	{
 		sprite = CreateSprite("./images/Monster_FatWalker.png", width, height, true);

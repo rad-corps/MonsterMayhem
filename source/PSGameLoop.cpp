@@ -38,10 +38,10 @@ PSGameLoop::PSGameLoop(void)
 
 	
 	//create the boundary fences.
-	fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//LHS	
-	fences.push_back(Fence(Vector2(TERRAIN_W * (TERRAIN_COLS - 1), 0 ), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//RHS	
-	fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT, BORDER_FENCE_TILES));//BOTTOM	
-	fences.push_back(Fence(Vector2(0, TERRAIN_H * (TERRAIN_ROWS-1)), TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT, BORDER_FENCE_TILES));//TOP
+	//fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//LHS	
+	//fences.push_back(Fence(Vector2(TERRAIN_W * (TERRAIN_COLS - 1), 0 ), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//RHS	
+	//fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT, BORDER_FENCE_TILES));//BOTTOM	
+	//fences.push_back(Fence(Vector2(0, TERRAIN_H * (TERRAIN_ROWS-1)), TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT, BORDER_FENCE_TILES));//TOP
 
 	//create rivers
 	terrain.SetRiverTile(5,15, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
@@ -68,9 +68,18 @@ PSGameLoop::PSGameLoop(void)
 	terrain.SetRiverTile(8,3,  FOUR_WAY_ROTATION::ROT_270, RIVER_TILE_TYPE::CORNER);
 	terrain.SetRiverTile(8,2,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 
-	for (int i = 0; i < 5; ++i )
+	//top and bottom boundaries
+	for (int i = 0; i < TERRAIN_COLS; ++i )
 	{
-		terrain.SetTreeTile(i,i);
+		terrain.SetTreeTile(i,0);
+		terrain.SetTreeTile(i,TERRAIN_ROWS-1);
+	}
+
+	//left and right boundaries
+	for (int i = 0; i < TERRAIN_ROWS; ++i )
+	{
+		terrain.SetTreeTile(0,i);
+		terrain.SetTreeTile(TERRAIN_COLS-1,i);
 	}
 
 	//BRIDGE
@@ -193,7 +202,10 @@ ProgramState* PSGameLoop::Update(float delta_)
 		if ( Collision::CheckCollision(monsterList[i], &player) )
 		{
 			cout << "GAME OVER" << endl;
-			return new PSGameOver();
+			cout << "Final Score: " << gui.Score();
+			PSGameOver* state = new PSGameOver();
+			state->SetScore(gui.Score());
+			return state;
 		}	
 
 		//check collision between fence and monster			
@@ -330,12 +342,8 @@ void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_
 	}
 }
 
-void PSGameLoop::ExplosionEvent(Vector2 position_, Vector2 direction_)
+void PSGameLoop::ExplosionEvent(Vector2 position_, Vector2 direction_, int score_)
 {
 	explosions.push_back(Explosion(position_, direction_));
-}
-
-void PSGameLoop::HitEvent(Vector2 position_)
-{
-	cout << "HIT" << endl;
+	gui.AddScore(score_);
 }

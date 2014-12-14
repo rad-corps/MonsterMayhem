@@ -34,6 +34,8 @@ GameGUI::GameGUI(void)
 	sprEndPos = Vector2( FileSettings::GetFloat("COMPLETE_WAVE_X"), FileSettings::GetFloat("COMPLETE_WAVE_Y"));
 	staminaPos = Vector2(FileSettings::GetInt("STAMINA_X"),FileSettings::GetInt("STAMINA_Y"));
 	salivaPos = Vector2(FileSettings::GetInt("SALIVA_X"),FileSettings::GetInt("SALIVA_Y"));
+
+	score = 0;
 }
 
 
@@ -63,6 +65,16 @@ void GameGUI::UpdatePlayerGUI(float saliva_, float stamina_)
 	salivaBars = saliva_ * 5;
 }
 
+void GameGUI::AddScore(int score_)
+{
+	score += score_;
+}
+
+int GameGUI::Score()
+{
+	return score;
+}
+
 void GameGUI::Draw()
 {
 	if ( state == GAME_LOOP_STATE::WAVE_END )
@@ -76,6 +88,7 @@ void GameGUI::Draw()
 	}
 
 	DrawStringAbs(to_string(fps).c_str(), 50,50);
+	DrawStringAbs((string("Score: ") + to_string(score)).c_str(), 50 ,SCREEN_H - 50);
 
 	//draw stamina bars
 	for ( int i = 0; i < staminaBars; ++i )

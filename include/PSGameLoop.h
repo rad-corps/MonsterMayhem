@@ -30,10 +30,7 @@ public:
 	virtual void SpitEvent(Vector2 position_, float rotation_, float activeTime_); 
 	
 	//implementation of ExplosionObserver interface
-	virtual void ExplosionEvent(Vector2 position_, Vector2 direction_); 
-	
-	//implementation of HitObserver interface
-	virtual void HitEvent(Vector2 position_); 
+	virtual void ExplosionEvent(Vector2 position_, Vector2 direction_, int score_); 
 
 private:
 	void CleanMonsterList();
