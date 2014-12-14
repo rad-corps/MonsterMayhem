@@ -31,7 +31,7 @@ void PowerUp::Draw()
 	}
 }
 
-void PowerUp::Spawn(POWER_UP_TYPE type_)
+void PowerUp::Spawn(POWER_UP_TYPE type_, Vector2 pos_)
 {
 	type = type_;
 	if ( type == POWER_UP_TYPE::SPIT_FREQUENCY ) 
@@ -39,12 +39,14 @@ void PowerUp::Spawn(POWER_UP_TYPE type_)
 	if ( type == POWER_UP_TYPE::SPEED_UP) 
 		sprite = CreateSprite("./images/Speed_up_64.png", POWER_UP_W, POWER_UP_H, true);
 
-	//randomise location
-	int xPos = rand() % BATTLE_FIELD_W;
-	int yPos = rand() % BATTLE_FIELD_H;
+	////randomise location
+	//int xPos = rand() % BATTLE_FIELD_W;
+	//int yPos = rand() % BATTLE_FIELD_H;
 
-	pos.x = xPos;
-	pos.y = yPos;
+	//pos.x = xPos;
+	//pos.y = yPos;
+
+	pos = pos_;
 
 	active = true;
 }

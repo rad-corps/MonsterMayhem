@@ -116,14 +116,14 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_, vector<Rect> unwalkab
 	for ( int i = 0; i < 3 + waveNum_ * 0.2f; ++i )
 	{
 		PowerUp temp;
-		temp.Spawn(POWER_UP_TYPE::SPEED_UP);
+		temp.Spawn(POWER_UP_TYPE::SPEED_UP, RandomiseSafePosition(player_->Pos(), 100.f));
 		powerUpList.push_back(temp);		
 	}
 	
 	for ( int i = 0; i < 3 + waveNum_ * 0.2f; ++i )
 	{
 		PowerUp temp;
-		temp.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY);
+		temp.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY, RandomiseSafePosition(player_->Pos(), 100.f));
 		powerUpList.push_back(temp);		
 	}
 
