@@ -34,15 +34,6 @@ PSGameLoop::PSGameLoop(void)
 	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
 
-	
-
-	
-	//create the boundary fences.
-	//fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//LHS	
-	//fences.push_back(Fence(Vector2(TERRAIN_W * (TERRAIN_COLS - 1), 0 ), TERRAIN_DIRECTION::TERRAIN_DIRECTION_UP, BORDER_FENCE_TILES));//RHS	
-	//fences.push_back(Fence(Vector2(0, 0), TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT, BORDER_FENCE_TILES));//BOTTOM	
-	//fences.push_back(Fence(Vector2(0, TERRAIN_H * (TERRAIN_ROWS-1)), TERRAIN_DIRECTION::TERRAIN_DIRECTION_RIGHT, BORDER_FENCE_TILES));//TOP
-
 	//create rivers
 	terrain.SetRiverTile(5,15, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 	terrain.SetRiverTile(5,14, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::CORNER);
@@ -68,6 +59,9 @@ PSGameLoop::PSGameLoop(void)
 	terrain.SetRiverTile(8,3,  FOUR_WAY_ROTATION::ROT_270, RIVER_TILE_TYPE::CORNER);
 	terrain.SetRiverTile(8,2,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 
+	//BRIDGE
+	terrain.SetRiverTile(8,0,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
+
 	//top and bottom boundaries
 	for (int i = 0; i < TERRAIN_COLS; ++i )
 	{
@@ -80,16 +74,6 @@ PSGameLoop::PSGameLoop(void)
 	{
 		terrain.SetTreeTile(0,i);
 		terrain.SetTreeTile(TERRAIN_COLS-1,i);
-	}
-
-	//BRIDGE
-	terrain.SetRiverTile(8,0,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
-	
-	//add all the fences to the collision list
-	for (int i = 0; i < fences.size(); ++i ) 
-	{
-		vector<Rect> temp =  fences[i].GetCollisionRects();
-		fenceRects.insert(fenceRects.end(), temp.begin(), temp.end());
 	}
 }
 
@@ -291,11 +275,11 @@ void PSGameLoop::Draw()
 {
 	terrain.Draw();
 
-	//draw fences
-	for (int i = 0; i < fences.size(); ++i )
-	{
-		fences[i].Draw();
-	}
+	////draw fences
+	//for (int i = 0; i < fences.size(); ++i )
+	//{
+	//	fences[i].Draw();
+	//}
 	
 	for ( int i = 0; i < powerUpList.size(); ++i )
 	{

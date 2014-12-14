@@ -20,6 +20,13 @@ struct Rect
 	float height; 
 	Vector2 centre; 
 
+	
+	void Scale(float scale_)
+	{
+		width *= scale_;
+		height *= scale_;
+	}
+
 	float Left()
 	{
 		return centre.x - (width / 2);

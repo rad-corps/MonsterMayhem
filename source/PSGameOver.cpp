@@ -47,5 +47,5 @@ ProgramState* PSGameOver::Update(float delta_)
 void PSGameOver::Draw()
 {
 	DrawSprite(sprite);
-	DrawStringAbs((string("FINAL SCORE - ") + to_string(score)).c_str(), (SCREEN_W/2) - 100 , (SCREEN_H/2)-100);
+	DrawStringAbs((string("FINAL SCORE  ") + to_string(score)).c_str(), (SCREEN_W/2) - 100 , (SCREEN_H/2)-100);
 }
