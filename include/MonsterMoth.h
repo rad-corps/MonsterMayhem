@@ -36,7 +36,7 @@ private:
 	float distTravelledSinceDirectionCalc;
 
 
-	queue<Node> path;
-	Node currentDest;	
+	//queue<Node> path;
+	//Node currentDest;	
 };
 

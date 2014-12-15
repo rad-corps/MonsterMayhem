@@ -21,6 +21,7 @@ public:
 	void Hit(int power = 10);
 
 private:
+	void SwitchMovementAnimation();
 	void ResetMovementDirection();
 	void UndoUpdate();
 	//void GetNextNode();
@@ -38,7 +39,8 @@ private:
 	float pauseTimeLimit;
 	float timeSinceHit;
 	
-
+	FAT_WALKER_ANIMATION animation;
+	float animationTimer;
 	MONSTER_STATE state;
 
 	Node currentDest;	

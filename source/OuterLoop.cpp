@@ -6,6 +6,7 @@ OuterLoop::OuterLoop(void)
 {
 	cout << "OuterLoop()" << endl;
 	Initialise( SCREEN_W, SCREEN_H,  false, "Monster Mayhem" );
+
 	SetBackgroundColour( SColour( 0x00, 0x00, 0x00, 0xFF ) );
 	AddFont( "./fonts/invaders.fnt" );
 }

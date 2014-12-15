@@ -8,6 +8,11 @@
 
 using namespace std;
 
+float WALKER_STATIONARY_UV[4] = { WALKER_U_MIN                    , WALKER_V_MIN  , WALKER_U_MIN +   WALKER_U_STEP    , WALKER_V_MIN + WALKER_V_STEP };
+float WALKER_MOVEMENT1_UV[4]  = { WALKER_U_MIN + WALKER_U_STEP    , WALKER_V_MIN  , WALKER_U_MIN +   WALKER_U_STEP * 2, WALKER_V_MIN + WALKER_V_STEP };                        
+float WALKER_MOVEMENT2_UV[4]  = { WALKER_U_MIN + WALKER_U_STEP * 2, WALKER_V_MIN  , WALKER_U_MIN +   WALKER_U_STEP * 3, WALKER_V_MIN + WALKER_V_STEP };
+float WALKER_HIT_UV[4]        = { WALKER_U_MIN + WALKER_U_STEP * 3, WALKER_V_MIN  , WALKER_U_MIN +   WALKER_U_STEP * 4, WALKER_V_MIN + WALKER_V_STEP };
+
 unsigned int MonsterFatWalker::sprite = 0;
 
 void MonsterFatWalker::HandleTerrainCollision()
@@ -28,7 +33,7 @@ MonsterFatWalker::MonsterFatWalker(Vector2 pos_)
 	score = 50;
 	if ( sprite == 0 )
 	{
-		sprite = CreateSprite("./images/Monster_FatWalker.png", width, height, true);
+		sprite = CreateSprite("./images/Character_sprite_sheet.png", width, height, true);
 	}
 	active = true;
 	movementTimer = 0.0f;
@@ -37,6 +42,8 @@ MonsterFatWalker::MonsterFatWalker(Vector2 pos_)
 	//ResetMovementDirection();
 	RandomisePauseTime();
 	state = MONSTER_STATE::PAUSED;
+	animation = FAT_WALKER_ANIMATION::WALKER_ANIM_STATIONARY;
+	animationTimer = 0.0f;
 }
 
 
@@ -82,21 +89,40 @@ void MonsterFatWalker::UndoUpdate()
 	pos = previousPos;
 }
 
-
+void MonsterFatWalker::SwitchMovementAnimation()
+{
+	animationTimer = 0.0f;
+	if  (animation != FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT1 && animation != FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT2)
+	{
+		animation = FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT1;
+		return;
+	}
+	if ( animation == FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT1 )
+		animation = FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT2;
+	else if ( animation == FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT2 )
+		animation = FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT1;
+}
 
 void MonsterFatWalker::Update(float delta_)
 {
 	if ( !active ) 
 		return;
 
+
+	animationTimer += delta_;
 	previousPos = pos;
 	timeSinceHit += delta_;
 
-	if ( timeSinceHit < 0.05f )
+	if ( timeSinceHit < 0.1f )
+	{
+		animation = FAT_WALKER_ANIMATION::WALKER_ANIM_HIT;
 		return;
+	}
 
 	if ( state == MONSTER_STATE::PAUSED )
 	{
+		animation = FAT_WALKER_ANIMATION::WALKER_ANIM_STATIONARY;
+
 		pauseTimer += delta_;
 		if ( pauseTimer >= pauseTimeLimit )
 		{
@@ -107,6 +133,9 @@ void MonsterFatWalker::Update(float delta_)
 	}
 	if ( state == MONSTER_STATE::CHARGING )
 	{
+		if ( animationTimer > 0.15f ) 
+			SwitchMovementAnimation();
+
 		float deltaSpeed = (speed * 2.0f) * delta_;
 		direction.SetMagnitude(deltaSpeed); //monster speed
 		pos += direction;
@@ -120,6 +149,9 @@ void MonsterFatWalker::Update(float delta_)
 	}
 	if ( state == MONSTER_STATE::MOVING )
 	{
+		if ( animationTimer > 0.3f ) 
+			SwitchMovementAnimation();
+
 		//get distance to player
 		float distanceToPlayer = (target->Pos() - pos).GetMagnitude();
 		
@@ -158,8 +190,27 @@ void MonsterFatWalker::Draw()
 {
 	if ( active ) 
 	{
+		//get animation to use
+		switch (animation)
+		{
+		case FAT_WALKER_ANIMATION::WALKER_ANIM_STATIONARY : 
+			SetSpriteUVCoordinates	( sprite, WALKER_STATIONARY_UV);
+			break;
+		case FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT1 : 
+			SetSpriteUVCoordinates	( sprite, WALKER_MOVEMENT1_UV);
+			break;
+		case FAT_WALKER_ANIMATION::WALKER_ANIM_MOVEMENT2 : 
+			SetSpriteUVCoordinates	( sprite, WALKER_MOVEMENT2_UV);
+			break;
+		case FAT_WALKER_ANIMATION::WALKER_ANIM_HIT: 
+			SetSpriteUVCoordinates	( sprite, WALKER_HIT_UV);
+			break;
+		}
+
+
 		MoveSprite(sprite, pos.x, pos.y);
 		RotateSpriteToVector(sprite, direction);
+		RotateSprite(sprite, 270.0f);
 		DrawSprite(sprite);
 	}
 }

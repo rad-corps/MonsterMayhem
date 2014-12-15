@@ -189,9 +189,19 @@ void Player::Update(float delta_)
 
 void Player::CalcGUIBars()
 {
+	//float saliva = FileSettings::GetFloat("MIN_SPIT_RELOAD_TIME") / loogieReload;
+	//float stamina = speed / FileSettings::GetFloat("MAX_PLAYER_SPEED");	
+
 	float saliva = FileSettings::GetFloat("MIN_SPIT_RELOAD_TIME") / loogieReload;
-	float stamina = speed / FileSettings::GetFloat("MAX_PLAYER_SPEED");	
+
+	float stamina = (speed - FileSettings::GetFloat("MIN_PLAYER_SPEED")) /
+		(FileSettings::GetFloat("MAX_PLAYER_SPEED") - FileSettings::GetFloat("MIN_PLAYER_SPEED") );
+
+	//cout << saliva << endl;
+	//cout << "saliva: " << saliva << "\tstamina: " << stamina << endl;
+
 	playerObserver->UpdatePlayerGUI(saliva, stamina);
+	
 }
 
 void Player::Draw()
