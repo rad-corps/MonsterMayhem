@@ -20,7 +20,6 @@ private:
 
 	static Vector2 RandomiseSafePosition(Vector2 target_, float safetyDistance_);
 	static Monster* SpawnMonster(MONSTER_TYPE type_, Player* player_, float safetyDistance_);
-
 	static vector<Rect> unwalkableTerrain;
 	
 };

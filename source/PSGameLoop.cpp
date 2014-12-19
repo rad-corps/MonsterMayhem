@@ -15,7 +15,6 @@ PSGameLoop::PSGameLoop(void)
 {
 	cout << "PSGameLoop()" << endl;
 
-	gameState = GAME_LOOP_STATE::WAVE_BEGIN;
 	currentTimer = 0.0f;
 	paused = false;
 
@@ -75,6 +74,8 @@ PSGameLoop::PSGameLoop(void)
 		terrain.SetTreeTile(0,i);
 		terrain.SetTreeTile(TERRAIN_COLS-1,i);
 	}
+
+	BeginWave();
 }
 
 
@@ -104,6 +105,18 @@ void PSGameLoop::CheckPlayerTerrainCollision()
 			player.UndoUpdate();
 		}
 	}
+}
+
+void PSGameLoop::BeginWave()
+{
+	gameState = GAME_LOOP_STATE::WAVE_BEGIN;	
+	cout << "GAME_LOOP_STATE::WAVE_BEGIN" << endl;
+
+	CleanMonsterList();
+	WaveItems waveItems = WaveGen::Generate(wave++, &player, terrain.GetUnwalkableTerrain());
+	monsterList = waveItems.monsterList;
+	powerUpList = waveItems.powerUpList;	
+	currentTimer = 0.0f;
 }
 
 ProgramState* PSGameLoop::Update(float delta_)
@@ -163,47 +176,51 @@ ProgramState* PSGameLoop::Update(float delta_)
 	bool waveStillRunning = false;
 
 
-
-	//update monsters
-	for (int i = 0; i < monsterList.size(); ++i ) 
+	if ( gameState != GAME_LOOP_STATE::WAVE_BEGIN )
 	{
-		monsterList[i]->Update(delta_);
 
-		//is there at least one enemy still alive? 
-		if ( monsterList[i]->IsActive() )
-			waveStillRunning = true;
+		//update monsters
+		for (int i = 0; i < monsterList.size(); ++i ) 
+		{
+			monsterList[i]->Update(delta_);
+
+			//is there at least one enemy still alive? 
+			if ( monsterList[i]->IsActive() )
+				waveStillRunning = true;
 		
-		//check collision with player, game over if collided
-		if ( Collision::CheckCollision(monsterList[i], &player) )
-		{
-			cout << "GAME OVER" << endl;
-			cout << "Final Score: " << gui.Score();
-			PSGameOver* state = new PSGameOver();
-			state->SetScore(gui.Score());
-			return state;
-		}	
-
-		//check for collision with terrain and monster
-		vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
-		for (int terrain = 0; terrain < unwalkableTerrain.size(); ++terrain )
-		{
-			if ( Collision::RectCollision(unwalkableTerrain[terrain], monsterList[i]->GetRect()) )
+			//check collision with player, game over if collided
+			if ( Collision::CheckCollision(monsterList[i], &player) )
 			{
-				monsterList[i]->HandleTerrainCollision();
+				cout << "GAME OVER" << endl;
+				cout << "Final Score: " << gui.Score();
+				PSGameOver* state = new PSGameOver();
+				state->SetScore(gui.Score());
+				return state;
+			}	
+
+			//check for collision with terrain and monster
+			vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
+			for (int terrain = 0; terrain < unwalkableTerrain.size(); ++terrain )
+			{
+				if ( Collision::RectCollision(unwalkableTerrain[terrain], monsterList[i]->GetRect()) )
+				{
+					monsterList[i]->HandleTerrainCollision();
+				}
+			}
+
+			//check this monster against each spit (BRUTE FORCE OH YEAH)
+			for (int spit = 0; spit < spitList.size(); ++ spit )
+			{
+				if ( Collision::CheckCollision(monsterList[i], &spitList[spit]))
+				{
+					//TODO add hit animation
+					monsterList[i]->Hit();
+					hitAnimations.push_back(HitAnimation(spitList[spit].Pos()));
+					spitList[spit].SetActive(false);
+				}
 			}
 		}
 
-		//check this monster against each spit (BRUTE FORCE OH YEAH)
-		for (int spit = 0; spit < spitList.size(); ++ spit )
-		{
-			if ( Collision::CheckCollision(monsterList[i], &spitList[spit]))
-			{
-				//TODO add hit animation
-				monsterList[i]->Hit();
-				hitAnimations.push_back(HitAnimation(spitList[spit].Pos()));
-				spitList[spit].SetActive(false);
-			}
-		}
 	}
 
 	//is this the end of the current wave?
@@ -219,19 +236,14 @@ ProgramState* PSGameLoop::Update(float delta_)
 	{
 		cout << "GAME_LOOP_STATE::WAVE_RUNNING" << endl;
 		gameState = GAME_LOOP_STATE::WAVE_RUNNING;
-		CleanMonsterList();
-		WaveItems waveItems = WaveGen::Generate(wave++, &player, terrain.GetUnwalkableTerrain());
-		monsterList = waveItems.monsterList;
-		powerUpList = waveItems.powerUpList;
+
 		currentTimer = 0.0f;		
 	}
 
 	//should we gen a new wave? 
 	if ( gameState == GAME_LOOP_STATE::WAVE_END && currentTimer > waveEndTimer )
 	{
-		cout << "GAME_LOOP_STATE::WAVE_BEGIN" << endl;
-		gameState = GAME_LOOP_STATE::WAVE_BEGIN;	
-		currentTimer = 0.0f;
+		BeginWave();
 	}
 
 	//update power ups

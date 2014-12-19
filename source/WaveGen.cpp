@@ -93,19 +93,25 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_, vector<Rect> unwalkab
 	
 
 	//create some random monsters
-	int numOfSlugs = 5 + waveNum_ * 3;
+	const int MAX_NUM_OF_SLUGS = waveNum_ * 4.f;
+	int numOfSlugs = rand() % MAX_NUM_OF_SLUGS + 1;
+	cout << "numOfSlugs : " << numOfSlugs << endl;
 	for (int i = 0; i < numOfSlugs; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::SLUG, player_, SAFE_SPAWN_DISTANCE));
 	}
 
-	int numOfMoths = 0 + waveNum_ * 5;
+	const int MAX_NUM_OF_MOTHS = waveNum_ * 2.3f;
+	int numOfMoths = rand() % MAX_NUM_OF_MOTHS + 1;
+	cout << "numOfMoths : " << numOfMoths << endl;
 	for (int i = 0; i < numOfMoths; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::MOTH, player_, SAFE_SPAWN_DISTANCE));
 	}
 	
-	int numOfFatWalkers = waveNum_ * 3;
+	const int MAX_NUM_OF_WALKERS = waveNum_ * 1.0f;
+	int numOfFatWalkers = rand() % MAX_NUM_OF_WALKERS + 1;
+	cout << "numOfFatWalkers : " << numOfFatWalkers << endl;
 	for (int i = 0; i < numOfFatWalkers; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::FAT_WALKER, player_, SAFE_SPAWN_DISTANCE));

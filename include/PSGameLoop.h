@@ -35,6 +35,7 @@ public:
 private:
 	void CleanMonsterList();
 	void CheckPlayerTerrainCollision();
+	void BeginWave();
 
 	//game objects
 	Player player;
