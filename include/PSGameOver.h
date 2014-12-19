@@ -20,5 +20,7 @@ private:
 	unsigned int sprite;
 	Vector2 resetButtonPos;
 	Vector2 resetButtonSize;
+
+	bool lastMouseState;
 };
 

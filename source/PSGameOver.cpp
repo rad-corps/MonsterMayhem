@@ -11,6 +11,8 @@ PSGameOver::PSGameOver(void)
 	resetButtonPos = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_X"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_Y"));
 	resetButtonSize = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_WIDTH"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_HEIGHT"));
 	shuttingDown = false;
+
+	lastMouseState = false;
 }
 
 
@@ -28,7 +30,7 @@ ProgramState* PSGameOver::Update(float delta_)
 {
 	MoveSprite(sprite, 0.0f, SCREEN_H);
 	
-	if (  GetMouseButtonDown(0) )
+	if (  lastMouseState && GetMouseButtonReleased(0) )
 	{
 		double mouseX; 
 		double mouseY;
@@ -42,6 +44,9 @@ ProgramState* PSGameOver::Update(float delta_)
 			return new PSMainMenu();
 		}
 	}
+
+	lastMouseState = GetMouseButtonDown(0);
+
 	return nullptr;
 }
 
