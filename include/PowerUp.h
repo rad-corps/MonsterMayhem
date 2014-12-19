@@ -17,9 +17,13 @@ public:
 
 
 	void Spawn(POWER_UP_TYPE type_, Vector2 pos_);
+	
+	//randomise the power up type
+	void Spawn(Vector2 pos_);
 
 private:
 	POWER_UP_TYPE type;
 	unsigned int sprite;
+	float timeSinceSpawn;
 };
 

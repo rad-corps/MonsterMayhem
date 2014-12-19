@@ -61,8 +61,31 @@ void GameGUI::Update(float delta_)
 //saliva and stamina between 0 and 1
 void GameGUI::UpdatePlayerGUI(float saliva_, float stamina_)
 {
-	staminaBars = stamina_ * 5;
-	salivaBars = saliva_ * 5;
+	//Yes I am a maths newb!!!!
+	if ( stamina_ > 0.8f ) 
+		staminaBars = 5;
+	else if ( stamina_ > 0.6f ) 
+		staminaBars = 4;
+	else if ( stamina_ > 0.4f ) 
+		staminaBars = 3;
+	else if ( stamina_ > 0.2f ) 
+		staminaBars = 2;
+	else if ( stamina_ > 0.0f ) 
+		staminaBars = 1;
+
+	if ( saliva_ > 0.8f ) 
+		salivaBars = 5;
+	else if ( saliva_ > 0.6f ) 
+		salivaBars = 4;
+	else if ( saliva_ > 0.4f ) 
+		salivaBars = 3;
+	else if ( saliva_ > 0.2f ) 
+		salivaBars = 2;
+	else if ( saliva_ > 0.0f ) 
+		salivaBars = 1;
+
+	//staminaBars = stamina_ * 5;
+	//salivaBars = saliva_ * 5;
 }
 
 void GameGUI::AddScore(int score_)

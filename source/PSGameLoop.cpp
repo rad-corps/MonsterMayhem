@@ -95,15 +95,6 @@ void PSGameLoop::CleanMonsterList()
 
 void PSGameLoop::CheckPlayerTerrainCollision()
 {
-	//check for collision with fence and player
-	for (int i = 0; i < fenceRects.size(); ++i )
-	{
-		if ( Collision::RectCollision(fenceRects[i], player.GetRect()) )
-		{
-			player.UndoUpdate();
-		}
-	}
-
 	//check for collision with terrain and player
 	vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
 	for (int i = 0; i < unwalkableTerrain.size(); ++i )
@@ -191,15 +182,6 @@ ProgramState* PSGameLoop::Update(float delta_)
 			state->SetScore(gui.Score());
 			return state;
 		}	
-
-		//check collision between fence and monster			
-		for (int fence = 0; fence < fenceRects.size(); ++fence )
-		{
-			if ( Collision::RectCollision(fenceRects[fence], monsterList[i]->GetRect()) )
-			{
-				monsterList[i]->HandleTerrainCollision();
-			}
-		}
 
 		//check for collision with terrain and monster
 		vector<Rect> unwalkableTerrain = terrain.GetUnwalkableTerrain();
@@ -330,4 +312,15 @@ void PSGameLoop::ExplosionEvent(Vector2 position_, Vector2 direction_, int score
 {
 	explosions.push_back(Explosion(position_, direction_));
 	gui.AddScore(score_);
+
+	//30% chance of droping a pickup
+	int chance = rand() % 10 + 1;
+	if ( chance <= 3 )
+	{
+		//drop a pickup
+		PowerUp powerUp;
+		powerUp.Spawn(position_);
+		powerUpList.push_back(powerUp);
+	}
+
 }

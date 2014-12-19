@@ -33,6 +33,14 @@ Player::Player(void)
 
 	animationTimer = 0.0f;
 	status = PLAYER_STATUS::PLAYER_STATIONARY;
+
+	//Have some breakfast before fighting monsters
+	PowerUp p1;
+	PowerUp p2;
+	p1.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY, pos);
+	p2.Spawn(POWER_UP_TYPE::SPEED_UP, pos);
+	EatPowerUp(p1);
+	EatPowerUp(p2);
 }
 
 

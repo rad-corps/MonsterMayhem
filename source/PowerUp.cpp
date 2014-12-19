@@ -1,5 +1,6 @@
 #include "PowerUp.h"
 #include "AIE.h"
+#include "FileSettings.h"
 
 PowerUp::PowerUp(void)
 {
@@ -12,11 +13,17 @@ PowerUp::PowerUp(void)
 
 PowerUp::~PowerUp(void)
 {
-	
+	timeSinceSpawn = 100000.0f;
 }
 
 void PowerUp::Update(float delta_)
 {
+	timeSinceSpawn += delta_;
+
+	if (timeSinceSpawn > FileSettings::GetFloat("MAX_POWER_UP_TIME") ) 
+	{
+		active = false;
+	}
 	if ( sprite != 0 && active )
 	{
 		MoveSprite(sprite, pos.x, pos.y);
@@ -39,16 +46,20 @@ void PowerUp::Spawn(POWER_UP_TYPE type_, Vector2 pos_)
 	if ( type == POWER_UP_TYPE::SPEED_UP) 
 		sprite = CreateSprite("./images/Speed_up_64.png", POWER_UP_W, POWER_UP_H, true);
 
-	////randomise location
-	//int xPos = rand() % BATTLE_FIELD_W;
-	//int yPos = rand() % BATTLE_FIELD_H;
-
-	//pos.x = xPos;
-	//pos.y = yPos;
+	timeSinceSpawn = 0.0f;
 
 	pos = pos_;
 
 	active = true;
+}
+
+void PowerUp::Spawn(Vector2 pos_)
+{
+	int chance = rand() % 10 + 1;
+	if ( chance < 5 ) 
+		Spawn(POWER_UP_TYPE::SPEED_UP, pos_);
+	else
+		Spawn(POWER_UP_TYPE::SPIT_FREQUENCY, pos_);
 }
 
 POWER_UP_TYPE PowerUp::Eat()
