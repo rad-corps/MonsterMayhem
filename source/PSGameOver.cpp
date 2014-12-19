@@ -10,6 +10,7 @@ PSGameOver::PSGameOver(void)
 	sprite = CreateSprite("./images/Game_Over.png", SCREEN_W, SCREEN_H, false);
 	resetButtonPos = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_X"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_Y"));
 	resetButtonSize = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_WIDTH"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_HEIGHT"));
+	shuttingDown = false;
 }
 
 

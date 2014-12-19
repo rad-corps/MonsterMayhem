@@ -19,6 +19,8 @@ public:
 	virtual void Draw();
 	virtual void UpdatePlayerGUI(float saliva_, float stamina_) ; 
 
+	void SetEnemyLore(int slugs_, int moths_, int walkers_);
+
 	void AddScore(int score_);
 	int Score();
 
@@ -33,6 +35,10 @@ private:
 	unsigned int greenBar;
 	unsigned int yellowBar;
 	unsigned int barBG;
+
+	int numSlug;
+	int numWalker;
+	int numMoth;
 
 	Vector2 staminaPos;
 	Vector2 salivaPos;

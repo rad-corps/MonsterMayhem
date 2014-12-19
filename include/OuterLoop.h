@@ -17,8 +17,13 @@ public:
 private: 
 	//The state machine variable
 	ProgramState* currentProgramState;
+
+	unsigned int cursorSprite;
+	double mouseX; 
+	double mouseY;
 	
 	//PROGRAM_STATES new
+	bool shuttingDown;
 
 };
 

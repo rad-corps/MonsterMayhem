@@ -50,11 +50,6 @@ void GameGUI::SetGameState(GAME_LOOP_STATE state_)
 
 void GameGUI::Update(float delta_)
 {
-	//must use our own MoveSpriteAbs function because of the camera. 
-	MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y - 200);
-	MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y);
-	MoveSpriteAbs(sprEndWave, sprEndPos.x, sprEndPos.y);
-
 	fps = 1 / delta_;
 }
 
@@ -88,10 +83,19 @@ void GameGUI::UpdatePlayerGUI(float saliva_, float stamina_)
 	//salivaBars = saliva_ * 5;
 }
 
+void GameGUI::SetEnemyLore(int slugs_, int moths_, int walkers_)
+{
+	numSlug = slugs_;
+	numMoth = moths_;
+	numWalker = walkers_;
+}
+
 void GameGUI::AddScore(int score_)
 {
 	score += score_;
 }
+
+
 
 int GameGUI::Score()
 {
@@ -102,12 +106,17 @@ void GameGUI::Draw()
 {
 	if ( state == GAME_LOOP_STATE::WAVE_END )
 	{
+		MoveSpriteAbs(sprEndWave, sprEndPos.x, sprEndPos.y);
 		DrawSprite(sprEndWave);
 	}
 	
 	if ( state == GAME_LOOP_STATE::WAVE_BEGIN )
 	{
+		MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y);
 		DrawSprite(sprBegWave);
+		DrawStringAbs((string("Slugs:   ") + to_string(numSlug  )).c_str(), 100, 300);
+		DrawStringAbs((string("Moths:   ") + to_string(numMoth  )).c_str(), 100, 400);
+		DrawStringAbs((string("Walkers: ") + to_string(numWalker)).c_str(), 100, 500);
 	}
 
 	DrawStringAbs(to_string(fps).c_str(), 50,50);

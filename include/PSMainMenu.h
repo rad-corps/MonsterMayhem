@@ -35,5 +35,8 @@ private:
 
 	Vector2 instructionsNextButtonPos;
 	Vector2 instructionsNextButtonSize;
+
+	Vector2 exitButtonPos;
+	Vector2 exitButtonSize;
 };
 

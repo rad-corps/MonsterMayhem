@@ -1,8 +1,10 @@
 #include "PSMainMenu.h"
 #include "PSGameLoop.h"
+#include "PSShuttingDown.h"
 #include "AIE.h"
 #include "Enums.h"
 #include "FileSettings.h"
+
 
 
 PSMainMenu::PSMainMenu(void)
@@ -23,7 +25,12 @@ PSMainMenu::PSMainMenu(void)
 	instructionsNextButtonPos = Vector2(FileSettings::GetFloat("INSTRUCTIONS_NEXT_BUTTON_X"), FileSettings::GetFloat("INSTRUCTIONS_NEXT_BUTTON_Y"));
 	instructionsNextButtonSize = Vector2(FileSettings::GetFloat("INSTRUCTIONS_NEXT_BUTTON_WIDTH"), FileSettings::GetFloat("INSTRUCTIONS_NEXT_BUTTON_HEIGHT"));
 
+	exitButtonPos = Vector2(FileSettings::GetFloat("EXIT_GAME_BUTTON_X"), FileSettings::GetFloat("EXIT_GAME_BUTTON_Y"));
+	exitButtonSize = Vector2(FileSettings::GetFloat("EXIT_GAME_BUTTON_WIDTH"), FileSettings::GetFloat("EXIT_GAME_BUTTON_HEIGHT"));
+
 	lastMouseState = false;
+
+	shuttingDown = false;
 
 }
 
@@ -61,6 +68,15 @@ ProgramState* PSMainMenu::Update(float delta_)
 				mouseY <= howToPlayButtonPos.y + howToPlayButtonSize.y )
 			{
 				state = MAIN_MENU_STATE::OBJECTIVE_SCREEN;
+			}
+
+			if ( mouseX >= exitButtonPos.x && 
+				mouseX <=  exitButtonPos.x + exitButtonSize.x &&
+				mouseY >= exitButtonPos.y &&
+				mouseY <= exitButtonPos.y + exitButtonSize.y )
+			{
+				state = MAIN_MENU_STATE::SHUTTING_DOWN;
+				return new PSShuttingDown();
 			}
 		}
 

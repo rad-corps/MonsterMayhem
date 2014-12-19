@@ -76,6 +76,8 @@ PSGameLoop::PSGameLoop(void)
 	}
 
 	BeginWave();
+
+	shuttingDown = false;
 }
 
 
@@ -117,6 +119,8 @@ void PSGameLoop::BeginWave()
 	monsterList = waveItems.monsterList;
 	powerUpList = waveItems.powerUpList;	
 	currentTimer = 0.0f;
+
+	gui.SetEnemyLore(waveItems.slugCount, waveItems.mothCount, waveItems.walkerCount);
 }
 
 ProgramState* PSGameLoop::Update(float delta_)

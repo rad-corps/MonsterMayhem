@@ -92,6 +92,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="HitAnimation.cpp" />
+    <ClCompile Include="PSShuttingDown.cpp" />
     <ClCompile Include="source\Explosion.cpp" />
     <ClCompile Include="source\MonsterFatWalker.cpp" />
     <ClCompile Include="source\Monster.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="source\PSMainMenu.cpp" />
     <ClCompile Include="source\OuterLoop.cpp" />
     <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\ProgramState.cpp" />
     <ClCompile Include="source\Vector.cpp" />
     <ClCompile Include="source\Terrain.cpp" />
     <ClCompile Include="source\Spit.cpp" />
@@ -153,6 +155,7 @@
     <ClInclude Include="include\PathFinder.h" />
     <ClInclude Include="include\SafeZone.h" />
     <ClInclude Include="include\MonsterFatWalker.h" />
+    <ClInclude Include="PSShuttingDown.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
