@@ -90,13 +90,13 @@
     <ClCompile Include="source\Explosion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HitAnimation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PSShuttingDown.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\ProgramState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\PSShuttingDown.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\HitAnimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -200,10 +200,10 @@
     <ClInclude Include="include\ExplosionObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HitAnimation.h">
+    <ClInclude Include="include\HitAnimation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PSShuttingDown.h">
+    <ClInclude Include="include\PSShuttingDown.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

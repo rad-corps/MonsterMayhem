@@ -91,8 +91,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="HitAnimation.cpp" />
-    <ClCompile Include="PSShuttingDown.cpp" />
+    <ClCompile Include="source\HitAnimation.cpp" />
+    <ClCompile Include="source\PSShuttingDown.cpp" />
     <ClCompile Include="source\Explosion.cpp" />
     <ClCompile Include="source\MonsterFatWalker.cpp" />
     <ClCompile Include="source\Monster.cpp" />
@@ -121,7 +121,7 @@
     <ClCompile Include="source\WaveGen.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HitAnimation.h" />
+    <ClInclude Include="include\HitAnimation.h" />
     <ClInclude Include="include\Explosion.h" />
     <ClInclude Include="include\ExplosionObserver.h" />
     <ClInclude Include="include\Fence.h" />
@@ -155,7 +155,7 @@
     <ClInclude Include="include\PathFinder.h" />
     <ClInclude Include="include\SafeZone.h" />
     <ClInclude Include="include\MonsterFatWalker.h" />
-    <ClInclude Include="PSShuttingDown.h" />
+    <ClInclude Include="include\PSShuttingDown.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
