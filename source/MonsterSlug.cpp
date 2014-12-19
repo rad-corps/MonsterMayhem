@@ -10,7 +10,10 @@ using namespace std;
 
 unsigned int MonsterSlug::sprite = 0;
 
-
+float SLUG_STATIONARY_UV[4] = { SLUG_U_MIN                      , SLUG_V_MIN  , SLUG_U_MIN +   SLUG_U_STEP    , SLUG_V_MIN + SLUG_V_STEP };
+float SLUG_MOVEMENT1_UV[4] = { SLUG_U_MIN + SLUG_U_STEP        , SLUG_V_MIN  , SLUG_U_MIN +   SLUG_U_STEP * 2, SLUG_V_MIN + SLUG_V_STEP };                        
+float SLUG_MOVEMENT2_UV[4] = { SLUG_U_MIN + SLUG_U_STEP     * 2, SLUG_V_MIN  , SLUG_U_MIN +   SLUG_U_STEP * 3, SLUG_V_MIN + SLUG_V_STEP };
+float SLUG_HIT_UV[4] =       { SLUG_U_MIN + SLUG_U_STEP     * 3, SLUG_V_MIN  , SLUG_U_MIN +   SLUG_U_STEP * 4, SLUG_V_MIN + SLUG_V_STEP };
 
 void MonsterSlug::HandleTerrainCollision()
 {
@@ -25,12 +28,12 @@ MonsterSlug::MonsterSlug(Vector2 pos_)
 	//default width and height for enemies
 	width = 64;
 	height = 64;
-	health = 10;
+	health = 20;
 	speed = 100.f;
 	score = 20;
 	if ( sprite == 0 )
 	{
-		sprite = CreateSprite("./images/Monster_Slug.png", width, height, true);
+		sprite = CreateSprite("./images/Character_sprite_sheet.png", width, height, true);
 	}
 	active = true;
 	movementTimer = 0.0f;
@@ -38,12 +41,23 @@ MonsterSlug::MonsterSlug(Vector2 pos_)
 	//ResetMovementDirection();
 	RandomisePauseTime();
 	state = MONSTER_STATE::PAUSED;
+	animation = SLUG_ANIMATION::SLUG_ANIM_STATIONARY;
+	animationTimer = 0.0f;
+	timeSinceHit = 100.f;
 }
 
 
 MonsterSlug::~MonsterSlug(void)
 {
 	
+}
+
+void MonsterSlug::Hit(int power_)
+{
+	Monster::Hit(power_);
+	animation = SLUG_ANIMATION::SLUG_ANIM_HIT;
+	animationTimer = 0.0f;
+	timeSinceHit = 0.0f;
 }
 
 //return up, down, left or right
@@ -76,6 +90,7 @@ void MonsterSlug::ResetMovementDirection()
 	direction = RandomiseDirection();
 	RandomiseMovementTime();
 	state = MONSTER_STATE::MOVING;	
+	animation = SLUG_ANIMATION::SLUG_ANIM_MOVEMENT1;
 }
 
 void MonsterSlug::UndoUpdate()
@@ -83,7 +98,17 @@ void MonsterSlug::UndoUpdate()
 	pos = previousPos;
 }
 
+void MonsterSlug::SwitchMovementAnimation()
+{
+	animationTimer = 0.0f;
 
+	if ( animation == SLUG_ANIMATION::SLUG_ANIM_MOVEMENT1 ) 
+		animation = SLUG_ANIMATION::SLUG_ANIM_MOVEMENT2;
+	else if ( animation == SLUG_ANIMATION::SLUG_ANIM_MOVEMENT2 ) 
+		animation = SLUG_ANIMATION::SLUG_ANIM_MOVEMENT1;
+	else if ( animation != SLUG_ANIMATION::SLUG_ANIM_MOVEMENT1 && animation != SLUG_ANIMATION::SLUG_ANIM_MOVEMENT2 )
+		animation = SLUG_ANIMATION::SLUG_ANIM_MOVEMENT1;
+}
 
 void MonsterSlug::Update(float delta_)
 {
@@ -91,9 +116,19 @@ void MonsterSlug::Update(float delta_)
 		return;
 
 	previousPos = pos;
+	animationTimer += delta_;
+
+	timeSinceHit += delta_;
+
+	if ( timeSinceHit < 0.1f )
+	{
+		animation = SLUG_ANIMATION::SLUG_ANIM_HIT;
+		return;
+	}
 
 	if ( state == MONSTER_STATE::PAUSED )
 	{
+		animation = SLUG_ANIMATION::SLUG_ANIM_STATIONARY;
 		pauseTimer += delta_;
 		if ( pauseTimer >= pauseTimeLimit )
 		{
@@ -104,6 +139,11 @@ void MonsterSlug::Update(float delta_)
 	}
 	if ( state == MONSTER_STATE::CHARGING )
 	{
+		if (animationTimer > 0.1f )
+		{
+			SwitchMovementAnimation();
+		}
+
 		float deltaSpeed = (speed * 2.0f) * delta_;
 		direction.SetMagnitude(deltaSpeed); //monster speed
 		pos += direction;
@@ -112,11 +152,17 @@ void MonsterSlug::Update(float delta_)
 		{
 			RandomisePauseTime();
 			state = MONSTER_STATE::PAUSED;
+			animation = SLUG_ANIMATION::SLUG_ANIM_STATIONARY;
+			animationTimer = 0.0f;
 			movementTimer = 0.0f;
 		}
 	}
 	if ( state == MONSTER_STATE::MOVING )
 	{
+		if (animationTimer > 0.2f )
+		{
+			SwitchMovementAnimation();
+		}
 		//get distance to player
 		float distanceToPlayer = (target->Pos() - pos).GetMagnitude();
 		
@@ -155,8 +201,18 @@ void MonsterSlug::Draw()
 {
 	if ( active ) 
 	{
+		if ( animation == SLUG_ANIMATION::SLUG_ANIM_STATIONARY)
+			SetSpriteUVCoordinates	( sprite, SLUG_STATIONARY_UV);
+		if ( animation == SLUG_ANIMATION::SLUG_ANIM_MOVEMENT1)
+			SetSpriteUVCoordinates	( sprite, SLUG_MOVEMENT1_UV);
+		if ( animation == SLUG_ANIMATION::SLUG_ANIM_MOVEMENT2)
+			SetSpriteUVCoordinates	( sprite, SLUG_MOVEMENT2_UV);
+		if ( animation == SLUG_ANIMATION::SLUG_ANIM_HIT)
+			SetSpriteUVCoordinates	( sprite, SLUG_HIT_UV);
+
 		MoveSprite(sprite, pos.x, pos.y);
 		RotateSpriteToVector(sprite, direction);
+		RotateSprite(sprite, 270.0f);
 		DrawSprite(sprite);
 	}
 }

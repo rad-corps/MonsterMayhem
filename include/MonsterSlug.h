@@ -21,7 +21,10 @@ public:
 	virtual void Draw();
 	virtual void HandleTerrainCollision();
 
+	void Hit(int power = 10);
+
 private:
+	void SwitchMovementAnimation();
 	void ResetMovementDirection();
 	void UndoUpdate();
 	//void GetNextNode();
@@ -37,9 +40,13 @@ private:
 	float pauseTimer;
 	float movementTimeLimit;
 	float pauseTimeLimit;
+
+	float timeSinceHit;
 	
 
 	MONSTER_STATE state;
+	SLUG_ANIMATION animation;
+	float animationTimer;
 
 	queue<Node> path;
 	Node currentDest;	
