@@ -114,9 +114,9 @@ void GameGUI::Draw()
 	{
 		MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y);
 		DrawSprite(sprBegWave);
-		DrawStringAbs((string("Slugs:   ") + to_string(numSlug  )).c_str(), 100, 300);
-		DrawStringAbs((string("Moths:   ") + to_string(numMoth  )).c_str(), 100, 400);
-		DrawStringAbs((string("Walkers: ") + to_string(numWalker)).c_str(), 100, 500);
+		//DrawStringAbs((string("Slugs:   ") + to_string(numSlug  )).c_str(), 100, 300);
+		//DrawStringAbs((string("Moths:   ") + to_string(numMoth  )).c_str(), 100, 400);
+		//DrawStringAbs((string("Walkers: ") + to_string(numWalker)).c_str(), 100, 500);
 	}
 
 	DrawStringAbs(to_string(fps).c_str(), 50,50);
