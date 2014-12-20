@@ -153,7 +153,7 @@ void Player::Update(float delta_)
 	}
 	
 	//get the mouse coordinate. used our own function as AIE one is inverted
-	GetMouseLocationEx(mouseX, mouseY, SCREEN_H);
+	GetMouseLocationEx(mouseX, mouseY, FileSettings::GetInt("SCREEN_H"));
 
 	//get the variables needed to calc player pos, rotation and camera pos. 
 	Vector2 screenPos = GetGameObjectScreenPosition(pos);
@@ -161,7 +161,7 @@ void Player::Update(float delta_)
 	direction = mouse - screenPos;	
 	
 	//calculate camera position
-	Vector2 camAnchor(pos.x - SCREEN_W, pos.y - SCREEN_H);
+	Vector2 camAnchor(pos.x - FileSettings::GetInt("SCREEN_W"), pos.y - FileSettings::GetInt("SCREEN_H"));
 	Vector2 camPos = (screenPos + mouse) / 2;
 	camPos = camPos + camAnchor;
 

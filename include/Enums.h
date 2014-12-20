@@ -115,8 +115,8 @@ enum MAIN_MENU_STATE
 	SHUTTING_DOWN
 };
 
-#define SCREEN_W 1680
-#define SCREEN_H 1050
+//#define SCREEN_W 1680
+//#define SCREEN_H 1050
 
 #define PLAYER_W 64
 #define PLAYER_H 64

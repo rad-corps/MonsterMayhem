@@ -3,11 +3,35 @@
 #include "AIE.h"
 #include "windows.h"
 #include "FrameworkHelpers.h"
+#include "wtypes.h"
+#include "FileSettings.h"
+
+// Get the horizontal and vertical screen sizes in pixel
+void GetDesktopResolution(int& horizontal, int& vertical)
+{
+   RECT desktop;
+   // Get a handle to the desktop window
+   const HWND hDesktop = GetDesktopWindow();
+   // Get the size of screen to the variable desktop
+   GetWindowRect(hDesktop, &desktop);
+   // The top left corner will have coordinates (0,0)
+   // and the bottom right corner will have coordinates
+   // (horizontal, vertical)
+   horizontal = desktop.right;
+   vertical = desktop.bottom;
+}
 
 OuterLoop::OuterLoop(void)
 {
+	//set the screen resolution variables in the filesettings map
+	int hor, ver;
+	GetDesktopResolution(hor, ver);
+	cout << "Screen Res: " << hor << "x" << ver << endl;
+	FileSettings::AddIntValue("SCREEN_W", hor);
+	FileSettings::AddIntValue("SCREEN_H", ver);
+
 	cout << "OuterLoop()" << endl;
-	Initialise( SCREEN_W, SCREEN_H,  false, "Monster Mayhem" );
+	Initialise( FileSettings::GetInt("SCREEN_W"), FileSettings::GetInt("SCREEN_H"),  true, "Monster Mayhem" );
 	ShowCursor(FALSE);
 
 	SetBackgroundColour( SColour( 0x00, 0x00, 0x00, 0xFF ) );
@@ -50,7 +74,7 @@ void OuterLoop::Go()
 			currentProgramState->Draw();
 			
 			//draw mouse cursor
-			GetMouseLocationEx(mouseX, mouseY, SCREEN_H);
+			GetMouseLocationEx(mouseX, mouseY, FileSettings::GetInt("SCREEN_H"));
 			MoveSpriteAbs(cursorSprite, mouseX, mouseY);
 			DrawSprite(cursorSprite);
 		}

@@ -6,6 +6,11 @@
 
 std::map<std::string, std::string> FileSettings::settingsMap;
 
+void FileSettings::AddIntValue(std::string key_, int value_)
+{
+	settingsMap[key_] = to_string(value_);
+}
+
 float FileSettings::GetFloat(std::string key_)
 {
 	return std::stof(settingsMap[key_]);

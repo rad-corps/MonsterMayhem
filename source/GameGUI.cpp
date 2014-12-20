@@ -106,13 +106,13 @@ void GameGUI::Draw()
 {
 	if ( state == GAME_LOOP_STATE::WAVE_END )
 	{
-		MoveSpriteAbs(sprEndWave, sprEndPos.x, sprEndPos.y);
+		MoveSpriteAbs(sprEndWave, sprEndPos.x * FileSettings::GetInt("SCREEN_W"), sprEndPos.y * FileSettings::GetInt("SCREEN_H"));
 		DrawSprite(sprEndWave);
 	}
 	
 	if ( state == GAME_LOOP_STATE::WAVE_BEGIN )
 	{
-		MoveSpriteAbs(sprBegWave, sprBegPos.x, sprBegPos.y);
+		MoveSpriteAbs(sprBegWave, sprBegPos.x * FileSettings::GetInt("SCREEN_W"), sprBegPos.y * FileSettings::GetInt("SCREEN_H"));
 		DrawSprite(sprBegWave);
 		//DrawStringAbs((string("Slugs:   ") + to_string(numSlug  )).c_str(), 100, 300);
 		//DrawStringAbs((string("Moths:   ") + to_string(numMoth  )).c_str(), 100, 400);
@@ -120,7 +120,7 @@ void GameGUI::Draw()
 	}
 
 	DrawStringAbs(to_string(fps).c_str(), 50,50);
-	DrawStringAbs((string("Score: ") + to_string(score)).c_str(), 50 ,SCREEN_H - 50);
+	DrawStringAbs((string("Score: ") + to_string(score)).c_str(), 50 ,FileSettings::GetInt("SCREEN_H") - 50);
 
 	//draw stamina bars
 	for ( int i = 0; i < staminaBars; ++i )

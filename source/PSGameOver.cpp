@@ -7,7 +7,7 @@
 
 PSGameOver::PSGameOver(void)
 {
-	sprite = CreateSprite("./images/Game_Over.png", SCREEN_W, SCREEN_H, false);
+	sprite = CreateSprite("./images/Game_Over.png", FileSettings::GetInt("SCREEN_W"), FileSettings::GetInt("SCREEN_H"), false);
 	resetButtonPos = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_X"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_Y"));
 	resetButtonSize = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_WIDTH"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_HEIGHT"));
 	shuttingDown = false;
@@ -28,7 +28,7 @@ void PSGameOver::SetScore(int score_)
 
 ProgramState* PSGameOver::Update(float delta_)
 {
-	MoveSprite(sprite, 0.0f, SCREEN_H);
+	MoveSprite(sprite, 0.0f, FileSettings::GetInt("SCREEN_H"));
 	
 	if (  lastMouseState && GetMouseButtonReleased(0) )
 	{
@@ -53,5 +53,5 @@ ProgramState* PSGameOver::Update(float delta_)
 void PSGameOver::Draw()
 {
 	DrawSprite(sprite);
-	DrawStringAbs((string("FINAL SCORE  ") + to_string(score)).c_str(), (SCREEN_W/2) - 100 , (SCREEN_H/2)-100);
+	DrawStringAbs((string("FINAL SCORE  ") + to_string(score)).c_str(), (FileSettings::GetInt("SCREEN_W")/2) - 100 , (FileSettings::GetInt("SCREEN_H")/2)-100);
 }
