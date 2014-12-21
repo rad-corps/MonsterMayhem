@@ -35,11 +35,16 @@ ProgramState* PSGameOver::Update(float delta_)
 		double mouseX; 
 		double mouseY;
 		GetMouseLocation(mouseX, mouseY);
+		float percX = mouseX / FileSettings::GetInt("SCREEN_W");
+		float percY = mouseY / FileSettings::GetInt("SCREEN_H");
 		
-		if ( mouseX >= resetButtonPos.x && 
-			mouseX <=  resetButtonPos.x + resetButtonSize.x &&
-			mouseY >= resetButtonPos.y &&
-			mouseY <= resetButtonPos.y + resetButtonSize.y )
+		cout << "MouseLoc - X: " << mouseX << "\tY: " << mouseY << endl;
+		cout << "Percentage - X: " << percX << "\tY: " << percY << endl;
+		
+		if ( percX >= resetButtonPos.x && 
+			percX <=  resetButtonPos.x + resetButtonSize.x &&
+			percY >= resetButtonPos.y &&
+			percY <= resetButtonPos.y + resetButtonSize.y )
 		{
 			return new PSMainMenu();
 		}

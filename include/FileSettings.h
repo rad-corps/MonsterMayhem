@@ -11,6 +11,7 @@ class FileSettings
 
 public:
 	~FileSettings(void);
+	static bool GetBool(std::string key_);
 	static float GetFloat(std::string key_);
 	static int GetInt(std::string key_);
 	static std::string GetString(std::string key_);

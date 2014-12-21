@@ -11,6 +11,14 @@ void FileSettings::AddIntValue(std::string key_, int value_)
 	settingsMap[key_] = to_string(value_);
 }
 
+bool FileSettings::GetBool(std::string key_)
+{
+	if ( settingsMap[key_] == "0" )
+		return false;
+	else
+		return true;
+}
+
 float FileSettings::GetFloat(std::string key_)
 {
 	return std::stof(settingsMap[key_]);

@@ -31,7 +31,7 @@ OuterLoop::OuterLoop(void)
 	FileSettings::AddIntValue("SCREEN_H", ver);
 
 	cout << "OuterLoop()" << endl;
-	Initialise( FileSettings::GetInt("SCREEN_W"), FileSettings::GetInt("SCREEN_H"),  true, "Monster Mayhem" );
+	Initialise( FileSettings::GetInt("SCREEN_W"), FileSettings::GetInt("SCREEN_H"),  FileSettings::GetBool("FULL_SCREEN"), "Monster Mayhem" );
 	ShowCursor(FALSE);
 
 	SetBackgroundColour( SColour( 0x00, 0x00, 0x00, 0xFF ) );
