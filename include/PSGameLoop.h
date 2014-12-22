@@ -51,11 +51,8 @@ private:
 	vector<Spit> spitList;
 	vector<Monster*> monsterList;
 	vector<PowerUp> powerUpList;
-	//vector<Rect> fenceRects;
-	//vector<Fence> fences;
 	vector<Explosion> explosions;
 	vector<HitAnimation> hitAnimations;
-	SafeZone safeZone;
 	GameGUI gui;
 	
 	

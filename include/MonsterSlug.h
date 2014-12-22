@@ -55,8 +55,5 @@ private:
 	MONSTER_STATE state;
 	SLUG_ANIMATION animation;
 	float animationTimer;
-
-	queue<Node> path;
-	Node currentDest;	
 };
 

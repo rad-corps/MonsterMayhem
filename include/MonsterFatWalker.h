@@ -50,6 +50,4 @@ private:
 	FAT_WALKER_ANIMATION animation;
 	float animationTimer;
 	MONSTER_STATE state;
-
-	Node currentDest;	
 };

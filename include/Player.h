@@ -17,7 +17,8 @@ class Player :
 	public GameObject
 {
 public:
-	Player(void);
+	Player(Vector2 pos_);
+	Player();
 	~Player(void);
 
 	virtual void Update(float delta_);

@@ -131,8 +131,8 @@ enum MAIN_MENU_STATE
 
 #define PLAYER_SPEED 230.0
 
-#define TERRAIN_COLS 16
-#define TERRAIN_ROWS 16
+#define TERRAIN_COLS 8
+#define TERRAIN_ROWS 32
 #define TERRAIN_W 128
 #define TERRAIN_H 128
 

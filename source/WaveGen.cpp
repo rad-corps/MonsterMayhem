@@ -101,7 +101,8 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_, vector<Rect> unwalkab
 	
 
 	//create some random monsters
-	const int MAX_NUM_OF_SLUGS = waveNum_ * 4.f;
+	//const int MAX_NUM_OF_SLUGS = waveNum_ * 4.f;
+	const int MAX_NUM_OF_SLUGS = 40;
 	int numOfSlugs = rand() % MAX_NUM_OF_SLUGS + 1;
 	cout << "numOfSlugs : " << numOfSlugs << endl;
 	ret.slugCount = numOfSlugs;
@@ -110,7 +111,8 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_, vector<Rect> unwalkab
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::SLUG, player_, SAFE_SPAWN_DISTANCE));
 	}
 
-	const int MAX_NUM_OF_MOTHS = waveNum_ * 2.3f;
+	//const int MAX_NUM_OF_MOTHS = waveNum_ * 2.3f;
+	const int MAX_NUM_OF_MOTHS = waveNum_ * 30;
 	int numOfMoths = rand() % MAX_NUM_OF_MOTHS + 1;
 	cout << "numOfMoths : " << numOfMoths << endl;
 	ret.mothCount = numOfMoths;
@@ -119,7 +121,8 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_, vector<Rect> unwalkab
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::MOTH, player_, SAFE_SPAWN_DISTANCE));
 	}
 	
-	const int MAX_NUM_OF_WALKERS = waveNum_ * 1.0f;
+	//const int MAX_NUM_OF_WALKERS = waveNum_ * 1.0f;
+	const int MAX_NUM_OF_WALKERS = waveNum_ * 20;
 	int numOfFatWalkers = rand() % MAX_NUM_OF_WALKERS + 1;
 	cout << "numOfFatWalkers : " << numOfFatWalkers << endl;
 	ret.walkerCount = numOfFatWalkers;

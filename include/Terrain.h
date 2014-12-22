@@ -32,6 +32,8 @@ public:
 	virtual void Update(float delta_);
 	virtual void Draw();
 
+	void Load(string fileName_);
+
 	void SetRiverTile(int col_, int row_,FOUR_WAY_ROTATION direction_, RIVER_TILE_TYPE type_);
 	void SetTreeTile(int col_, int row_);
 	
@@ -39,6 +41,8 @@ public:
 	vector<Rect> GetUnwalkableTerrain();
 
 private:
+	void ProcessCSVToTerrain(vector<string> rowText, int rowNum_);
+
 	vector<RiverTileInfo> riverTiles;
 	vector<pair<int,int>> treeTiles;
 	vector<Rect> unwalkableTerrain;

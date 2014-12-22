@@ -19,10 +19,17 @@ float PLAYER_SPIT1_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 3, PLAYER_V_MIN,
 float PLAYER_SPIT2_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 4, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 5, PLAYER_V_MIN + PLAYER_V_STEP };
 float PLAYER_SPIT3_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 5, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 6, PLAYER_V_MIN + PLAYER_V_STEP };
 
-Player::Player(void)
+//must call non default constructor 
+Player::Player()
+{}
+
+Player::Player(Vector2 pos_)
 {
 	width = PLAYER_W;
 	height = PLAYER_H;
+
+	pos = pos_;
+	//pos = Vector2(BATTLE_FIELD_W/2, BATTLE_FIELD_H/2);
 	
 
 	float sprite_size[2] = { 64.0f, 64.0f };
@@ -33,7 +40,7 @@ Player::Player(void)
 	sprite = CreateSprite ( "./images/Character_sprite_sheet.png", sprite_size, origin, PLAYER_STATIONARY_UV);
 
 	//sprite = CreateSprite ( "./images/Character_sprite_sheet.png", 512, 320, false);
-	pos = Vector2(BATTLE_FIELD_W/2, BATTLE_FIELD_H/2);
+	
 	timeSinceLoogie = 0.f;
 	speed = PLAYER_SPEED;
 	loogieReload = LOOGIE_RELOAD;
@@ -69,14 +76,14 @@ void Player::UpdateXMovement(float delta_)
 
 	if ( IsKeyDown(KEY_A) )
 	{
-		//pos.x -= speed * delta_;
-		pos += direction.Rotate90(false) * (speed * delta_);
+		pos.x -= speed * delta_;
+		//pos += direction.Rotate90(false) * (speed * delta_);
 		speed -= staminaReduction;
 	}
 	if ( IsKeyDown(KEY_D) )
 	{
-		//pos.x += speed * delta_;
-		pos += direction.Rotate90(true) * (speed * delta_);
+		pos.x += speed * delta_;
+		//pos += direction.Rotate90(true) * (speed * delta_);
 		speed -= staminaReduction;
 	}
 }
@@ -90,14 +97,14 @@ void Player::UpdateYMovement(float delta_)
 	//handle user input
 	if ( IsKeyDown(KEY_W) )
 	{
-		//pos.y += speed * delta_;
-		pos += direction * (speed * delta_);
+		pos.y += speed * delta_;
+		//pos += direction * (speed * delta_);
 		speed -= staminaReduction;	
 	}
 	if ( IsKeyDown(KEY_S) )
 	{
-		//pos.y -= speed * delta_;
-		pos -= direction * (speed * delta_);
+		pos.y -= speed * delta_;
+		//pos -= direction * (speed * delta_);
 		speed -= staminaReduction;
 	}
 }
