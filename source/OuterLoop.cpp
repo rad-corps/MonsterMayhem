@@ -1,3 +1,11 @@
+//////////////////////////////////////////////////////////////////////////
+// Monster Mayhem
+// Game Code By Adam Hulbert
+// For AIE Advanced Diploma - Practice Production Term 4 2014
+// 22/12/2014
+// OuterLoop.cpp
+/////////////////////////////////////////////////////////////////////////
+
 #include "OuterLoop.h"
 #include "PSMainMenu.h"
 #include "AIE.h"
@@ -32,7 +40,9 @@ OuterLoop::OuterLoop(void)
 
 	cout << "OuterLoop()" << endl;
 	Initialise( FileSettings::GetInt("SCREEN_W"), FileSettings::GetInt("SCREEN_H"),  FileSettings::GetBool("FULL_SCREEN"), "Monster Mayhem" );
-	ShowCursor(FALSE);
+	
+	if ( FileSettings::GetBool("FULL_SCREEN") )
+		ShowCursor(FALSE);
 
 	SetBackgroundColour( SColour( 0x00, 0x00, 0x00, 0xFF ) );
 	AddFont( "./fonts/invaders.fnt" );

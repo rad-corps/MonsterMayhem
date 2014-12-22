@@ -1,3 +1,11 @@
+//////////////////////////////////////////////////////////////////////////
+// Monster Mayhem
+// Game Code By Adam Hulbert
+// For AIE Advanced Diploma - Practice Production Term 4 2014
+// 22/12/2014
+// PathFinder.cpp
+/////////////////////////////////////////////////////////////////////////
+
 //I decided that A* was not a good idea for this project, but I have left the code here just as a reference. Adam. 
 
 

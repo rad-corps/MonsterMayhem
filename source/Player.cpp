@@ -1,3 +1,11 @@
+//////////////////////////////////////////////////////////////////////////
+// Monster Mayhem
+// Game Code By Adam Hulbert
+// For AIE Advanced Diploma - Practice Production Term 4 2014
+// 22/12/2014
+// Player.cpp
+/////////////////////////////////////////////////////////////////////////
+
 #include "Player.h"
 #include "AIE.h"
 #include "FrameworkHelpers.h"
@@ -61,12 +69,14 @@ void Player::UpdateXMovement(float delta_)
 
 	if ( IsKeyDown(KEY_A) )
 	{
-		pos.x -= speed * delta_;
+		//pos.x -= speed * delta_;
+		pos += direction.Rotate90(false) * (speed * delta_);
 		speed -= staminaReduction;
 	}
 	if ( IsKeyDown(KEY_D) )
 	{
-		pos.x += speed * delta_;
+		//pos.x += speed * delta_;
+		pos += direction.Rotate90(true) * (speed * delta_);
 		speed -= staminaReduction;
 	}
 }
@@ -80,12 +90,14 @@ void Player::UpdateYMovement(float delta_)
 	//handle user input
 	if ( IsKeyDown(KEY_W) )
 	{
-		pos.y += speed * delta_;
+		//pos.y += speed * delta_;
+		pos += direction * (speed * delta_);
 		speed -= staminaReduction;	
 	}
 	if ( IsKeyDown(KEY_S) )
 	{
-		pos.y -= speed * delta_;
+		//pos.y -= speed * delta_;
+		pos -= direction * (speed * delta_);
 		speed -= staminaReduction;
 	}
 }
@@ -159,6 +171,7 @@ void Player::Update(float delta_)
 	Vector2 screenPos = GetGameObjectScreenPosition(pos);
 	Vector2 mouse(mouseX, mouseY);
 	direction = mouse - screenPos;	
+	direction.Normalise();
 	
 	//calculate camera position
 	Vector2 camAnchor(pos.x - FileSettings::GetInt("SCREEN_W"), pos.y - FileSettings::GetInt("SCREEN_H"));

@@ -1,6 +1,12 @@
-//Downloaded from http://www.codeproject.com/Articles/8342/CIniFile-Class-for-C-A-robust-cross-platform-INI-f
-//for use in Monster Mayhem 2015
-//original author: Todd Davis
+//////////////////////////////////////////////////////////////////////////
+// Monster Mayhem
+// Downloaded from http://www.codeproject.com/Articles/8342/CIniFile-Class-for-C-A-robust-cross-platform-INI-f
+// original author: Todd Davis
+// For AIE Advanced Diploma - Practice Production Term 4 2014
+// 22/12/2014
+// GameGUI.h
+/////////////////////////////////////////////////////////////////////////
+
 #pragma once
 #include <string>
 #include <vector>
