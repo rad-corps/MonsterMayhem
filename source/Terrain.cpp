@@ -175,6 +175,7 @@ void Terrain::SetRockTile(int col_, int row_)
 	rockTiles.push_back(make_pair(col_, row_));
 	Rect temp(Vector2(col_ * TERRAIN_W, row_ * TERRAIN_H), TERRAIN_W, TERRAIN_H);
 	unwalkableTerrain.push_back(temp);
+	unspittableTerrain.push_back(temp);
 }
 
 void Terrain::SetMudTile(int col_, int row_)
@@ -189,6 +190,7 @@ void Terrain::SetTreeTile(int col_, int row_)
 	treeTiles.push_back(make_pair(col_, row_));
 	Rect temp(Vector2(col_ * TERRAIN_W, row_ * TERRAIN_H), TERRAIN_W, TERRAIN_H);
 	unwalkableTerrain.push_back(temp);
+	unspittableTerrain.push_back(temp);
 }
 
 
@@ -307,4 +309,9 @@ Terrain::GetUnwalkableTerrain()
 vector<Rect> Terrain::GetMudTerrain()
 {
 	return mudTerrain;
+}
+
+vector<Rect> Terrain::GetUnspittableTerrain()
+{
+	return unspittableTerrain;
 }

@@ -204,6 +204,17 @@ ProgramState* PSGameLoop::Update(float delta_)
 	for (int i = 0; i < SPIT_POOL; ++i )
 	{
 		spitList[i].Update(delta_);
+
+		//check against the treelist
+		vector<Rect> unspittable = terrain.GetUnspittableTerrain();
+
+		for (int terrain = 0; terrain < unspittable.size(); ++terrain )
+		{
+			if ( Collision::RectCollision(unspittable[terrain], spitList[i].GetRect()) )
+			{
+				spitList[i].SetActive(false);
+			}
+		}
 	}
 
 	//check if all enemies have been killed

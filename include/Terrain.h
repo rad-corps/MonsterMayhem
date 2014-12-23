@@ -42,6 +42,7 @@ public:
 	//used for collision detection
 	vector<Rect> GetUnwalkableTerrain();
 	vector<Rect> GetMudTerrain();
+	vector<Rect> GetUnspittableTerrain();
 
 private:
 	void ProcessCSVToTerrain(vector<string> rowText, int rowNum_);
@@ -53,6 +54,7 @@ private:
 
 	vector<Rect> unwalkableTerrain;
 	vector<Rect> mudTerrain;
+	vector<Rect> unspittableTerrain;
 
 	unsigned int masterGrassTile;
 	unsigned int straightRiver;
