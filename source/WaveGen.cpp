@@ -103,31 +103,31 @@ WaveItems WaveGen::Generate(int waveNum_, Player* player_, vector<Rect> unwalkab
 
 	//create some random monsters
 	//const int MAX_NUM_OF_SLUGS = waveNum_ * 4.f;
-	const int MAX_NUM_OF_SLUGS = 30;
-	int numOfSlugs = rand() % MAX_NUM_OF_SLUGS + 1;
-	cout << "numOfSlugs : " << numOfSlugs << endl;
-	ret.slugCount = numOfSlugs;
-	for (int i = 0; i < numOfSlugs; ++i )
+	const int MAX_NUM_OF_SLUGS = FileSettings::GetInt("SLUGS");
+	//int numOfSlugs = rand() % MAX_NUM_OF_SLUGS + 1;
+	//cout << "numOfSlugs : " << numOfSlugs << endl;
+	ret.slugCount = MAX_NUM_OF_SLUGS;
+	for (int i = 0; i < MAX_NUM_OF_SLUGS; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::SLUG, player_, SAFE_SPAWN_DISTANCE));
 	}
 
 	//const int MAX_NUM_OF_MOTHS = waveNum_ * 2.3f;
-	const int MAX_NUM_OF_MOTHS = 10;
-	int numOfMoths = rand() % MAX_NUM_OF_MOTHS + 1;
-	cout << "numOfMoths : " << numOfMoths << endl;
-	ret.mothCount = numOfMoths;
-	for (int i = 0; i < numOfMoths; ++i )
+	const int MAX_NUM_OF_MOTHS = FileSettings::GetInt("MOTHS");;
+	//int numOfMoths = rand() % MAX_NUM_OF_MOTHS + 1;
+	//cout << "numOfMoths : " << numOfMoths << endl;
+	ret.mothCount = MAX_NUM_OF_MOTHS;
+	for (int i = 0; i < MAX_NUM_OF_MOTHS; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::MOTH, player_, SAFE_SPAWN_DISTANCE));
 	}
 	
 	//const int MAX_NUM_OF_WALKERS = waveNum_ * 1.0f;
-	const int MAX_NUM_OF_WALKERS = 20;
-	int numOfFatWalkers = rand() % MAX_NUM_OF_WALKERS + 1;
-	cout << "numOfFatWalkers : " << numOfFatWalkers << endl;
-	ret.walkerCount = numOfFatWalkers;
-	for (int i = 0; i < numOfFatWalkers; ++i )
+	const int MAX_NUM_OF_WALKERS = FileSettings::GetInt("WALKERS");;
+	//int numOfFatWalkers = rand() % MAX_NUM_OF_WALKERS + 1;
+	//cout << "numOfFatWalkers : " << numOfFatWalkers << endl;
+	ret.walkerCount = MAX_NUM_OF_WALKERS;
+	for (int i = 0; i < MAX_NUM_OF_WALKERS; ++i )
 	{
 		monsterList.push_back(SpawnMonster(MONSTER_TYPE::FAT_WALKER, player_, SAFE_SPAWN_DISTANCE));
 	}

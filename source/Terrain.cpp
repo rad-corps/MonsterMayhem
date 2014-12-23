@@ -160,13 +160,16 @@ void Terrain::Load(string fileName_)
 	//get the first line of the file.. 
 	//syntax: map_width, map_height, player_x_tile, player_y_tile
 	{
-		string map_width, map_height, player_x_tile, player_y_tile;
+		string map_width, map_height, player_x_tile, player_y_tile, slugs, moths, walkers;
 		getline ( file, value, '\n' );
 		istringstream line_stream(value);	
 		getline(line_stream, map_width, ',');
 		getline(line_stream, map_height, ',');
 		getline(line_stream, player_x_tile, ',');
 		getline(line_stream, player_y_tile, ',');
+		getline(line_stream, slugs, ',');
+		getline(line_stream, moths, ',');
+		getline(line_stream, walkers, ',');
 
 		FileSettings::AddIntValue("TERRAIN_COLS", atoi(map_width.c_str()));
 		FileSettings::AddIntValue("TERRAIN_ROWS", atoi(map_height.c_str()));
@@ -174,6 +177,10 @@ void Terrain::Load(string fileName_)
 		FileSettings::AddIntValue("PLAYER_Y_TILE", atoi(player_y_tile.c_str()));
 		FileSettings::AddIntValue("BATTLE_FIELD_W", FileSettings::GetInt("TERRAIN_COLS") * TERRAIN_W);
 		FileSettings::AddIntValue("BATTLE_FIELD_H", FileSettings::GetInt("TERRAIN_ROWS") * TERRAIN_H);
+
+		FileSettings::AddIntValue("SLUGS", atoi(slugs.c_str()));
+		FileSettings::AddIntValue("MOTHS", atoi(moths.c_str()));
+		FileSettings::AddIntValue("WALKERS", atoi(walkers.c_str()));
 	}
 
 	rowNum = FileSettings::GetInt("TERRAIN_ROWS") - 1;
