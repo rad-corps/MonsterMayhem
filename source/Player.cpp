@@ -56,6 +56,7 @@ Player::Player(Vector2 pos_)
 	p2.Spawn(POWER_UP_TYPE::SPEED_UP, pos);
 	EatPowerUp(p1);
 	EatPowerUp(p2);
+	inMud = false;
 }
 
 
@@ -68,21 +69,29 @@ void Player::UndoUpdate()
 	pos = previousPos;
 }
 
+void Player::SetInMud(bool inMud_)
+{
+	inMud = inMud_;
+}
+
 void Player::UpdateXMovement(float delta_)
 {
 	previousPos = pos;
+	float costMutliplyer = 1.0f;
+	if (inMud )
+		costMutliplyer /= 2;
 
 	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
 
 	if ( IsKeyDown(KEY_A) )
 	{
-		pos.x -= speed * delta_;
+		pos.x -= speed * delta_ * costMutliplyer;
 		//pos += direction.Rotate90(false) * (speed * delta_);
 		speed -= staminaReduction;
 	}
 	if ( IsKeyDown(KEY_D) )
 	{
-		pos.x += speed * delta_;
+		pos.x += speed * delta_ * costMutliplyer;
 		//pos += direction.Rotate90(true) * (speed * delta_);
 		speed -= staminaReduction;
 	}
@@ -92,18 +101,22 @@ void Player::UpdateYMovement(float delta_)
 {
 	previousPos = pos;
 
+	float costMutliplyer = 1.0f;
+	if (inMud )
+		costMutliplyer /= 2;
+
 	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
 
 	//handle user input
 	if ( IsKeyDown(KEY_W) )
 	{
-		pos.y += speed * delta_;
+		pos.y += speed * delta_ * costMutliplyer;
 		//pos += direction * (speed * delta_);
 		speed -= staminaReduction;	
 	}
 	if ( IsKeyDown(KEY_S) )
 	{
-		pos.y -= speed * delta_;
+		pos.y -= speed * delta_ * costMutliplyer;
 		//pos -= direction * (speed * delta_);
 		speed -= staminaReduction;
 	}

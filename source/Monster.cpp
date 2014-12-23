@@ -28,6 +28,11 @@ void Monster::Hit(int hit_ )
 	}
 }
 
+void Monster::SetInMud(bool inMud_)
+{
+	inMud = inMud_;
+}
+
 bool Monster::CanSeePlayer()
 {
 	//are we within the enemy seeing distance? 

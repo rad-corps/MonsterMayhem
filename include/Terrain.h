@@ -36,20 +36,29 @@ public:
 
 	void SetRiverTile(int col_, int row_,FOUR_WAY_ROTATION direction_, RIVER_TILE_TYPE type_);
 	void SetTreeTile(int col_, int row_);
+	void SetMudTile(int col_, int row_);
+	void SetRockTile(int col_, int row_);
 	
 	//used for collision detection
 	vector<Rect> GetUnwalkableTerrain();
+	vector<Rect> GetMudTerrain();
 
 private:
 	void ProcessCSVToTerrain(vector<string> rowText, int rowNum_);
 
 	vector<RiverTileInfo> riverTiles;
 	vector<pair<int,int>> treeTiles;
+	vector<pair<int,int>> mudTiles;
+	vector<pair<int,int>> rockTiles;
+
 	vector<Rect> unwalkableTerrain;
+	vector<Rect> mudTerrain;
 
 	unsigned int masterGrassTile;
 	unsigned int straightRiver;
 	unsigned int cornerRiver;
 	unsigned int treeTile;
+	unsigned int mudTile;
+	unsigned int rockTile;
 };
 

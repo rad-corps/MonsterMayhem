@@ -17,6 +17,8 @@ Terrain::Terrain(void)
 	straightRiver = CreateSprite("./images/river_straight_256.png", TERRAIN_W, TERRAIN_H, true);
 	cornerRiver = CreateSprite("./images/river_corner_256.png", TERRAIN_W, TERRAIN_H, true);
 	treeTile = CreateSprite("./images/tree_top_01.png", TERRAIN_W, TERRAIN_H, true);
+	mudTile = CreateSprite("./images/mud_128.png", TERRAIN_W, TERRAIN_H, true);
+	rockTile = CreateSprite("./images/Rock_01.png", TERRAIN_W, TERRAIN_H, true);
 }
 
 
@@ -35,29 +37,29 @@ void Terrain::ProcessCSVToTerrain(vector<string> rowText, int rowNum_)
 		/*
 
 			table to convert CSV to Terrain
-			. = Grass							DEFAULT
+			. = Grass							
 			
 			- = Horozontal river
 			
-			| = vertical river				FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT
+			| = vertical river				
 			
 		   ___
 		   _  \
 			| |
 		    | |
-			\ = angle river					FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::CORNER
+			\ = angle river					
 			
 		      ___
 			 / __
 		    / /
 			| |
-			/ = rotated angle river			FOUR_WAY_ROTATION::ROT_90, RIVER_TILE_TYPE::CORNER
+			/ = rotated angle river			
 
 			| | 
 			| |
 			\  \__
 			 \____
-			 6 = rotated angle rive
+			 6 = rotated angle river
 
 			   | | 
 			   | | 
@@ -69,38 +71,56 @@ void Terrain::ProcessCSVToTerrain(vector<string> rowText, int rowNum_)
 
 		*/
 
-		if ( rowText[col] == "o" )
+		string bottomTile = rowText[col].substr(0,1);
+		string topTile = rowText[col].substr(1,1);
+
+		
+		//bottom tiles
+		if ( bottomTile == "m" )
+		{
+			SetMudTile(col, rowNum_);
+		}
+		else if ( bottomTile == "g" )
+		{
+			//g by default
+		}
+
+
+		//top tiles
+		if ( topTile == "o" )
 		{
 			SetTreeTile(col, rowNum_);
 		}
-		else if ( rowText[col] == "|" )
+		else if ( topTile== "|" )
 		{
 			SetRiverTile(col, rowNum_, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 		}
-		else if ( rowText[col] == "-" )
+		else if ( topTile == "-" )
 		{
 			SetRiverTile(col, rowNum_, FOUR_WAY_ROTATION::ROT_90, RIVER_TILE_TYPE::STRAIGHT);
 		}
-		else if ( rowText[col] == "/" )
+		else if ( topTile  == "/" )
 		{
 			SetRiverTile(col, rowNum_, FOUR_WAY_ROTATION::ROT_270, RIVER_TILE_TYPE::CORNER);
 		}
-		else if ( rowText[col] == "\\" )
+		else if ( topTile == "\\" )
 		{
 			SetRiverTile(col, rowNum_, FOUR_WAY_ROTATION::ROT_180, RIVER_TILE_TYPE::CORNER);
 		}
-		else if ( rowText[col] == "6" )
+		else if ( topTile == "6" )
 		{
 			SetRiverTile(col, rowNum_, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::CORNER);
 		}
-		else if ( rowText[col] == "9" )
+		else if ( topTile == "9" )
 		{
 			SetRiverTile(col, rowNum_, FOUR_WAY_ROTATION::ROT_90, RIVER_TILE_TYPE::CORNER);
 		}
 
+		else if ( topTile == "r" )
+		{
+			SetRockTile(col, rowNum_);
+		}
 	}
-
-
 	
 	cout << endl;
 }
@@ -131,6 +151,8 @@ void Terrain::Load(string fileName_)
 	}
 }
 
+
+
 void Terrain::SetRiverTile(int col_, int row_,FOUR_WAY_ROTATION direction_, RIVER_TILE_TYPE type_)
 {
 	//create the river tile info and add to the riverTiles vector
@@ -145,6 +167,21 @@ void Terrain::SetRiverTile(int col_, int row_,FOUR_WAY_ROTATION direction_, RIVE
 	unwalkableTerrain.push_back(temp);
 
 	//nodes[row_][col_].walkable = false;
+}
+
+
+void Terrain::SetRockTile(int col_, int row_)
+{
+	rockTiles.push_back(make_pair(col_, row_));
+	Rect temp(Vector2(col_ * TERRAIN_W, row_ * TERRAIN_H), TERRAIN_W, TERRAIN_H);
+	unwalkableTerrain.push_back(temp);
+}
+
+void Terrain::SetMudTile(int col_, int row_)
+{
+	mudTiles.push_back(make_pair(col_, row_));
+	Rect temp(Vector2(col_ * TERRAIN_W, row_ * TERRAIN_H), TERRAIN_W, TERRAIN_H);
+	mudTerrain.push_back(temp);
 }
 
 void Terrain::SetTreeTile(int col_, int row_)
@@ -175,17 +212,32 @@ void Terrain::Draw()
 		}
 	}
 
-	//draw the tree tiles
-	for (int i = 0; i != treeTiles.size(); ++i )
+	//draw the mud tiles
+	for (int i = 0; i != mudTiles.size(); ++i )
 	{
 		//determine position
-		float xPos = treeTiles[i].first * (TERRAIN_W);
-		float yPos = treeTiles[i].second * (TERRAIN_W);
+		float xPos = mudTiles[i].first * (TERRAIN_W);
+		float yPos = mudTiles[i].second * (TERRAIN_W);
 
-		MoveSprite(treeTile, xPos, yPos);			
+		MoveSprite(mudTile, xPos, yPos);			
 		//RotateSprite(tempSprite, rotation);
-		DrawSprite(treeTile);	
+		DrawSprite(mudTile);	
 	}
+
+	//draw the rock tiles
+	for (int i = 0; i != rockTiles.size(); ++i )
+	{
+		//determine position
+		float xPos = rockTiles[i].first * (TERRAIN_W);
+		float yPos = rockTiles[i].second * (TERRAIN_W);
+
+		MoveSprite(rockTile, xPos, yPos);			
+		//RotateSprite(tempSprite, rotation);
+		DrawSprite(rockTile);	
+	}
+
+
+
 
 	//draw the river tiles
 	for (int i = 0; i != riverTiles.size(); ++i )
@@ -232,10 +284,27 @@ void Terrain::Draw()
 		DrawSprite(tempSprite);	
 		RotateSprite(tempSprite, -rotation);
 	}
+
+	//draw the tree tiles
+	for (int i = 0; i != treeTiles.size(); ++i )
+	{
+		//determine position
+		float xPos = treeTiles[i].first * (TERRAIN_W);
+		float yPos = treeTiles[i].second * (TERRAIN_W);
+
+		MoveSprite(treeTile, xPos, yPos);			
+		//RotateSprite(tempSprite, rotation);
+		DrawSprite(treeTile);	
+	}
 }
 
 vector<Rect> 
 Terrain::GetUnwalkableTerrain()
 {
 	return unwalkableTerrain;
+}
+
+vector<Rect> Terrain::GetMudTerrain()
+{
+	return mudTerrain;
 }

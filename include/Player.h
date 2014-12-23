@@ -29,6 +29,7 @@ public:
 
 	void RegisterSpitObserver(SpitObserver* spitObserver_);
 	void RegisterPlayerObserver(PlayerObserver* playerObserver_);
+	void SetInMud( bool inMud );
 
 	void EatPowerUp(PowerUp& powerUp);
 
@@ -55,5 +56,7 @@ private:
 	PLAYER_ANIMATION animation;
 	//allow undo for fence/terrain collision
 	Vector2 previousPos;
+
+	bool inMud;
 };
 

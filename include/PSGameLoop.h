@@ -41,6 +41,7 @@ public:
 	virtual void ExplosionEvent(Vector2 position_, Vector2 direction_, int score_); 
 
 private:
+	void CheckPlayerMudCollision();
 	void CleanMonsterList();
 	void CheckPlayerTerrainCollision();
 	void BeginWave();

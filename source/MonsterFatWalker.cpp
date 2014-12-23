@@ -52,6 +52,7 @@ MonsterFatWalker::MonsterFatWalker(Vector2 pos_)
 	state = MONSTER_STATE::PAUSED;
 	animation = FAT_WALKER_ANIMATION::WALKER_ANIM_STATIONARY;
 	animationTimer = 0.0f;
+	inMud = false;
 }
 
 
@@ -146,7 +147,13 @@ void MonsterFatWalker::Update(float delta_)
 
 		float deltaSpeed = (speed * 2.0f) * delta_;
 		direction.SetMagnitude(deltaSpeed); //monster speed
-		pos += direction;
+		
+
+		if  (inMud)
+			pos += direction * 0.5f;
+		else
+			pos += direction;
+
 		movementTimer += delta_;
 		if ( movementTimer > movementTimeLimit )
 		{
@@ -187,7 +194,11 @@ void MonsterFatWalker::Update(float delta_)
 			float deltaSpeed = speed * delta_;
 			velocity = direction;
 			velocity.SetMagnitude(deltaSpeed);
-			pos += velocity;
+			
+			if ( inMud ) 
+				pos += velocity * 0.5f;
+			else
+				pos += velocity;
 		}
 	}
 }

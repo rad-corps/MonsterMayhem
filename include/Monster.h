@@ -19,6 +19,8 @@ public :
 	virtual void Draw() = 0;
 	virtual void HandleTerrainCollision() = 0;
 
+	void SetInMud(bool inMud_);
+
 
 	Monster();
 	virtual ~Monster();
@@ -30,6 +32,7 @@ public :
 protected:
 	int health;
 	int score;
+	bool inMud;
 	GameObject* target;
 	Vector2 direction;
 	bool CanSeePlayer();
@@ -37,4 +40,5 @@ protected:
 
 private:
 	static ExplosionObserver* explosionObserver;
+	
 };

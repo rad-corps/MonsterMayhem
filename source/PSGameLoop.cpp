@@ -44,8 +44,7 @@ PSGameLoop::PSGameLoop(void)
 	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
 
-	terrain.Load("test2.csv");
-
+	terrain.Load("lvl1.csv");
 
 	////create rivers
 	//terrain.SetRiverTile(5,15, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
@@ -123,6 +122,22 @@ void PSGameLoop::CheckPlayerTerrainCollision()
 	}
 }
 
+void PSGameLoop::CheckPlayerMudCollision()
+{
+	//check for collision with mud and player
+	player.SetInMud(false);
+	
+	vector<Rect> mudTerrain = terrain.GetMudTerrain();
+	for (int i = 0; i < mudTerrain.size(); ++i )
+	{
+		if ( Collision::RectCollision(mudTerrain[i], player.GetRect()) )
+		{
+			player.SetInMud(true);
+		}
+	}
+
+}
+
 void PSGameLoop::BeginWave()
 {
 	gameState = GAME_LOOP_STATE::WAVE_BEGIN;	
@@ -169,6 +184,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 	player.Update(delta_);
 	player.UpdateXMovement(delta_);
 	CheckPlayerTerrainCollision();
+	CheckPlayerMudCollision();
 	player.UpdateYMovement(delta_);
 	CheckPlayerTerrainCollision();
 
@@ -200,7 +216,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 		//update monsters
 		for (int i = 0; i < monsterList.size(); ++i ) 
 		{
-			monsterList[i]->Update(delta_);
+			
 
 			//is there at least one enemy still alive? 
 			if ( monsterList[i]->IsActive() )
@@ -226,6 +242,22 @@ ProgramState* PSGameLoop::Update(float delta_)
 				}
 			}
 
+			//reset enemy in mud status
+			for (int j = 0; j < monsterList.size(); ++j )
+			{
+				monsterList[j]->SetInMud(false);
+			}
+
+			//check for collision with mud and monster
+			vector<Rect> mudTerrain = terrain.GetMudTerrain();
+			for (int terrain = 0; terrain < mudTerrain.size(); ++terrain )
+			{
+				if ( Collision::RectCollision(mudTerrain[terrain], monsterList[i]->GetRect()) )
+				{					
+					monsterList[i]->SetInMud(true);
+				}
+			}
+
 			//check this monster against each spit (BRUTE FORCE OH YEAH)
 			for (int spit = 0; spit < spitList.size(); ++ spit )
 			{
@@ -237,6 +269,8 @@ ProgramState* PSGameLoop::Update(float delta_)
 					spitList[spit].SetActive(false);
 				}
 			}
+
+			monsterList[i]->Update(delta_);
 		}
 
 	}
