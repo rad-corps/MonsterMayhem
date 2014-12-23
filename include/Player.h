@@ -24,6 +24,8 @@ public:
 	virtual void Update(float delta_);
 	virtual void Draw();
 
+	void SetPlayerPos(int tileX_, int tileY_);
+
 	void UpdateXMovement(float delta_);
 	void UpdateYMovement(float delta_);
 

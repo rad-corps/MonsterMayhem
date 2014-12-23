@@ -18,17 +18,31 @@
 #include "Node.h"
 #include "PathFinder.h"
 
+void PSGameLoop::NextLevel()
+{
+	
+
+	string fileName = "";
+	fileName += "lvl";
+	fileName += to_string(++level);
+	fileName += ".csv";
+
+	terrain.Load(fileName);
+
+	//clear all enemies
+	CleanMonsterList();
+
+	player.SetPlayerPos(FileSettings::GetInt("PLAYER_X_TILE"), FileSettings::GetInt("PLAYER_Y_TILE"));
+}
 
 PSGameLoop::PSGameLoop(void)
 {
 	cout << "PSGameLoop()" << endl;
-
+	level = 0;
 	currentTimer = 0.0f;
 	paused = false;
+	NextLevel();
 	
-	//Vector2 pos(FileSettings::GetFloat("PLAYER_INITIAL_POSITION_X"), FileSettings::GetInt("PLAYER_INITIAL_POSITION_Y"));
-	Vector2 pos(BATTLE_FIELD_W / 2, FileSettings::GetInt("PLAYER_INITIAL_POSITION_Y"));
-	player = Player(pos);
 	player.RegisterSpitObserver(this);
 	player.RegisterPlayerObserver(&gui);
 	Monster::RegisterExplosionObserver(this);
@@ -44,7 +58,7 @@ PSGameLoop::PSGameLoop(void)
 	waveBeginTimer = FileSettings::GetFloat("WAVE_BEGIN_TIMER");
 	waveEndTimer = FileSettings::GetFloat("WAVE_END_TIMER");
 
-	terrain.Load("lvl1.csv");
+	
 
 	////create rivers
 	//terrain.SetRiverTile(5,15, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
@@ -135,7 +149,17 @@ void PSGameLoop::CheckPlayerMudCollision()
 			player.SetInMud(true);
 		}
 	}
+}
 
+void PSGameLoop::CheckPlayerGoalCollision()
+{
+	Rect goal = terrain.GetGoalTile();
+
+	if ( Collision::RectCollision(goal, player.GetRect()) )
+	{
+		cout << "Level Complete - Load Next Level" << endl;
+		NextLevel();
+	}
 }
 
 void PSGameLoop::BeginWave()
@@ -187,6 +211,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 	CheckPlayerMudCollision();
 	player.UpdateYMovement(delta_);
 	CheckPlayerTerrainCollision();
+	CheckPlayerGoalCollision();
 
 	//update the explosions
 	for (int i = 0; i < explosions.size(); ++i )

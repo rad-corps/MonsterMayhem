@@ -9,6 +9,7 @@
 #include "Terrain.h"
 #include "AIE.h"
 #include <fstream>
+#include "FileSettings.h"
 
 Terrain::Terrain(void)
 {
@@ -19,6 +20,7 @@ Terrain::Terrain(void)
 	treeTile = CreateSprite("./images/tree_top_01.png", TERRAIN_W, TERRAIN_H, true);
 	mudTile = CreateSprite("./images/mud_128.png", TERRAIN_W, TERRAIN_H, true);
 	rockTile = CreateSprite("./images/Rock_01.png", TERRAIN_W, TERRAIN_H, true);
+	goalSprite = CreateSprite("./images/goal.png", TERRAIN_W, TERRAIN_H, true);
 }
 
 
@@ -115,26 +117,68 @@ void Terrain::ProcessCSVToTerrain(vector<string> rowText, int rowNum_)
 		{
 			SetRiverTile(col, rowNum_, FOUR_WAY_ROTATION::ROT_90, RIVER_TILE_TYPE::CORNER);
 		}
-
 		else if ( topTile == "r" )
 		{
 			SetRockTile(col, rowNum_);
+		}
+		else if ( topTile == "g" )
+		{
+			SetGoalTile(col, rowNum_);
 		}
 	}
 	
 	cout << endl;
 }
 
+void Terrain::Clear()
+{
+	riverTiles.clear();
+	treeTiles.clear();
+	mudTiles.clear();
+	rockTiles.clear();
+	goalTile = make_pair(0,0);
+
+	unwalkableTerrain.clear();
+	mudTerrain.clear();
+	unspittableTerrain.clear();
+	goalTerrain = Rect();
+
+}
+
 void Terrain::Load(string fileName_)
 {
+	cout << "Terrain::Load(" << fileName_ << ");" << endl;
 
-	
+	//must clear the existing terrain elements
+	Clear();
 
 	ifstream file (fileName_.c_str()); // declare file stream: http://www.cplusplus.com/reference/iostream/ifstream/
 	string value;
-	int rowNum = TERRAIN_ROWS - 1;
+	//int rowNum = TERRAIN_ROWS - 1;
+	int rowNum;
 
-	while ( file.good() )
+	//get the first line of the file.. 
+	//syntax: map_width, map_height, player_x_tile, player_y_tile
+	{
+		string map_width, map_height, player_x_tile, player_y_tile;
+		getline ( file, value, '\n' );
+		istringstream line_stream(value);	
+		getline(line_stream, map_width, ',');
+		getline(line_stream, map_height, ',');
+		getline(line_stream, player_x_tile, ',');
+		getline(line_stream, player_y_tile, ',');
+
+		FileSettings::AddIntValue("TERRAIN_COLS", atoi(map_width.c_str()));
+		FileSettings::AddIntValue("TERRAIN_ROWS", atoi(map_height.c_str()));
+		FileSettings::AddIntValue("PLAYER_X_TILE", atoi(player_x_tile.c_str()));
+		FileSettings::AddIntValue("PLAYER_Y_TILE", atoi(player_y_tile.c_str()));
+		FileSettings::AddIntValue("BATTLE_FIELD_W", FileSettings::GetInt("TERRAIN_COLS") * TERRAIN_W);
+		FileSettings::AddIntValue("BATTLE_FIELD_H", FileSettings::GetInt("TERRAIN_ROWS") * TERRAIN_H);
+	}
+
+	rowNum = FileSettings::GetInt("TERRAIN_ROWS") - 1;
+
+	while ( file.good() && rowNum >= 0 )
 	{
 		string cell;
 		getline ( file, value, '\n' );
@@ -193,6 +237,13 @@ void Terrain::SetTreeTile(int col_, int row_)
 	unspittableTerrain.push_back(temp);
 }
 
+void Terrain::SetGoalTile(int col_, int row_)
+{
+	goalTile = make_pair(col_, row_);
+	Rect temp(Vector2(col_ * TERRAIN_W, row_ * TERRAIN_H), TERRAIN_W, TERRAIN_H);
+	goalTerrain = temp;
+}
+
 
 void Terrain::Update(float delta_)
 {
@@ -202,9 +253,9 @@ void Terrain::Update(float delta_)
 void Terrain::Draw()
 {
 	//draw the grass tiles
-	for (int row = 0; row < TERRAIN_ROWS; ++row )
+	for (int row = 0; row < FileSettings::GetInt("TERRAIN_ROWS"); ++row )
 	{
-		for ( int col = 0; col < TERRAIN_COLS; ++col )
+		for ( int col = 0; col < FileSettings::GetInt("TERRAIN_COLS"); ++col )
 		{
 			float xPos = col * (TERRAIN_W);
 			float yPos = row * (TERRAIN_H);
@@ -298,6 +349,10 @@ void Terrain::Draw()
 		//RotateSprite(tempSprite, rotation);
 		DrawSprite(treeTile);	
 	}
+
+	//draw the goal
+	MoveSprite(goalSprite, goalTile.first * TERRAIN_W, goalTile.second * TERRAIN_H);
+	DrawSprite(goalSprite);
 }
 
 vector<Rect> 
@@ -314,4 +369,9 @@ vector<Rect> Terrain::GetMudTerrain()
 vector<Rect> Terrain::GetUnspittableTerrain()
 {
 	return unspittableTerrain;
+}
+
+Rect Terrain::GetGoalTile()
+{
+	return goalTerrain;
 }

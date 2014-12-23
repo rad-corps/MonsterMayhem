@@ -44,6 +44,8 @@ private:
 	void CheckPlayerMudCollision();
 	void CleanMonsterList();
 	void CheckPlayerTerrainCollision();
+	void CheckPlayerGoalCollision();
+	void NextLevel();
 	void BeginWave();
 
 	//game objects
@@ -59,6 +61,7 @@ private:
 	
 	//keep track of current wave number
 	int wave;
+	int level;
 
 	//timers
 	float waveBeginTimer;

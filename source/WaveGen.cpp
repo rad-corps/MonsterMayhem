@@ -11,6 +11,7 @@
 #include "MonsterMoth.h"
 #include "MonsterSlug.h"
 #include "MonsterFatWalker.h"
+#include "FileSettings.h"
 
 
 vector<Rect> WaveGen::unwalkableTerrain;
@@ -31,8 +32,8 @@ Vector2 WaveGen::RandomiseSafePosition(Vector2 target_, float safetyDistance_)
 {
 	
 	//randomise a position
-	int xPos = rand() % (BATTLE_FIELD_W - TERRAIN_W * 4) + (TERRAIN_W * 2);
-	int yPos = rand() % (BATTLE_FIELD_H - TERRAIN_H * 4) + (TERRAIN_H * 2);
+	int xPos = rand() % (FileSettings::GetInt("BATTLE_FIELD_W") - TERRAIN_W * 4) + (TERRAIN_W * 2);
+	int yPos = rand() % (FileSettings::GetInt("BATTLE_FIELD_H") - TERRAIN_H * 4) + (TERRAIN_H * 2);
 	Vector2 pos = Vector2(xPos,yPos);
 
 	//check pos against the target_ pos

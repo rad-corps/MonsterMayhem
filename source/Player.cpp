@@ -21,14 +21,11 @@ float PLAYER_SPIT3_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 5, PLAYER_V_MIN,
 
 //must call non default constructor 
 Player::Player()
-{}
-
-Player::Player(Vector2 pos_)
 {
 	width = PLAYER_W;
 	height = PLAYER_H;
 
-	pos = pos_;
+	//pos = pos_;
 	//pos = Vector2(BATTLE_FIELD_W/2, BATTLE_FIELD_H/2);
 	
 
@@ -59,9 +56,26 @@ Player::Player(Vector2 pos_)
 	inMud = false;
 }
 
+Player::Player(Vector2 pos_)
+{
+	
+
+
+}
+
 
 Player::~Player(void)
 {
+}
+
+void Player::SetPlayerPos(int tileX_, int tileY_)
+{
+	//get the pos from the level data
+
+	//invert the Y
+	int tileY = FileSettings::GetInt("TERRAIN_ROWS") - tileY_;
+	pos.x = tileX_ * TERRAIN_W;
+	pos.y = tileY * TERRAIN_H;
 }
 
 void Player::UndoUpdate()
