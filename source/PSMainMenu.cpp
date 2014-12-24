@@ -71,6 +71,7 @@ ProgramState* PSMainMenu::Update(float delta_)
 				percY >= startButtonPos.y &&
 				percY <= startButtonPos.y + startButtonSize.y )
 			{
+				cout << "Start Game " << endl;
 				return new PSGameLoop();
 			}
 
@@ -79,6 +80,7 @@ ProgramState* PSMainMenu::Update(float delta_)
 				percY >= howToPlayButtonPos.y &&
 				percY <= howToPlayButtonPos.y + howToPlayButtonSize.y )
 			{
+				cout << "How To Play: Objective Screen" << endl;
 				state = MAIN_MENU_STATE::OBJECTIVE_SCREEN;
 			}
 
@@ -87,6 +89,7 @@ ProgramState* PSMainMenu::Update(float delta_)
 				percY >= exitButtonPos.y &&
 				percY <= exitButtonPos.y + exitButtonSize.y )
 			{
+				cout << "Exit Button Pressed" << endl;
 				state = MAIN_MENU_STATE::SHUTTING_DOWN;
 				return new PSShuttingDown();
 			}
@@ -100,13 +103,17 @@ ProgramState* PSMainMenu::Update(float delta_)
 				percY <= instructionsNextButtonPos.y + instructionsNextButtonSize.y )
 			{
 				if ( state == MAIN_MENU_STATE::OBJECTIVE_SCREEN )
+				{
+					cout << "How To Play: Powerup Screen" << endl;
 					state = MAIN_MENU_STATE::POWERUP_SCREEN;
+				}
 				else if ( state == MAIN_MENU_STATE::POWERUP_SCREEN ) 
+				{
+					cout << "Back to main menu from How To Play Screen" << endl;
 					state = MAIN_MENU_STATE::MAIN_MENU_SCREEN;
+				}
 			}
 		}
-
-
 	}
 
 	lastMouseState = GetMouseButtonDown(0);

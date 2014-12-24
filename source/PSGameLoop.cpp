@@ -20,9 +20,7 @@
 
 void PSGameLoop::NextLevel()
 {
-	
-
-	string fileName = "";
+	string fileName = "levels\\";
 	fileName += "lvl";
 	fileName += to_string(++level);
 	fileName += ".csv";
@@ -41,7 +39,7 @@ PSGameLoop::PSGameLoop(void)
 	level = 0;
 	currentTimer = 0.0f;
 	paused = false;
-	NextLevel();
+	//NextLevel();
 	
 	player.RegisterSpitObserver(this);
 	player.RegisterPlayerObserver(&gui);
@@ -155,15 +153,16 @@ void PSGameLoop::CheckPlayerGoalCollision()
 {
 	Rect goal = terrain.GetGoalTile();
 
-	if ( Collision::RectCollision(goal, player.GetRect()) )
+	if ( Collision::RectCollision(goal, player.GetRect()) && monsterList.size() > 0 )
 	{
 		cout << "Level Complete - Load Next Level" << endl;
-		NextLevel();
+		CleanMonsterList();
 	}
 }
 
 void PSGameLoop::BeginWave()
 {
+	NextLevel();
 	gameState = GAME_LOOP_STATE::WAVE_BEGIN;	
 	cout << "GAME_LOOP_STATE::WAVE_BEGIN" << endl;
 
