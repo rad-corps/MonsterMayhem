@@ -65,8 +65,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(ProjectName)_d.exe</OutputFile>
       <AdditionalLibraryDirectories>./libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AIE_1st_Year_Framework_d.lib;kernel32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AIE_1st_Year_Framework_d.lib;kernel32.lib;bass.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile>$(OutDir)$(ProjectName)_d.pdb</ProgramDatabaseFile>
+      <AdditionalOptions>/SAFESEH[:NO] %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -87,10 +88,13 @@
       <OptimizeReferences>true</OptimizeReferences>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>./libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>AIE_1st_Year_Framework.lib;kernel32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>AIE_1st_Year_Framework.lib;kernel32.lib;bass.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/SAFESEH[:NO] %(AdditionalOptions)</AdditionalOptions>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\Sound.cpp" />
     <ClCompile Include="source\HitAnimation.cpp" />
     <ClCompile Include="source\PSShuttingDown.cpp" />
     <ClCompile Include="source\Explosion.cpp" />
@@ -121,6 +125,7 @@
     <ClCompile Include="source\WaveGen.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\bass.h" />
     <ClInclude Include="include\HitAnimation.h" />
     <ClInclude Include="include\Explosion.h" />
     <ClInclude Include="include\ExplosionObserver.h" />
@@ -156,6 +161,7 @@
     <ClInclude Include="include\SafeZone.h" />
     <ClInclude Include="include\MonsterFatWalker.h" />
     <ClInclude Include="include\PSShuttingDown.h" />
+    <ClInclude Include="include\Sound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

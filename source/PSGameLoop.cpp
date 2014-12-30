@@ -17,6 +17,7 @@
 #include "FrameworkHelpers.h"
 #include "Node.h"
 #include "PathFinder.h"
+#include "Sound.h"
 
 void PSGameLoop::NextLevel()
 {
@@ -405,6 +406,7 @@ void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_
 			break;
 		}
 	}
+	Sound::PlayGameSound(SOUNDS::SPIT);
 }
 
 void PSGameLoop::ExplosionEvent(Vector2 position_, Vector2 direction_, int score_)

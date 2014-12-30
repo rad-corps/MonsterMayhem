@@ -142,8 +142,6 @@ void Player::Update(float delta_)
 	timeSinceLoogie += delta_;
 	animationTimer += delta_;
 
-	
-
 	if ( status == PLAYER_STATUS::PLAYER_SPITTING ) 
 	{
 		if ( animationTimer > 0.06f ) 
@@ -198,7 +196,7 @@ void Player::Update(float delta_)
 		speed = FileSettings::GetFloat("MIN_PLAYER_SPEED");
 	}
 	
-	//get the mouse coordinate. used our own function as AIE one is inverted
+	//get the mouse coordinate. use our own function as the AIE one is inverted
 	GetMouseLocationEx(mouseX, mouseY, FileSettings::GetInt("SCREEN_H"));
 
 	//get the variables needed to calc player pos, rotation and camera pos. 

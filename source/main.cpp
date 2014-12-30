@@ -9,7 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-
+#include "sound.h"
 #include <windows.h>
 #include <Lmcons.h>
 
@@ -30,10 +30,12 @@ string CreateTimeString()
 }
 
 int main( int argc, char* argv[] )
-{		
+{	
+
 	{
 		srand (time(NULL));
 		FileSettings::LoadIniFile();
+		Sound::Initialise();
 
 		//get username
 		char username[UNLEN+1];
