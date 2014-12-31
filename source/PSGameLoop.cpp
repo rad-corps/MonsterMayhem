@@ -156,6 +156,7 @@ void PSGameLoop::CheckPlayerGoalCollision()
 
 	if ( Collision::RectCollision(goal, player.GetRect()) && monsterList.size() > 0 )
 	{
+		Sound::PlayGameSound(SOUNDS::WIN_LEVEL);
 		cout << "Level Complete - Load Next Level" << endl;
 		CleanMonsterList();
 	}
@@ -235,9 +236,13 @@ ProgramState* PSGameLoop::Update(float delta_)
 
 		for (int terrain = 0; terrain < unspittable.size(); ++terrain )
 		{
-			if ( Collision::RectCollision(unspittable[terrain], spitList[i].GetRect()) )
+			if ( spitList[i].IsActive() ) 
 			{
-				spitList[i].SetActive(false);
+				if ( Collision::RectCollision(unspittable[terrain], spitList[i].GetRect()) )
+				{
+					spitList[i].SetActive(false);
+					Sound::PlayGameSound(SOUNDS::TREE_HIT);				
+				}
 			}
 		}
 	}
@@ -261,6 +266,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 			//check collision with player, game over if collided
 			if ( Collision::CheckCollision(monsterList[i], &player) )
 			{
+				Sound::PlayGameSound(SOUNDS::PLAYER_DEATH);
 				cout << "GAME OVER" << endl;
 				cout << "Final Score: " << gui.Score();
 				PSGameOver* state = new PSGameOver();

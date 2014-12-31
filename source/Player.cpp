@@ -11,6 +11,7 @@
 #include "FrameworkHelpers.h"
 #include "Enums.h"
 #include "FileSettings.h"
+#include "Sound.h"
 
 float PLAYER_STATIONARY_UV[4] = { PLAYER_U_MIN                   , PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP    , PLAYER_V_MIN + PLAYER_V_STEP };
 float PLAYER_MOVEMENT1_UV[4] = { PLAYER_U_MIN + PLAYER_U_STEP    , PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 2, PLAYER_V_MIN + PLAYER_V_STEP };
@@ -290,6 +291,11 @@ void Player::RegisterPlayerObserver(PlayerObserver* playerObserver_)
 void Player::EatPowerUp(PowerUp& powerUp)
 {
 	POWER_UP_TYPE type = powerUp.Eat();
+
+	if ( type == POWER_UP_TYPE::SPEED_UP )
+		Sound::PlayGameSound(SOUNDS::STAMINA_UP);
+	else if ( type == POWER_UP_TYPE::SPIT_FREQUENCY ) 
+		Sound::PlayGameSound(SOUNDS::SPIT_UP);
 
 	if ( type == POWER_UP_TYPE::SPEED_UP ) 
 	{		

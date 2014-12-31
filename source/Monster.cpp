@@ -8,6 +8,7 @@
 
 #include "Monster.h"
 #include "FileSettings.h"
+#include "Sound.h"
 
 ExplosionObserver* Monster::explosionObserver = nullptr;
 
@@ -20,10 +21,13 @@ void Monster::Hit(int hit_ )
 {
 	health -= hit_;
 
+	Sound::PlayGameSound(SOUNDS::MONSTER_HIT);
+
 	if ( health <= 0 )
 	{
 		active = false;
 		explosionObserver->ExplosionEvent(pos, direction, score);
+		Sound::PlayGameSound(SOUNDS::MONSTER_EXPLOSION);
 		//DestroySprite(sprite);
 	}
 }
