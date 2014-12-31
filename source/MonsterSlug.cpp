@@ -227,9 +227,10 @@ void MonsterSlug::Draw()
 		if ( animation == SLUG_ANIMATION::SLUG_ANIM_HIT)
 			SetSpriteUVCoordinates	( sprite, SLUG_HIT_UV);
 
-		MoveSprite(sprite, pos.x, pos.y);
+		//MoveSprite(sprite, pos.x, pos.y);
 		RotateSpriteToVector(sprite, direction);
 		RotateSprite(sprite, 270.0f);
-		DrawSprite(sprite);
+		//DrawSprite(sprite);
+		DrawIfOnScreen(sprite, pos.x, pos.y);
 	}
 }

@@ -61,6 +61,8 @@ private:
 	vector<Rect> unspittableTerrain;
 	Rect		 goalTerrain;
 
+	float timer;
+
 	unsigned int masterGrassTile;
 	unsigned int straightRiver;
 	unsigned int cornerRiver;

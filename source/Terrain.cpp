@@ -10,6 +10,7 @@
 #include "AIE.h"
 #include <fstream>
 #include "FileSettings.h"
+#include "FrameworkHelpers.h"
 
 Terrain::Terrain(void)
 {
@@ -21,6 +22,7 @@ Terrain::Terrain(void)
 	mudTile = CreateSprite("./images/mud_128.png", TERRAIN_W, TERRAIN_H, true);
 	rockTile = CreateSprite("./images/Rock_01.png", TERRAIN_W, TERRAIN_H, true);
 	goalSprite = CreateSprite("./images/goal.png", TERRAIN_W, TERRAIN_H, true);
+	timer = 0.0f;
 }
 
 
@@ -254,7 +256,7 @@ void Terrain::SetGoalTile(int col_, int row_)
 
 void Terrain::Update(float delta_)
 {
-
+	timer += delta_;
 }
 
 void Terrain::Draw()
@@ -265,10 +267,8 @@ void Terrain::Draw()
 		for ( int col = 0; col < FileSettings::GetInt("TERRAIN_COLS"); ++col )
 		{
 			float xPos = col * (TERRAIN_W);
-			float yPos = row * (TERRAIN_H);
-			//DrawSprite(tiles[row][col]);
-			MoveSprite(masterGrassTile, xPos, yPos);
-			DrawSprite(masterGrassTile);			
+			float yPos = row * (TERRAIN_H);			
+			DrawIfOnScreen(masterGrassTile, xPos, yPos);
 		}
 	}
 
@@ -279,9 +279,7 @@ void Terrain::Draw()
 		float xPos = mudTiles[i].first * (TERRAIN_W);
 		float yPos = mudTiles[i].second * (TERRAIN_W);
 
-		MoveSprite(mudTile, xPos, yPos);			
-		//RotateSprite(tempSprite, rotation);
-		DrawSprite(mudTile);	
+		DrawIfOnScreen(mudTile, xPos, yPos);
 	}
 
 	//draw the rock tiles
@@ -291,13 +289,8 @@ void Terrain::Draw()
 		float xPos = rockTiles[i].first * (TERRAIN_W);
 		float yPos = rockTiles[i].second * (TERRAIN_W);
 
-		MoveSprite(rockTile, xPos, yPos);			
-		//RotateSprite(tempSprite, rotation);
-		DrawSprite(rockTile);	
+		DrawIfOnScreen(rockTile, xPos, yPos);	
 	}
-
-
-
 
 	//draw the river tiles
 	for (int i = 0; i != riverTiles.size(); ++i )
@@ -341,7 +334,7 @@ void Terrain::Draw()
 		//draw the sprite to the screen
 		MoveSprite(tempSprite, xPos, yPos);			
 		RotateSprite(tempSprite, rotation);
-		DrawSprite(tempSprite);	
+		DrawIfOnScreen(tempSprite, xPos, yPos);
 		RotateSprite(tempSprite, -rotation);
 	}
 
@@ -352,14 +345,10 @@ void Terrain::Draw()
 		float xPos = treeTiles[i].first * (TERRAIN_W);
 		float yPos = treeTiles[i].second * (TERRAIN_W);
 
-		MoveSprite(treeTile, xPos, yPos);			
-		//RotateSprite(tempSprite, rotation);
-		DrawSprite(treeTile);	
+		DrawIfOnScreen(treeTile, xPos, yPos);
 	}
 
-	//draw the goal
-	MoveSprite(goalSprite, goalTile.first * TERRAIN_W, goalTile.second * TERRAIN_H);
-	DrawSprite(goalSprite);
+	DrawIfOnScreen(goalSprite, goalTile.first * TERRAIN_W, goalTile.second * TERRAIN_H);
 }
 
 vector<Rect> 

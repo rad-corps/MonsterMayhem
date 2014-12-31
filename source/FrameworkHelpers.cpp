@@ -14,6 +14,8 @@
 #include <cstdlib>
 #include "FrameworkHelpers.h"
 #include <time.h>
+#include "FileSettings.h"
+#include "enums.h"
 
 
 //[0][0] -1 when pointing up && +1 when pointing down
@@ -141,3 +143,25 @@ float subtractSmallerNumber(float num1_, float num2_)
 		return num2_ - num1_;
 	return num1_ - num2_;
 }
+
+void DrawIfOnScreen(unsigned int sprite, float xPos, float yPos)
+{
+	float camPosX, camPosY;
+	GetCameraPosition(camPosX, camPosY);
+
+	if ( xPos + TERRAIN_W > camPosX && 
+		xPos - TERRAIN_W < camPosX + FileSettings::GetInt("SCREEN_W") &&
+		yPos + TERRAIN_H > camPosY  && 
+		yPos - TERRAIN_H < camPosY + FileSettings::GetInt("SCREEN_H") )
+	{
+		MoveSprite(sprite, xPos, yPos);
+		DrawSprite(sprite);			
+	}
+
+}
+
+//void DrawIfOnScreen(unsigned int sprite, float xPos, float yPos)
+//{
+//	MoveSprite(sprite, xPos, yPos);
+//	DrawSprite(sprite);			
+//}

@@ -45,3 +45,5 @@ void DrawStringAbs(const char * str_, int x_, int y_ );
 
 float subtractSmallerNumber(float num1_, float num2_);
 
+void DrawIfOnScreen(unsigned int sprite, float xPos, float yPos);
+

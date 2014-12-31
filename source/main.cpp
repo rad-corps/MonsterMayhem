@@ -41,22 +41,24 @@ int main( int argc, char* argv[] )
 		char username[UNLEN+1];
 		DWORD username_len = UNLEN+1;
 		GetUserName(username, &username_len);
-		
-		//create output file name
-		string outputFileName = "log\\";
-		outputFileName += username;		
-		outputFileName += CreateTimeString();
-		outputFileName += ".log";
-		FileSettings::AddStringValue("OUT_LOG", outputFileName);
 
-		//redirect console output to file
-		std::ofstream out(FileSettings::GetString("OUT_LOG"));	
-		std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
-		std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
-		cout << "Output redirected to: " << FileSettings::GetString("OUT_LOG") << endl;
-		cout << "Username: " << username << endl;
-				
+		std::ofstream out;
+		if ( FileSettings::GetBool("REDIRECT_OUT") )
+		{		
+			//create output file name
+			string outputFileName = "log\\";
+			outputFileName += username;		
+			outputFileName += CreateTimeString();
+			outputFileName += ".log";
+			FileSettings::AddStringValue("OUT_LOG", outputFileName);
 
+			//redirect console output to file
+			out = std::ofstream(FileSettings::GetString("OUT_LOG"));	
+			std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+			std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
+			cout << "Output redirected to: " << FileSettings::GetString("OUT_LOG") << endl;
+			cout << "Username: " << username << endl;
+		}
 
 		OuterLoop monsterMayhem;
 		monsterMayhem.Go();	

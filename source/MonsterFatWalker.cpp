@@ -227,10 +227,12 @@ void MonsterFatWalker::Draw()
 		}
 
 
-		MoveSprite(sprite, pos.x, pos.y);
+		
 		RotateSpriteToVector(sprite, direction);
 		RotateSprite(sprite, 270.0f);
-		DrawSprite(sprite);
+		//DrawSprite(sprite);
+		//MoveSprite(sprite, pos.x, pos.y);
+		DrawIfOnScreen(sprite, pos.x, pos.y);
 	}
 }
 
