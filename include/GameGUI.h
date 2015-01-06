@@ -43,6 +43,7 @@ private:
 	unsigned int greenBar;
 	unsigned int yellowBar;
 	unsigned int barBG;
+	unsigned int blackSprite;
 
 	int numSlug;
 	int numWalker;
@@ -50,6 +51,7 @@ private:
 
 	Vector2 staminaPos;
 	Vector2 salivaPos;
+	Vector2 scorePos;
 		
 	int staminaBars;
 	int salivaBars;

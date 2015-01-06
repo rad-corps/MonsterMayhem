@@ -45,7 +45,7 @@ OuterLoop::OuterLoop(void)
 		ShowCursor(FALSE);
 
 	SetBackgroundColour( SColour( 0x00, 0x00, 0x00, 0xFF ) );
-	AddFont( "./fonts/invaders.fnt" );
+	AddFont( "./fonts/arial.fnt" );
 
 	cursorSprite = CreateSprite("./images/circle_white.png", 32, 32, true);
 
