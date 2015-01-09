@@ -30,8 +30,20 @@ void PSGameLoop::NextLevel()
 
 	//clear all enemies
 	CleanMonsterList();
-
+	
 	player.SetPlayerPos(FileSettings::GetInt("PLAYER_X_TILE"), FileSettings::GetInt("PLAYER_Y_TILE"));
+
+	//spawn the power ups for the player each time they finish a wave
+	PowerUp p1;
+	PowerUp p2;
+
+	//trust the collision engine in update? 
+	p1.Spawn(POWER_UP_TYPE::SPEED_UP, player.Pos());
+	p2.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY, player.Pos());
+
+	//implicitly eat it just in case
+	player.EatPowerUp(p1);
+	player.EatPowerUp(p2);
 }
 
 PSGameLoop::PSGameLoop(int level_)
@@ -216,14 +228,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 	//update the terrain (does nothing at this stage)
 	terrain.Update(delta_);
 
-	//update the player
-	player.Update(delta_);
-	player.UpdateXMovement(delta_);
-	CheckPlayerTerrainCollision();
-	CheckPlayerMudCollision();
-	player.UpdateYMovement(delta_);
-	CheckPlayerTerrainCollision();
-	CheckPlayerGoalCollision();
+
 
 	//update the explosions
 	for (int i = 0; i < explosions.size(); ++i )
@@ -261,9 +266,20 @@ ProgramState* PSGameLoop::Update(float delta_)
 	//check if all enemies have been killed
 	bool waveStillRunning = false;
 
+	//update player regardless of whether the wave has started
+	player.Update(delta_);
 
 	if ( gameState != GAME_LOOP_STATE::WAVE_BEGIN )
 	{
+		//Capture player input and check for collission
+		player.UpdateYMovement(delta_);
+		CheckPlayerTerrainCollision();
+		player.UpdateXMovement(delta_);		
+		CheckPlayerTerrainCollision();
+		CheckPlayerMudCollision();	
+		CheckPlayerTerrainCollision();
+		CheckPlayerGoalCollision();
+
 		int slugNum = 0;
 		int mothNum = 0;
 		int walkerNum = 0;
@@ -422,16 +438,19 @@ void PSGameLoop::Draw()
 
 void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_)
 {
-	//get a spit that isnt currently active
-	for ( int i = 0; i < SPIT_POOL; ++i )
+	if ( gameState != GAME_LOOP_STATE::WAVE_BEGIN )
 	{
-		if ( !spitList[i].IsActive() )
+		//get a spit that isnt currently active
+		for ( int i = 0; i < SPIT_POOL; ++i )
 		{
-			spitList[i].HockOne(position_, rotation_, activeTime_);
-			break;
+			if ( !spitList[i].IsActive() )
+			{
+				spitList[i].HockOne(position_, rotation_, activeTime_);
+				break;
+			}
 		}
+		Sound::PlayGameSound(SOUNDS::SPIT);
 	}
-	Sound::PlayGameSound(SOUNDS::SPIT);
 }
 
 void PSGameLoop::ExplosionEvent(Vector2 position_, Vector2 direction_, int score_)

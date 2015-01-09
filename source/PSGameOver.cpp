@@ -79,5 +79,5 @@ ProgramState* PSGameOver::Update(float delta_)
 void PSGameOver::Draw()
 {
 	DrawSprite(sprite);
-	DrawStringAbs((string("FINAL SCORE  ") + to_string(score)).c_str(), (FileSettings::GetInt("SCREEN_W")/2) - 100 , (FileSettings::GetInt("SCREEN_H")/2)-100);
+	DrawStringAbs((string("F I N A L   S C O R E    ") + to_string(score)).c_str(), (FileSettings::GetInt("SCREEN_W")/2) - 130 , (FileSettings::GetInt("SCREEN_H")/2)-100);
 }

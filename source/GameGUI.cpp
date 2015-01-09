@@ -19,15 +19,8 @@ GameGUI::GameGUI(void)
 	barBG;
 
 	//create the sprites
-	sprBegWave = CreateSprite("./images/Wave_Begin.png", 
-		FileSettings::GetInt("BEG_WAVE_WIDTH"),
-		FileSettings::GetInt("BEG_WAVE_HEIGHT"),
-		false);
-
-	sprEndWave = CreateSprite("./images/Wave_Complete.png", 
-		FileSettings::GetInt("COMPLETE_WAVE_WIDTH"),
-		FileSettings::GetInt("COMPLETE_WAVE_HEIGHT"),
-		false);
+	sprBegWave = CreateSprite("./images/Wave_Begin.png", FileSettings::GetInt("SCREEN_W"), FileSettings::GetInt("SCREEN_H"), false);
+	sprEndWave = CreateSprite("./images/Wave_Complete.png", FileSettings::GetInt("SCREEN_W"), FileSettings::GetInt("SCREEN_H"), false);
 
 	blackSprite =  CreateSprite("./images/black.png", 
 		FileSettings::GetInt("SCREEN_W") + 2,
@@ -145,13 +138,15 @@ void GameGUI::Draw()
 
 	if ( state == GAME_LOOP_STATE::WAVE_END )
 	{
-		MoveSpriteAbs(sprEndWave, sprEndPos.x * FileSettings::GetInt("SCREEN_W"), sprEndPos.y * FileSettings::GetInt("SCREEN_H"));
+		//MoveSpriteAbs(sprEndWave, sprEndPos.x * FileSettings::GetInt("SCREEN_W"), sprEndPos.y * FileSettings::GetInt("SCREEN_H"));
+		MoveSpriteAbs(sprEndWave, 0.0f, FileSettings::GetInt("SCREEN_H"));
 		DrawSprite(sprEndWave);
 	}
 	
 	if ( state == GAME_LOOP_STATE::WAVE_BEGIN )
 	{
-		MoveSpriteAbs(sprBegWave, sprBegPos.x * FileSettings::GetInt("SCREEN_W"), sprBegPos.y * FileSettings::GetInt("SCREEN_H"));
+		//MoveSpriteAbs(sprBegWave, sprBegPos.x * FileSettings::GetInt("SCREEN_W"), sprBegPos.y * FileSettings::GetInt("SCREEN_H"));
+		MoveSpriteAbs(sprBegWave, 0.0f, FileSettings::GetInt("SCREEN_H"));
 		DrawSprite(sprBegWave);
 		//DrawStringAbs((string("Slugs:   ") + to_string(numSlug  )).c_str(), 100, 300);
 		//DrawStringAbs((string("Moths:   ") + to_string(numMoth  )).c_str(), 100, 400);
