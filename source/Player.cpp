@@ -147,17 +147,33 @@ void Player::UpdateXMovement(float delta_)
 
 	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
 
+	bool walkingDiagonal = IsKeyDown(KEY_W) || IsKeyDown(KEY_S);
+
 	if ( IsKeyDown(KEY_A) )
 	{
-		pos.x -= speed * delta_ * costMutliplyer;
-		//pos += direction.Rotate90(false) * (speed * delta_);
-		speed -= staminaReduction;
+		if ( !walkingDiagonal ) 
+		{
+			pos.x -= speed * delta_ * costMutliplyer;
+			speed -= staminaReduction;
+		}
+		else
+		{
+			pos.x -= speed * delta_ * costMutliplyer * 0.71f;
+			speed -= staminaReduction / 2;
+		}
 	}
 	if ( IsKeyDown(KEY_D) )
 	{
-		pos.x += speed * delta_ * costMutliplyer;
-		//pos += direction.Rotate90(true) * (speed * delta_);
-		speed -= staminaReduction;
+		if ( ! walkingDiagonal ) 
+		{
+			pos.x += speed * delta_ * costMutliplyer;
+			speed -= staminaReduction;
+		}
+		else
+		{
+			pos.x += speed * delta_ * costMutliplyer * 0.71f;
+			speed -= staminaReduction / 2;
+		}
 	}
 }
 
@@ -174,18 +190,34 @@ void Player::UpdateYMovement(float delta_)
 
 	float staminaReduction = FileSettings::GetFloat("STAMINA_REDUCER") * delta_;
 
+	bool walkingDiagonal = IsKeyDown(KEY_A) || IsKeyDown(KEY_D);
+
 	//handle user input
 	if ( IsKeyDown(KEY_W) )
 	{
-		pos.y += speed * delta_ * costMutliplyer;
-		//pos += direction * (speed * delta_);
-		speed -= staminaReduction;	
+		if ( !walkingDiagonal )
+		{
+			pos.y += speed * delta_ * costMutliplyer;		
+			speed -= staminaReduction;	
+		}
+		else
+		{
+			pos.y += speed * delta_ * costMutliplyer * 0.71f;		
+			speed -= staminaReduction / 2;	
+		}
 	}
 	if ( IsKeyDown(KEY_S) )
 	{
-		pos.y -= speed * delta_ * costMutliplyer;
-		//pos -= direction * (speed * delta_);
-		speed -= staminaReduction;
+		if ( !walkingDiagonal )
+		{
+			pos.y -= speed * delta_ * costMutliplyer;
+			speed -= staminaReduction;
+		}
+		else
+		{
+			pos.y -= speed * delta_ * costMutliplyer * 0.71f;
+			speed -= staminaReduction / 2;
+		}
 	}
 }
 
