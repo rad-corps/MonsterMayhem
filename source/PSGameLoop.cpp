@@ -71,7 +71,6 @@ PSGameLoop::PSGameLoop(void)
 	//terrain.SetRiverTile(9,11, FOUR_WAY_ROTATION::ROT_180, RIVER_TILE_TYPE::CORNER);
 	//terrain.SetRiverTile(9,10, FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 	//
-	////BRIDGE
 	//
 	//terrain.SetRiverTile(9,8,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
 	//terrain.SetRiverTile(9,7,  FOUR_WAY_ROTATION::ROT_0, RIVER_TILE_TYPE::STRAIGHT);
@@ -253,11 +252,20 @@ ProgramState* PSGameLoop::Update(float delta_)
 
 	if ( gameState != GAME_LOOP_STATE::WAVE_BEGIN )
 	{
+		int slugNum = 0;
+		int mothNum = 0;
+		int walkerNum = 0;
 
 		//update monsters
 		for (int i = 0; i < monsterList.size(); ++i ) 
 		{
-			
+			//increment monster counters
+			if ( monsterList[i]->IsActive() )
+			{
+				if ( monsterList[i]->Type() == MONSTER_TYPE::FAT_WALKER  ) ++walkerNum;
+				if ( monsterList[i]->Type() == MONSTER_TYPE::MOTH ) ++mothNum;
+				if ( monsterList[i]->Type() == MONSTER_TYPE::SLUG) ++slugNum;
+			}
 
 			//is there at least one enemy still alive? 
 			if ( monsterList[i]->IsActive() )
@@ -269,9 +277,9 @@ ProgramState* PSGameLoop::Update(float delta_)
 				Sound::PlayGameSound(SOUNDS::PLAYER_DEATH);
 				cout << "GAME OVER" << endl;
 				cout << "Final Score: " << gui.Score();
-				PSGameOver* state = new PSGameOver();
-				state->SetScore(gui.Score());
-				return state;
+				//PSGameOver* state = new PSGameOver();
+				//state->SetScore(gui.Score());
+				//return state;
 			}	
 
 			//check for collision with terrain and monster
@@ -314,7 +322,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 
 			monsterList[i]->Update(delta_);
 		}
-
+		gui.SetEnemyLore(slugNum, mothNum, walkerNum);
 	}
 
 	//is this the end of the current wave?

@@ -55,6 +55,7 @@ Player::Player()
 	EatPowerUp(p1);
 	EatPowerUp(p2);
 	inMud = false;
+	alive = true;
 }
 
 Player::Player(Vector2 pos_)

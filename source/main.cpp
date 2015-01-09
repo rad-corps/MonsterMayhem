@@ -64,15 +64,15 @@ int main( int argc, char* argv[] )
 		monsterMayhem.Go();	
 	} //let the out stream go out of scope
 
-	if ( FileSettings::GetBool("UPLOAD_USAGE") ) 
-	{
-		//upload the file
-		string curlCommand;
-		curlCommand += "log\\curl -u \"mmplaytest@adamhportfolio.com:o9HV&vCwArHL\" -v -T ";
-		curlCommand += FileSettings::GetString("OUT_LOG");
-		curlCommand += " ftp://209.236.127.138";
-		system(curlCommand.c_str());
-	}
+	//if ( FileSettings::GetBool("UPLOAD_USAGE") ) 
+	//{
+	//	//upload the file
+	//	string curlCommand;
+	//	curlCommand += "log\\curl -u \"mmplaytest@adamhportfolio.com:o9HV&vCwArHL\" -v -T ";
+	//	curlCommand += FileSettings::GetString("OUT_LOG");
+	//	curlCommand += " ftp://209.236.127.138";
+	//	system(curlCommand.c_str());
+	//}
 	Shutdown();
 	return 0;
 }

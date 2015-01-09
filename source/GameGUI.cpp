@@ -30,9 +30,13 @@ GameGUI::GameGUI(void)
 		false);
 
 	blackSprite =  CreateSprite("./images/black.png", 
-		FileSettings::GetInt("SCREEN_W"),
-		220,
-		true);
+		FileSettings::GetInt("SCREEN_W") + 2,
+		FileSettings::GetInt("GUI_HEIGHT"),
+		false);
+
+	mothSprite =  CreateSprite("./images/moth.png", 64, 64,	true);
+	slugSprite =  CreateSprite("./images/slug.png", 64, 64,	true);
+	walkerSprite =  CreateSprite("./images/walker.png", 64, 64,	true);
 
 	for (int i = 0; i < 10; ++i )
 	{
@@ -119,8 +123,25 @@ int GameGUI::Score()
 void GameGUI::Draw()
 {
 	//draw GUI Bar first
-	MoveSpriteAbs(blackSprite, FileSettings::GetInt("SCREEN_W") / 2, 25);
+	MoveSpriteAbs(blackSprite, -1, FileSettings::GetInt("GUI_HEIGHT"));
 	DrawSprite(blackSprite);
+
+	//display number of slugs
+	MoveSpriteAbs(slugSprite, FileSettings::GetInt("SCREEN_W") - FileSettings::GetInt("GUI_SLUG_NUM_X"),  FileSettings::GetInt("GUI_SLUG_NUM_Y"));
+	DrawSprite(slugSprite);
+	DrawStringAbs(to_string(numSlug).c_str(), FileSettings::GetInt("SCREEN_W") - FileSettings::GetInt("GUI_SLUG_NUM_X") - 10, FileSettings::GetInt("GUI_SLUG_NUM_Y") - 40);
+
+	//display number of moths
+	MoveSpriteAbs(mothSprite, FileSettings::GetInt("SCREEN_W") - FileSettings::GetInt("GUI_MOTH_NUM_X"),  FileSettings::GetInt("GUI_MOTH_NUM_Y"));
+	DrawSprite(mothSprite);
+	DrawStringAbs(to_string(numMoth).c_str(), FileSettings::GetInt("SCREEN_W") - FileSettings::GetInt("GUI_MOTH_NUM_X") - 10, FileSettings::GetInt("GUI_MOTH_NUM_Y") - 40);
+
+	//display number of walkers
+	MoveSpriteAbs(walkerSprite, FileSettings::GetInt("SCREEN_W") - FileSettings::GetInt("GUI_WALKER_NUM_X"),  FileSettings::GetInt("GUI_WALKER_NUM_Y"));
+	DrawSprite(walkerSprite);
+	DrawStringAbs(to_string(numWalker).c_str(), FileSettings::GetInt("SCREEN_W") - FileSettings::GetInt("GUI_WALKER_NUM_X") - 10, FileSettings::GetInt("GUI_WALKER_NUM_Y") - 40);
+
+
 
 	if ( state == GAME_LOOP_STATE::WAVE_END )
 	{

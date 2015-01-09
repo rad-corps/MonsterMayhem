@@ -44,6 +44,9 @@ private:
 	unsigned int yellowBar;
 	unsigned int barBG;
 	unsigned int blackSprite;
+	unsigned int walkerSprite;
+	unsigned int mothSprite;
+	unsigned int slugSprite;
 
 	int numSlug;
 	int numWalker;

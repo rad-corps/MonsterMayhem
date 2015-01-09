@@ -10,6 +10,7 @@
 
 #include "GameObject.h"
 #include "ExplosionObserver.h"
+#include "Enums.h"
 
 class Monster : public GameObject
 {
@@ -17,7 +18,8 @@ public :
 	//pure virtuals
 	virtual void Update(float delta_) = 0;
 	virtual void Draw() = 0;
-	virtual void HandleTerrainCollision() = 0;
+	virtual void HandleTerrainCollision() = 0;	
+	virtual MONSTER_TYPE Type() = 0;
 
 	void SetInMud(bool inMud_);
 

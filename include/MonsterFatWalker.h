@@ -25,6 +25,7 @@ public:
 	virtual void Update(float delta_);
 	virtual void Draw();
 	virtual void HandleTerrainCollision();
+	virtual MONSTER_TYPE Type(){return MONSTER_TYPE::FAT_WALKER;};
 
 	void Hit(int power = 10);
 

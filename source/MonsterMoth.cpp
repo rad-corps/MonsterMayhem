@@ -126,9 +126,12 @@ void MonsterMoth::Update(float delta_)
 		direction.y = -(direction.y);
 	}
 	
-	if ( CanSeePlayer() )
+	if ( animation != MOTH_ANIMATION::MOTH_ANIM_HIT ) 
 	{
-		direction = (target->Pos() - pos ).GetNormal();
+		if ( CanSeePlayer() )
+		{
+			direction = (target->Pos() - pos ).GetNormal();
+		}
 	}
 	
 	if ( animation != MOTH_ANIMATION::MOTH_ANIM_HIT ) 

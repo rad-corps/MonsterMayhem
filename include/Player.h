@@ -24,6 +24,8 @@ public:
 	virtual void Update(float delta_);
 	virtual void Draw();
 
+	void Die();
+
 	void SetPlayerPos(int tileX_, int tileY_);
 
 	void UpdateXMovement(float delta_);
@@ -60,5 +62,6 @@ private:
 	Vector2 previousPos;
 
 	bool inMud;
+	bool alive;
 };
 
