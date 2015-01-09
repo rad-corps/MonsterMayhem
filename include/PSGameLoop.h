@@ -27,7 +27,8 @@ class PSGameLoop :
 	public ProgramState, public SpitObserver, public ExplosionObserver
 {
 public:
-	PSGameLoop(void);
+	//PSGameLoop(void);
+	PSGameLoop(int level_ = 0);
 	virtual ~PSGameLoop(void);
 
 	//implementations for ProgramState interface
@@ -60,7 +61,7 @@ private:
 	
 	
 	//keep track of current wave number
-	int wave;
+	//int wave;
 	int level;
 
 	//timers

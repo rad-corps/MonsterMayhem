@@ -34,19 +34,18 @@ void PSGameLoop::NextLevel()
 	player.SetPlayerPos(FileSettings::GetInt("PLAYER_X_TILE"), FileSettings::GetInt("PLAYER_Y_TILE"));
 }
 
-PSGameLoop::PSGameLoop(void)
+PSGameLoop::PSGameLoop(int level_)
 {
-	cout << "PSGameLoop()" << endl;
-	level = 0;
+	level = level_;
+	cout << "PSGameLoop(" << level << ")" << endl;
 	currentTimer = 0.0f;
 	paused = false;
-	//NextLevel();
 	
 	player.RegisterSpitObserver(this);
 	player.RegisterPlayerObserver(&gui);
 	Monster::RegisterExplosionObserver(this);
 
-	wave = 1;
+	//wave = 1;
 	
 	//SPIT_POOL is arbitrary at this stage. its the number in the pool of spit *shakes head at own pun*
 	for ( int i = 0; i < SPIT_POOL; ++i )
@@ -106,7 +105,6 @@ PSGameLoop::PSGameLoop(void)
 
 	showMenuTimer = 0.0f;
 }
-
 
 PSGameLoop::~PSGameLoop(void)
 {
@@ -170,7 +168,7 @@ void PSGameLoop::BeginWave()
 	cout << "GAME_LOOP_STATE::WAVE_BEGIN" << endl;
 
 	CleanMonsterList();
-	WaveItems waveItems = WaveGen::Generate(wave++, &player, terrain.GetUnwalkableTerrain());
+	WaveItems waveItems = WaveGen::Generate(level, &player, terrain.GetUnwalkableTerrain());
 	monsterList = waveItems.monsterList;
 	powerUpList = waveItems.powerUpList;	
 	currentTimer = 0.0f;
@@ -193,7 +191,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 		if ( showMenuTimer > FileSettings::GetFloat("TIME_TO_WAIT_AFTER_DEATH") ) 
 		{
 			PSGameOver* state = new PSGameOver();
-			state->SetScore(gui.Score());
+			state->SetScore(gui.Score(), level);
 			return state;
 		}
 	}

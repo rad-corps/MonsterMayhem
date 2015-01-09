@@ -9,6 +9,7 @@
 #include "PSGameOver.h"
 #include "AIE.h"
 #include "PSMainMenu.h"
+#include "PSGameLoop.h"
 #include "FileSettings.h"
 #include "Enums.h"
 #include "FrameworkHelpers.h"
@@ -18,6 +19,8 @@ PSGameOver::PSGameOver(void)
 	sprite = CreateSprite("./images/Game_Over.png", FileSettings::GetInt("SCREEN_W"), FileSettings::GetInt("SCREEN_H"), false);
 	resetButtonPos = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_X"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_Y"));
 	resetButtonSize = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_WIDTH"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_HEIGHT"));
+	continueButtonPos = Vector2(FileSettings::GetFloat("GAME_OVER_CONTINUE_BUTTON_X"), FileSettings::GetFloat("GAME_OVER_CONTINUE_BUTTON_Y"));
+	continueButtonSize = Vector2(FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_WIDTH"), FileSettings::GetFloat("GAME_OVER_RESET_BUTTON_HEIGHT"));
 	shuttingDown = false;
 
 	lastMouseState = false;
@@ -28,9 +31,10 @@ PSGameOver::~PSGameOver(void)
 {
 }
 
-void PSGameOver::SetScore(int score_)
+void PSGameOver::SetScore(int score_, int level_)
 {
 	score = score_;
+	level = level_;
 }
 
 
@@ -56,6 +60,15 @@ ProgramState* PSGameOver::Update(float delta_)
 		{
 			return new PSMainMenu();
 		}
+
+		if ( percX >= continueButtonPos.x && 
+			percX <=  continueButtonPos.x + continueButtonSize.x &&
+			percY >= continueButtonPos.y &&
+			percY <= continueButtonPos.y + continueButtonSize.y )
+		{
+			return new PSGameLoop(--level);
+		}
+
 	}
 
 	lastMouseState = GetMouseButtonDown(0);
