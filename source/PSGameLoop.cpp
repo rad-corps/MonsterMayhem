@@ -103,6 +103,8 @@ PSGameLoop::PSGameLoop(void)
 	BeginWave();
 
 	shuttingDown = false;
+
+	showMenuTimer = 0.0f;
 }
 
 
@@ -182,6 +184,18 @@ ProgramState* PSGameLoop::Update(float delta_)
 	if ( IsKeyDown(KEY_ESCAPE) ) 
 	{
 		return new PSMainMenu();
+	}
+
+	if ( !player.Alive() && player.DeathAnimationFinished() ) 
+	{
+		showMenuTimer += delta_;
+
+		if ( showMenuTimer > FileSettings::GetFloat("TIME_TO_WAIT_AFTER_DEATH") ) 
+		{
+			PSGameOver* state = new PSGameOver();
+			state->SetScore(gui.Score());
+			return state;
+		}
 	}
 
 	if ( IsKeyDown (KEY_P))
@@ -272,14 +286,13 @@ ProgramState* PSGameLoop::Update(float delta_)
 				waveStillRunning = true;
 		
 			//check collision with player, game over if collided
-			if ( Collision::CheckCollision(monsterList[i], &player) )
+			if ( player.Alive() && Collision::CheckCollision(monsterList[i], &player) )
 			{
 				Sound::PlayGameSound(SOUNDS::PLAYER_DEATH);
 				cout << "GAME OVER" << endl;
 				cout << "Final Score: " << gui.Score();
-				//PSGameOver* state = new PSGameOver();
-				//state->SetScore(gui.Score());
-				//return state;
+				gameState = GAME_LOOP_STATE::PLAYER_DIED;
+				player.Die();
 			}	
 
 			//check for collision with terrain and monster

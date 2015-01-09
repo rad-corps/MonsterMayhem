@@ -25,6 +25,8 @@ public:
 	virtual void Draw();
 
 	void Die();
+	bool Alive();
+	bool DeathAnimationFinished();
 
 	void SetPlayerPos(int tileX_, int tileY_);
 
@@ -43,6 +45,7 @@ private:
 	void CalcGUIBars();
 
 	unsigned int sprite;
+	unsigned int deathSprite;
 
 	double mouseX;
 	double mouseY;

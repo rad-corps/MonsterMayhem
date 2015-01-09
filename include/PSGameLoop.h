@@ -67,6 +67,7 @@ private:
 	float waveBeginTimer;
 	float waveEndTimer;
 	float currentTimer;
+	float showMenuTimer;
 
 	bool paused;
 

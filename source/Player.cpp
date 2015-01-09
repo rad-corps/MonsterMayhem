@@ -13,12 +13,38 @@
 #include "FileSettings.h"
 #include "Sound.h"
 
+//UV coordinates
 float PLAYER_STATIONARY_UV[4] = { PLAYER_U_MIN                   , PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP    , PLAYER_V_MIN + PLAYER_V_STEP };
 float PLAYER_MOVEMENT1_UV[4] = { PLAYER_U_MIN + PLAYER_U_STEP    , PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 2, PLAYER_V_MIN + PLAYER_V_STEP };
 float PLAYER_MOVEMENT2_UV[4] = { PLAYER_U_MIN + PLAYER_U_STEP * 2, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 3, PLAYER_V_MIN + PLAYER_V_STEP };
 float PLAYER_SPIT1_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 3, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 4, PLAYER_V_MIN + PLAYER_V_STEP };
 float PLAYER_SPIT2_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 4, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 5, PLAYER_V_MIN + PLAYER_V_STEP };
 float PLAYER_SPIT3_UV[4] =     { PLAYER_U_MIN + PLAYER_U_STEP * 5, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP * 6, PLAYER_V_MIN + PLAYER_V_STEP };
+
+float PLAYER_DEATH1_UV[4] =	   { P_DEATH_U_MIN				       , P_DEATH_V_MIN, P_DEATH_U_MIN + P_DEATH_U_STEP    , P_DEATH_V_MIN + P_DEATH_V_STEP};
+float PLAYER_DEATH2_UV[4] =	   { P_DEATH_U_MIN + P_DEATH_U_STEP    , P_DEATH_V_MIN, P_DEATH_U_MIN + P_DEATH_U_STEP * 2, P_DEATH_V_MIN + P_DEATH_V_STEP};
+float PLAYER_DEATH3_UV[4] =	   { P_DEATH_U_MIN + P_DEATH_U_STEP * 2, P_DEATH_V_MIN, P_DEATH_U_MIN + P_DEATH_U_STEP * 3, P_DEATH_V_MIN + P_DEATH_V_STEP};
+float PLAYER_DEATH4_UV[4] =	   { P_DEATH_U_MIN + P_DEATH_U_STEP * 3, P_DEATH_V_MIN, P_DEATH_U_MIN + P_DEATH_U_STEP * 4, P_DEATH_V_MIN + P_DEATH_V_STEP};
+float PLAYER_DEATH5_UV[4] =	   { P_DEATH_U_MIN + P_DEATH_U_STEP * 4, P_DEATH_V_MIN, P_DEATH_U_MIN + P_DEATH_U_STEP * 5, P_DEATH_V_MIN + P_DEATH_V_STEP};
+float PLAYER_DEATH6_UV[4] =	   { P_DEATH_U_MIN + P_DEATH_U_STEP * 5, P_DEATH_V_MIN, P_DEATH_U_MIN + P_DEATH_U_STEP * 6, P_DEATH_V_MIN + P_DEATH_V_STEP};
+float PLAYER_DEATH7_UV[4] =	   { P_DEATH_U_MIN + P_DEATH_U_STEP * 6, P_DEATH_V_MIN, P_DEATH_U_MIN + P_DEATH_U_STEP * 7, P_DEATH_V_MIN + P_DEATH_V_STEP};
+float PLAYER_DEATH8_UV[4] =	   { P_DEATH_U_MIN + P_DEATH_U_STEP * 7, P_DEATH_V_MIN, P_DEATH_U_MIN + P_DEATH_U_STEP * 8, P_DEATH_V_MIN + P_DEATH_V_STEP};
+
+/// Non-scalable way
+PLAYER_ANIMATION& operator++(PLAYER_ANIMATION& f)
+{
+    switch(f)
+    {
+		case PLAYER_ANIMATION::PLAYER_ANIM_DEATH1: return f = PLAYER_ANIMATION::PLAYER_ANIM_DEATH2;
+		case PLAYER_ANIMATION::PLAYER_ANIM_DEATH2: return f = PLAYER_ANIMATION::PLAYER_ANIM_DEATH3;
+		case PLAYER_ANIMATION::PLAYER_ANIM_DEATH3: return f = PLAYER_ANIMATION::PLAYER_ANIM_DEATH4;
+		case PLAYER_ANIMATION::PLAYER_ANIM_DEATH4: return f = PLAYER_ANIMATION::PLAYER_ANIM_DEATH5;
+		case PLAYER_ANIMATION::PLAYER_ANIM_DEATH5: return f = PLAYER_ANIMATION::PLAYER_ANIM_DEATH6;
+		case PLAYER_ANIMATION::PLAYER_ANIM_DEATH6: return f = PLAYER_ANIMATION::PLAYER_ANIM_DEATH7;
+		case PLAYER_ANIMATION::PLAYER_ANIM_DEATH7: return f = PLAYER_ANIMATION::PLAYER_ANIM_DEATH8;		
+		case PLAYER_ANIMATION::PLAYER_ANIM_DEATH8: return f = PLAYER_ANIMATION::PLAYER_DEATH_ANIM_FINISHED;		
+    }
+}
 
 //must call non default constructor 
 Player::Player()
@@ -32,10 +58,12 @@ Player::Player()
 
 	float sprite_size[2] = { 64.0f, 64.0f };
 	float origin[2] = { 32.0f, 32.0f };
+	
 	//float uv[4] = { PLAYER_U_MIN, PLAYER_V_MIN, PLAYER_U_MIN + PLAYER_U_STEP, PLAYER_V_MIN + PLAYER_V_STEP};
 
 	//sprite = CreateSprite ( "./images/Character_sprite_sheet.png", sprite_size, origin, uv);
 	sprite = CreateSprite ( "./images/Character_sprite_sheet.png", sprite_size, origin, PLAYER_STATIONARY_UV);
+	deathSprite = CreateSprite ( "./images/player_death_sprite_sheet.png", sprite_size, origin, PLAYER_STATIONARY_UV);	
 
 	//sprite = CreateSprite ( "./images/Character_sprite_sheet.png", 512, 320, false);
 	
@@ -70,6 +98,23 @@ Player::~Player(void)
 {
 }
 
+void Player::Die()
+{
+	alive = false;
+	animation = PLAYER_ANIMATION::PLAYER_ANIM_DEATH1;
+	animationTimer = 0.0f;
+}
+
+bool Player::Alive()
+{
+	return alive;
+}
+
+bool Player::DeathAnimationFinished()
+{
+	return animation == PLAYER_ANIMATION::PLAYER_DEATH_ANIM_FINISHED;
+}
+
 void Player::SetPlayerPos(int tileX_, int tileY_)
 {
 	//get the pos from the level data
@@ -92,6 +137,9 @@ void Player::SetInMud(bool inMud_)
 
 void Player::UpdateXMovement(float delta_)
 {
+	if ( !alive ) 
+		return;
+
 	previousPos = pos;
 	float costMutliplyer = 1.0f;
 	if (inMud )
@@ -115,6 +163,9 @@ void Player::UpdateXMovement(float delta_)
 
 void Player::UpdateYMovement(float delta_)
 {
+	if ( !alive ) 
+		return;
+
 	previousPos = pos;
 
 	float costMutliplyer = 1.0f;
@@ -140,9 +191,23 @@ void Player::UpdateYMovement(float delta_)
 
 void Player::Update(float delta_)
 {	
-	
-	timeSinceLoogie += delta_;
 	animationTimer += delta_;
+	
+	if (!alive)
+	{
+		if ( animationTimer > 0.2f ) 
+		{
+			animationTimer = 0.0f;
+			animation++;
+
+			//todo check for animation complete. 
+		}
+
+		return;
+	}
+
+	timeSinceLoogie += delta_;
+	
 
 	if ( status == PLAYER_STATUS::PLAYER_SPITTING ) 
 	{
@@ -261,22 +326,49 @@ void Player::CalcGUIBars()
 
 void Player::Draw()
 {
-	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_STATIONARY)
-		SetSpriteUVCoordinates	( sprite, PLAYER_STATIONARY_UV);
-	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_WALKING1)
-		SetSpriteUVCoordinates	( sprite, PLAYER_MOVEMENT1_UV);
-	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_WALKING2)
-		SetSpriteUVCoordinates	( sprite, PLAYER_MOVEMENT2_UV);
-	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING1)
-		SetSpriteUVCoordinates	( sprite, PLAYER_SPIT1_UV);
-	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING2)
-		SetSpriteUVCoordinates	( sprite, PLAYER_SPIT2_UV);
-	if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING3)
-		SetSpriteUVCoordinates	( sprite, PLAYER_SPIT3_UV);
+	if ( alive ) 
+	{
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_STATIONARY)
+			SetSpriteUVCoordinates	( sprite, PLAYER_STATIONARY_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_WALKING1)
+			SetSpriteUVCoordinates	( sprite, PLAYER_MOVEMENT1_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_WALKING2)
+			SetSpriteUVCoordinates	( sprite, PLAYER_MOVEMENT2_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING1)
+			SetSpriteUVCoordinates	( sprite, PLAYER_SPIT1_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING2)
+			SetSpriteUVCoordinates	( sprite, PLAYER_SPIT2_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_SPITTING3)
+			SetSpriteUVCoordinates	( sprite, PLAYER_SPIT3_UV);
 
-	RotateSpriteToVector(sprite, direction);
-	RotateSprite(sprite, 270.0f);
-	DrawSprite(sprite);
+		RotateSpriteToVector(sprite, direction);
+		RotateSprite(sprite, 270.0f);
+		DrawSprite(sprite);
+	}
+	else
+	{
+		//draw death animation
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_DEATH1 )
+			SetSpriteUVCoordinates	( deathSprite, PLAYER_DEATH1_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_DEATH2 )
+			SetSpriteUVCoordinates	( deathSprite, PLAYER_DEATH2_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_DEATH3 )
+			SetSpriteUVCoordinates	( deathSprite, PLAYER_DEATH3_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_DEATH4 )
+			SetSpriteUVCoordinates	( deathSprite, PLAYER_DEATH4_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_DEATH5 )
+			SetSpriteUVCoordinates	( deathSprite, PLAYER_DEATH5_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_DEATH6 )
+			SetSpriteUVCoordinates	( deathSprite, PLAYER_DEATH6_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_DEATH7 )
+			SetSpriteUVCoordinates	( deathSprite, PLAYER_DEATH7_UV);
+		if ( animation == PLAYER_ANIMATION::PLAYER_ANIM_DEATH8 )
+			SetSpriteUVCoordinates	( deathSprite, PLAYER_DEATH8_UV);
+		MoveSprite(deathSprite, pos.x, pos.y);
+		RotateSpriteToVector(deathSprite, direction);
+		RotateSprite(deathSprite, 270.0f);
+		DrawSprite(deathSprite);
+	}
 }
 
 void Player::RegisterSpitObserver(SpitObserver* spitObserver_)
