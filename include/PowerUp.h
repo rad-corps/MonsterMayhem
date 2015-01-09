@@ -31,7 +31,13 @@ public:
 
 private:
 	POWER_UP_TYPE type;
+	bool anim;
+	float animationTimer;
 	unsigned int sprite;
+	static unsigned int spriteSpeedup1;
+	static unsigned int spriteSpeedup2;
+	static unsigned int spritePowerUp1;
+	static unsigned int spritePowerUp2;
 	float timeSinceSpawn;
 };
 
