@@ -62,6 +62,12 @@ void GameGUI::SetGameState(GAME_LOOP_STATE state_)
 void GameGUI::Update(float delta_)
 {
 	fps = 1 / delta_;
+	
+	//trying out the new range for loop
+	for ( auto &text : textList ) 
+	{
+		text.Update(delta_);
+	}
 }
 
 //saliva and stamina between 0 and 1
@@ -101,12 +107,11 @@ void GameGUI::SetEnemyLore(int slugs_, int moths_, int walkers_)
 	numWalker = walkers_;
 }
 
-void GameGUI::AddScore(int score_)
+void GameGUI::AddScore(int score_, Vector2 pos_)
 {
 	score += score_;
+	textList.push_back(TweenText(to_string(score_), pos_));
 }
-
-
 
 int GameGUI::Score()
 {
@@ -115,6 +120,11 @@ int GameGUI::Score()
 
 void GameGUI::Draw()
 {
+	for ( auto &text : textList ) 
+	{
+		text.Draw();
+	}
+
 	//draw GUI Bar first
 	MoveSpriteAbs(blackSprite, -1, FileSettings::GetInt("GUI_HEIGHT"));
 	DrawSprite(blackSprite);

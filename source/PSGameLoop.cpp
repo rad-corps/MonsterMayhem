@@ -277,7 +277,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 		player.UpdateXMovement(delta_);		
 		CheckPlayerTerrainCollision();
 		CheckPlayerMudCollision();	
-		CheckPlayerTerrainCollision();
+		//CheckPlayerTerrainCollision();
 		CheckPlayerGoalCollision();
 
 		int slugNum = 0;
@@ -342,6 +342,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 				{
 					//TODO add hit animation
 					monsterList[i]->Hit();
+					gui.AddScore(10, (*monsterList[i]).Pos());
 					hitAnimations.push_back(HitAnimation(spitList[spit].Pos()));
 					spitList[spit].SetActive(false);
 				}
@@ -357,6 +358,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 	{
 		cout << "GAME_LOOP_STATE::WAVE_END" << endl;
 		gameState = GAME_LOOP_STATE::WAVE_END;
+		gui.AddScore(100 * level, Vector2());
 		currentTimer = 0.0f;		
 	}
 
@@ -382,7 +384,8 @@ ProgramState* PSGameLoop::Update(float delta_)
 		
 		if  (Collision::CheckCollision(&player, &powerUpList[i]))
 		{
-			player.EatPowerUp(powerUpList[i]);			
+			gui.AddScore(100, powerUpList[i].Pos());
+			player.EatPowerUp(powerUpList[i]);					
 		}
 	}
 
@@ -456,7 +459,7 @@ void PSGameLoop::SpitEvent(Vector2 position_, float rotation_, float activeTime_
 void PSGameLoop::ExplosionEvent(Vector2 position_, Vector2 direction_, int score_)
 {
 	explosions.push_back(Explosion(position_, direction_));
-	gui.AddScore(score_);
+	gui.AddScore(score_, position_);
 
 	//30% chance of droping a pickup
 	int chance = rand() % 10 + 1;

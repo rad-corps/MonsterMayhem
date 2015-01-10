@@ -12,6 +12,8 @@
 #include "GameObject.h"
 #include "Enums.h"
 #include "PlayerObserver.h"
+#include "TweenText.h"
+#include <vector>
 
 class GameGUI : public GameObject, public PlayerObserver
 {
@@ -29,7 +31,7 @@ public:
 
 	void SetEnemyLore(int slugs_, int moths_, int walkers_);
 
-	void AddScore(int score_);
+	void AddScore(int score_, Vector2 pos_);
 	int Score();
 
 private:
@@ -67,5 +69,7 @@ private:
 	GAME_LOOP_STATE state;
 
 	float fps;
+
+	std::vector<TweenText> textList;
 };
 

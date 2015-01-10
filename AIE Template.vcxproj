@@ -123,6 +123,7 @@
     <ClCompile Include="source\Terrain.cpp" />
     <ClCompile Include="source\Spit.cpp" />
     <ClCompile Include="source\WaveGen.cpp" />
+    <ClCompile Include="source\TweenText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\bass.h" />
@@ -162,6 +163,7 @@
     <ClInclude Include="include\MonsterFatWalker.h" />
     <ClInclude Include="include\PSShuttingDown.h" />
     <ClInclude Include="include\Sound.h" />
+    <ClInclude Include="include\TweenText.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
