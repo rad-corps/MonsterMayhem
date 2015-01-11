@@ -9,6 +9,10 @@ HSTREAM Sound::soundSpitUp;
 HSTREAM Sound::soundExplosion;
 HSTREAM Sound::soundPlayerDeath;
 HSTREAM Sound::soundWinLevel;
+HSTREAM Sound::soundGameMusic;
+HSTREAM Sound::soundMenuMusic;
+HSTREAM Sound::soundRestartScreen;
+HSTREAM Sound::soundGameOver;
 
 int Sound::currentSpitNum = 0;
 
@@ -27,16 +31,20 @@ void Sound::Initialise()
 	
 	//create all the sounds
 	//HSTREAM myStream = BASS_StreamCreateFile(false,"./sound/spitpower.wav",0,0,0);
-	soundSpit.push_back(BASS_StreamCreateFile(false, "./sound/spit.wav", 0,0,0));
-	soundSpit.push_back(BASS_StreamCreateFile(false, "./sound/spit.wav", 0,0,0));
+	soundSpit.push_back(BASS_StreamCreateFile(false, "./sound/spit.mp3", 0,0,0));
+	soundSpit.push_back(BASS_StreamCreateFile(false, "./sound/spit.mp3", 0,0,0));
 	
-	soundMonsterHit = BASS_StreamCreateFile(false, "./sound/hit.wav", 0,0,0);
-	soundTreeHit    = BASS_StreamCreateFile(false, "./sound/tree_hit.wav", 0,0,0);	
-	soundExplosion  = BASS_StreamCreateFile(false, "./sound/explosion.wav", 0,0,0);	
-	soundSpitUp  = BASS_StreamCreateFile(false, "./sound/spitup.wav", 0,0,0);	
-	soundStaminaUp  = BASS_StreamCreateFile(false, "./sound/staminaup.wav", 0,0,0);	
-	soundPlayerDeath  = BASS_StreamCreateFile(false, "./sound/player_death.wav", 0,0,0);	
-	soundWinLevel = BASS_StreamCreateFile(false, "./sound/winlevel.wav", 0,0,0);	
+	soundMonsterHit = BASS_StreamCreateFile(false, "./sound/hit.mp3", 0,0,0);
+	soundTreeHit    = BASS_StreamCreateFile(false, "./sound/tree_hit.mp3", 0,0,0);	
+	soundExplosion  = BASS_StreamCreateFile(false, "./sound/explosion.mp3", 0,0,0);	
+	soundSpitUp  = BASS_StreamCreateFile(false, "./sound/spitup.mp3", 0,0,0);	
+	soundStaminaUp  = BASS_StreamCreateFile(false, "./sound/staminaup.mp3", 0,0,0);	
+	soundPlayerDeath  = BASS_StreamCreateFile(false, "./sound/player_death.mp3", 0,0,0);	
+	soundWinLevel = BASS_StreamCreateFile(false, "./sound/level_complete.mp3", 0,0,0);	
+	soundGameMusic = BASS_StreamCreateFile(false, "./sound/game_music.mp3", 0,0,0);	
+	soundMenuMusic = BASS_StreamCreateFile(false, "./sound/menu_music.mp3", 0,0,0);	
+	soundRestartScreen = BASS_StreamCreateFile(false, "./sound/restart_screen.mp3", 0,0,0);	
+	soundGameOver = BASS_StreamCreateFile(false, "./sound/game_over.mp3", 0,0,0);	
 
 	BASS_ChannelSetAttribute(soundSpit[0], BASS_ATTRIB_VOL, 0.6f);
 	BASS_ChannelSetAttribute(soundSpit[1], BASS_ATTRIB_VOL, 0.6f);
@@ -47,7 +55,28 @@ void Sound::Initialise()
 	BASS_ChannelSetAttribute(soundStaminaUp, BASS_ATTRIB_VOL, 0.6f);
 	BASS_ChannelSetAttribute(soundPlayerDeath, BASS_ATTRIB_VOL, 0.6f);
 	BASS_ChannelSetAttribute(soundWinLevel, BASS_ATTRIB_VOL, 0.6f);
+	BASS_ChannelSetAttribute(soundGameMusic, BASS_ATTRIB_VOL, 0.35f);
+	BASS_ChannelSetAttribute(soundMenuMusic, BASS_ATTRIB_VOL, 0.6f);
+	BASS_ChannelSetAttribute(soundRestartScreen, BASS_ATTRIB_VOL, 0.6f);
+	BASS_ChannelSetAttribute(soundGameOver, BASS_ATTRIB_VOL, 0.6f);
+	
 	//BASS_ChannelPlay(myStream, false);
+}
+
+void Sound::StopSound(SOUNDS sound_)
+{
+	if ( sound_ == SOUNDS::GAME_MUSIC)
+	{
+		BASS_ChannelStop(soundGameMusic);
+	}
+	if ( sound_ == SOUNDS::MENU_MUSIC)
+	{
+		BASS_ChannelStop(soundMenuMusic);
+	}
+	if ( sound_ == SOUNDS::RESTART_SCREEN_MUSIC )
+	{
+		BASS_ChannelStop(soundRestartScreen);
+	}
 }
 
 void Sound::PlayGameSound(SOUNDS sound_)
@@ -84,5 +113,21 @@ void Sound::PlayGameSound(SOUNDS sound_)
 	if ( sound_ == SOUNDS::WIN_LEVEL)
 	{
 		BASS_ChannelPlay(soundWinLevel, true);
+	}
+	if ( sound_ == SOUNDS::GAME_MUSIC)
+	{
+		BASS_ChannelPlay(soundGameMusic, true);
+	}
+	if ( sound_ == SOUNDS::MENU_MUSIC)
+	{
+		BASS_ChannelPlay(soundMenuMusic, true);
+	}
+	if ( sound_ == SOUNDS::RESTART_SCREEN_MUSIC)
+	{
+		BASS_ChannelPlay(soundRestartScreen, true);
+	}
+	if ( sound_ == SOUNDS::GAME_OVER_MUSIC)
+	{
+		BASS_ChannelPlay(soundGameOver, true);
 	}
 }

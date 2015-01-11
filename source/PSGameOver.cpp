@@ -13,6 +13,7 @@
 #include "FileSettings.h"
 #include "Enums.h"
 #include "FrameworkHelpers.h"
+#include "Sound.h"
 
 PSGameOver::PSGameOver(void)
 {
@@ -24,11 +25,13 @@ PSGameOver::PSGameOver(void)
 	shuttingDown = false;
 
 	lastMouseState = false;
+	Sound::PlayGameSound(SOUNDS::RESTART_SCREEN_MUSIC);
 }
 
 
 PSGameOver::~PSGameOver(void)
 {
+	Sound::StopSound(SOUNDS::RESTART_SCREEN_MUSIC);
 }
 
 void PSGameOver::SetScore(int score_, int level_)
@@ -58,6 +61,7 @@ ProgramState* PSGameOver::Update(float delta_)
 			percY >= resetButtonPos.y &&
 			percY <= resetButtonPos.y + resetButtonSize.y )
 		{
+			
 			return new PSMainMenu();
 		}
 

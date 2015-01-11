@@ -167,7 +167,7 @@ void PSGameLoop::CheckPlayerGoalCollision()
 
 	if ( Collision::RectCollision(goal, player.GetRect()) && monsterList.size() > 0 )
 	{
-		Sound::PlayGameSound(SOUNDS::WIN_LEVEL);
+		//Sound::PlayGameSound(SOUNDS::WIN_LEVEL);
 		cout << "Level Complete - Load Next Level" << endl;
 		CleanMonsterList();
 	}
@@ -178,6 +178,8 @@ void PSGameLoop::BeginWave()
 	NextLevel();
 	gameState = GAME_LOOP_STATE::WAVE_BEGIN;	
 	cout << "GAME_LOOP_STATE::WAVE_BEGIN" << endl;
+
+	Sound::PlayGameSound(SOUNDS::GAME_MUSIC);
 
 	CleanMonsterList();
 	WaveItems waveItems = WaveGen::Generate(level, &player, terrain.GetUnwalkableTerrain());
@@ -190,14 +192,15 @@ void PSGameLoop::BeginWave()
 
 ProgramState* PSGameLoop::Update(float delta_)
 {
-	//check if we want to switch states
-	if ( IsKeyDown(KEY_ESCAPE) ) 
-	{
-		return new PSMainMenu();
-	}
+	////check if we want to switch states
+	//if ( IsKeyDown(KEY_ESCAPE) ) 
+	//{
+	//	return new PSMainMenu();
+	//}
 
 	if ( !player.Alive() && player.DeathAnimationFinished() ) 
 	{
+
 		showMenuTimer += delta_;
 
 		if ( showMenuTimer > FileSettings::GetFloat("TIME_TO_WAIT_AFTER_DEATH") ) 
@@ -303,6 +306,8 @@ ProgramState* PSGameLoop::Update(float delta_)
 			if ( player.Alive() && Collision::CheckCollision(monsterList[i], &player) )
 			{
 				Sound::PlayGameSound(SOUNDS::PLAYER_DEATH);
+				Sound::PlayGameSound(SOUNDS::GAME_OVER_MUSIC);
+				Sound::StopSound(SOUNDS::GAME_MUSIC);
 				cout << "GAME OVER" << endl;
 				cout << "Final Score: " << gui.Score();
 				gameState = GAME_LOOP_STATE::PLAYER_DIED;
@@ -360,6 +365,8 @@ ProgramState* PSGameLoop::Update(float delta_)
 		gameState = GAME_LOOP_STATE::WAVE_END;
 		gui.AddScore(100 * level, Vector2());
 		currentTimer = 0.0f;		
+		Sound::StopSound(SOUNDS::GAME_MUSIC);
+		Sound::PlayGameSound(SOUNDS::WIN_LEVEL);
 	}
 
 	//wave begin has shown long enough, lets gen the wave.

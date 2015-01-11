@@ -10,6 +10,7 @@
 #include "FileSettings.h"
 #include "AIE.h"
 #include "FrameworkHelpers.h"
+#include <algorithm>
 
 GameGUI::GameGUI(void)
 {
@@ -110,7 +111,22 @@ void GameGUI::SetEnemyLore(int slugs_, int moths_, int walkers_)
 void GameGUI::AddScore(int score_, Vector2 pos_)
 {
 	score += score_;
-	textList.push_back(TweenText(to_string(score_), pos_));
+
+	//try to find one in the vector that is inactive
+	bool added = false;
+	for ( auto &text : textList ) 
+	{
+		if ( !text.IsActive() ) 
+		{			
+			text = TweenText(to_string(score_), pos_);
+			added = true;
+			break;
+		}
+	}
+
+	//if all are currently used, push back a new one. Should only ever grow in size to the number of simultaneous active elements on screen
+	if ( !added ) textList.push_back(TweenText(to_string(score_), pos_)); 
+		
 }
 
 int GameGUI::Score()

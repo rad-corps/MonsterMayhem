@@ -14,7 +14,11 @@ enum SOUNDS
 	STAMINA_UP,
 	SPIT_UP,
 	PLAYER_DEATH,
-	WIN_LEVEL
+	WIN_LEVEL,
+	GAME_MUSIC,
+	MENU_MUSIC,
+	RESTART_SCREEN_MUSIC,
+	GAME_OVER_MUSIC
 };
 
 class Sound
@@ -27,6 +31,7 @@ public:
 
 	static void Initialise();
 	static void PlayGameSound(SOUNDS);
+	static void StopSound(SOUNDS);
 
 	static vector<HSTREAM> soundSpit;
 	static int currentSpitNum;
@@ -37,5 +42,9 @@ public:
 	static HSTREAM soundExplosion;
 	static HSTREAM soundPlayerDeath;
 	static HSTREAM soundWinLevel;
+	static HSTREAM soundGameMusic;
+	static HSTREAM soundMenuMusic;
+	static HSTREAM soundRestartScreen;
+	static HSTREAM soundGameOver;
 };
 

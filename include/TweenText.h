@@ -24,3 +24,5 @@ private:
 	float maxTime;
 };
 
+bool IsTextInactive(const TweenText& text_);
+

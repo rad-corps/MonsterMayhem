@@ -26,7 +26,7 @@ public:
 	float Width();
 	float Height();
 
-	bool IsActive();
+	bool IsActive() const;
 	void SetActive(bool active_);
 	Vector2 Pos();
 
@@ -38,4 +38,3 @@ protected:
 	int height;
 	bool active;
 };
-

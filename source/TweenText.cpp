@@ -2,6 +2,13 @@
 #include "FrameworkHelpers.h"
 
 
+//predicate function
+bool IsTextInactive(const TweenText& text_)
+{
+	cout << !(text_.IsActive()) << endl; 
+	return !(text_.IsActive());
+}
+
 TweenText::TweenText(string text_, Vector2 startPos_, float maxTime_)
 {
 	timer = 0.0f;

@@ -20,7 +20,7 @@ GameObject::~GameObject(void)
 {
 }
 
-bool GameObject::IsActive()
+bool GameObject::IsActive() const
 {
 	return active;
 }

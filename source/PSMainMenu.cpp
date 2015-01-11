@@ -12,6 +12,7 @@
 #include "AIE.h"
 #include "Enums.h"
 #include "FileSettings.h"
+#include "Sound.h"
 
 
 
@@ -39,6 +40,8 @@ PSMainMenu::PSMainMenu(void)
 	lastMouseState = false;
 
 	shuttingDown = false;
+
+	Sound::PlayGameSound(SOUNDS::MENU_MUSIC);
 
 }
 
@@ -72,6 +75,7 @@ ProgramState* PSMainMenu::Update(float delta_)
 				percY <= startButtonPos.y + startButtonSize.y )
 			{
 				cout << "Start Game " << endl;
+				Sound::StopSound(SOUNDS::MENU_MUSIC);
 				return new PSGameLoop();
 			}
 
