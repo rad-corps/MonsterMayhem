@@ -13,6 +13,7 @@ HSTREAM Sound::soundGameMusic;
 HSTREAM Sound::soundMenuMusic;
 HSTREAM Sound::soundRestartScreen;
 HSTREAM Sound::soundGameOver;
+HSTREAM Sound::soundPickupDrop;
 
 int Sound::currentSpitNum = 0;
 
@@ -45,6 +46,7 @@ void Sound::Initialise()
 	soundMenuMusic = BASS_StreamCreateFile(false, "./sound/menu_music.mp3", 0,0,0);	
 	soundRestartScreen = BASS_StreamCreateFile(false, "./sound/restart_screen.mp3", 0,0,0);	
 	soundGameOver = BASS_StreamCreateFile(false, "./sound/game_over.mp3", 0,0,0);	
+	soundPickupDrop = BASS_StreamCreateFile(false, "./sound/pickup_drop.wav", 0,0,0);	
 
 	BASS_ChannelSetAttribute(soundSpit[0], BASS_ATTRIB_VOL, 0.6f);
 	BASS_ChannelSetAttribute(soundSpit[1], BASS_ATTRIB_VOL, 0.6f);
@@ -59,6 +61,7 @@ void Sound::Initialise()
 	BASS_ChannelSetAttribute(soundMenuMusic, BASS_ATTRIB_VOL, 0.6f);
 	BASS_ChannelSetAttribute(soundRestartScreen, BASS_ATTRIB_VOL, 0.6f);
 	BASS_ChannelSetAttribute(soundGameOver, BASS_ATTRIB_VOL, 0.6f);
+	BASS_ChannelSetAttribute(soundPickupDrop, BASS_ATTRIB_VOL, 0.2f);
 	
 	//BASS_ChannelPlay(myStream, false);
 }
@@ -129,5 +132,9 @@ void Sound::PlayGameSound(SOUNDS sound_)
 	if ( sound_ == SOUNDS::GAME_OVER_MUSIC)
 	{
 		BASS_ChannelPlay(soundGameOver, true);
+	}
+	if ( sound_ == SOUNDS::PICKUP_DROP)
+	{
+		BASS_ChannelPlay(soundPickupDrop, true);
 	}
 }

@@ -9,6 +9,7 @@
 #include "PowerUp.h"
 #include "AIE.h"
 #include "FileSettings.h"
+#include "Sound.h"
 
 //initialise statics
 unsigned int PowerUp::spriteSpeedup1 = 0;
@@ -112,11 +113,15 @@ void PowerUp::Spawn(POWER_UP_TYPE type_, Vector2 pos_)
 
 	active = true;
 	animationTimer = 0.0f;	
+	
 }
 
 void PowerUp::Spawn(Vector2 pos_)
 {
 	cout << "Spawn(" << pos_ << ");" << endl;
+	
+	Sound::PlayGameSound(SOUNDS::PICKUP_DROP);
+
 	int chance = rand() % 10 + 1;
 	if ( chance < 5 ) 
 		Spawn(POWER_UP_TYPE::SPEED_UP, pos_);

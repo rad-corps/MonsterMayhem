@@ -170,6 +170,8 @@ void PSGameLoop::CheckPlayerGoalCollision()
 		//Sound::PlayGameSound(SOUNDS::WIN_LEVEL);
 		cout << "Level Complete - Load Next Level" << endl;
 		CleanMonsterList();
+		gameState = GAME_LOOP_STATE::GOAL_REACHED;
+		gui.AddScore(100 * level, player.Pos());
 	}
 }
 
@@ -267,7 +269,7 @@ ProgramState* PSGameLoop::Update(float delta_)
 	}
 
 	//check if all enemies have been killed
-	bool waveStillRunning = false;
+	//bool waveStillRunning = false;
 
 	//update player regardless of whether the wave has started
 	player.Update(delta_);
@@ -299,8 +301,8 @@ ProgramState* PSGameLoop::Update(float delta_)
 			}
 
 			//is there at least one enemy still alive? 
-			if ( monsterList[i]->IsActive() )
-				waveStillRunning = true;
+			//if ( monsterList[i]->IsActive() )
+			//	waveStillRunning = true;
 		
 			//check collision with player, game over if collided
 			if ( player.Alive() && Collision::CheckCollision(monsterList[i], &player) )
@@ -359,11 +361,12 @@ ProgramState* PSGameLoop::Update(float delta_)
 	}
 
 	//is this the end of the current wave?
-	if ( gameState == GAME_LOOP_STATE::WAVE_RUNNING && !waveStillRunning) 
+	//if ( gameState == GAME_LOOP_STATE::WAVE_RUNNING && !waveStillRunning) 
+	if ( gameState == GAME_LOOP_STATE::GOAL_REACHED ) 
 	{
 		cout << "GAME_LOOP_STATE::WAVE_END" << endl;
 		gameState = GAME_LOOP_STATE::WAVE_END;
-		gui.AddScore(100 * level, Vector2());
+		
 		currentTimer = 0.0f;		
 		Sound::StopSound(SOUNDS::GAME_MUSIC);
 		Sound::PlayGameSound(SOUNDS::WIN_LEVEL);

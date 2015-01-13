@@ -35,6 +35,7 @@ public:
 private:
 	void SwitchMovementAnimation();
 	void ResetMovementDirection();
+	
 	void UndoUpdate();
 	//void GetNextNode();
 	Vector2 RandomiseDirection();

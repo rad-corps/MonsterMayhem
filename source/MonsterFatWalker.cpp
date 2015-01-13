@@ -26,7 +26,8 @@ unsigned int MonsterFatWalker::sprite = 0;
 void MonsterFatWalker::HandleTerrainCollision()
 {
 	UndoUpdate();
-	ResetMovementDirection();
+	//ResetMovementDirection();
+	Rotate();
 }
 
 

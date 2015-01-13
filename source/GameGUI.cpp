@@ -118,14 +118,14 @@ void GameGUI::AddScore(int score_, Vector2 pos_)
 	{
 		if ( !text.IsActive() ) 
 		{			
-			text = TweenText(to_string(score_), pos_);
+			text = TweenText(score_, pos_);
 			added = true;
 			break;
 		}
 	}
 
 	//if all are currently used, push back a new one. Should only ever grow in size to the number of simultaneous active elements on screen
-	if ( !added ) textList.push_back(TweenText(to_string(score_), pos_)); 
+	if ( !added ) textList.push_back(TweenText(score_, pos_)); 
 		
 }
 

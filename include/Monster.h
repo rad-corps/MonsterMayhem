@@ -21,6 +21,8 @@ public :
 	virtual void HandleTerrainCollision() = 0;	
 	virtual MONSTER_TYPE Type() = 0;
 
+	void Rotate(); //rotate a fixed amount
+
 	void SetInMud(bool inMud_);
 
 

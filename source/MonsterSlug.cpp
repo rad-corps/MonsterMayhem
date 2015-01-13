@@ -26,7 +26,8 @@ float SLUG_HIT_UV[4] =       { SLUG_U_MIN + SLUG_U_STEP     * 3, SLUG_V_MIN  , S
 void MonsterSlug::HandleTerrainCollision()
 {
 	UndoUpdate();
-	ResetMovementDirection();
+	//ResetMovementDirection();
+	Rotate();
 }
 
 
@@ -72,8 +73,10 @@ void MonsterSlug::Hit(int power_)
 Vector2 MonsterSlug::RandomiseDirection()
 {
 	Vector2 ret; 
-	int num = rand() % 4; //number between 0 and 3 inclusive	
-	ret.SetAngle(num * (PI / 2));
+	//int num = rand() % 4; //number between 0 and 3 inclusive	
+	//ret.SetAngle(num * (PI / 2));
+	float num = rand() % (628); //number between 0 and 628 (2 * PI * 100)
+	ret.SetAngle(num / 100);
 	return ret;
 }
 

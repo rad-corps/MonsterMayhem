@@ -17,6 +17,12 @@ void Monster::RegisterTarget(GameObject* target_)
 	target = target_;
 }
 
+void Monster::Rotate()
+{
+	//rotate 45deg clockwise
+	direction.SetAngle(direction.GetAngle() + PI / 4);
+}
+
 void Monster::Hit(int hit_ )
 {
 	health -= hit_;

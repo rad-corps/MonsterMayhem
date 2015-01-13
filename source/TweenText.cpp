@@ -9,11 +9,12 @@ bool IsTextInactive(const TweenText& text_)
 	return !(text_.IsActive());
 }
 
-TweenText::TweenText(string text_, Vector2 startPos_, float maxTime_)
+TweenText::TweenText(int score_, Vector2 startPos_, float maxTime_)
 {
 	timer = 0.0f;
-	textPos = startPos_;
-	text = text_;
+	textPos = startPos_;	
+	textSize = 0.5f;
+	score = score_;
 	maxTime = maxTime_;
 	//targetPos = startPos_;
 	//targetPos.y += 40;
@@ -46,15 +47,13 @@ void TweenText::Update(float delta_)
 	}
 	
 	timer += delta_;
-
-	//textPos += (targetPos - textPos) * delta_ * 50.f;
-	//textPos += Vector2(0, 50 * delta_);
 	textPos += velocity * delta_;
+	textSize += score * delta_ * 0.015;
 	velocity -= velocity * delta_;
 }
 
 void TweenText::Draw()
 {
 	if ( active ) 
-		DrawString(text.c_str(), textPos.x, textPos.y, 0.5f);
+		DrawString(to_string(score).c_str(), textPos.x, textPos.y, textSize);
 }

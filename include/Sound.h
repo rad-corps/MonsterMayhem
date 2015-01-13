@@ -18,7 +18,8 @@ enum SOUNDS
 	GAME_MUSIC,
 	MENU_MUSIC,
 	RESTART_SCREEN_MUSIC,
-	GAME_OVER_MUSIC
+	GAME_OVER_MUSIC,
+	PICKUP_DROP
 };
 
 class Sound
@@ -46,5 +47,6 @@ public:
 	static HSTREAM soundMenuMusic;
 	static HSTREAM soundRestartScreen;
 	static HSTREAM soundGameOver;
+	static HSTREAM soundPickupDrop;
 };
 
