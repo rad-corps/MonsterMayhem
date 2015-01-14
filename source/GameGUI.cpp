@@ -32,15 +32,6 @@ GameGUI::GameGUI(void)
 	slugSprite =  CreateSprite("./images/slug.png", 64, 64,	true);
 	walkerSprite =  CreateSprite("./images/walker.png", 64, 64,	true);
 
-	for (int i = 0; i < 10; ++i )
-	{
-		string fileName = string("./images/") + std::to_string(i) + string(".png");
-		sprDigit[i] = CreateSprite(fileName.c_str(), 
-			FileSettings::GetInt("WAVE_DIGIT_WIDTH"),
-			FileSettings::GetInt("WAVE_DIGIT_HEIGHT"),
-			false);
-	}
-
 	sprBegPos = Vector2( FileSettings::GetFloat("BEG_WAVE_X"), FileSettings::GetFloat("BEG_WAVE_Y"));
 	sprEndPos = Vector2( FileSettings::GetFloat("COMPLETE_WAVE_X"), FileSettings::GetFloat("COMPLETE_WAVE_Y"));
 	staminaPos = Vector2(FileSettings::GetInt("STAMINA_X"),FileSettings::GetInt("STAMINA_Y"));

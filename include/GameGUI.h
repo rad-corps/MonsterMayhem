@@ -39,7 +39,6 @@ private:
 	//sprites
 	unsigned int sprBegWave;
 	unsigned int sprEndWave;
-	unsigned int sprDigit[10];
 
 	unsigned int blueBar;
 	unsigned int greenBar;
