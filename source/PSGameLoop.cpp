@@ -154,12 +154,11 @@ void PSGameLoop::CheckPlayerRiverCollision()
 	vector<Rect> RiverTerrain = terrain.GetRiverTerrain();
 	for (int i = 0; i < RiverTerrain.size(); ++i )
 	{
-		if ( Collision::RectCollision(RiverTerrain[i], player.GetRect()))
+		if ( Collision::RectCollision(RiverTerrain[i], player.GetRect(), 1.0f))
 		{
 		  player.SetInRiver(true);
           PowerUp temp;
           temp.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY, Vector2());
-		  PowerUp EatPowerUp();
 		  player.EatPowerUp(temp); 
 
 		}

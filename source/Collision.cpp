@@ -39,10 +39,10 @@ bool Collision::CheckCollision(GameObject* obj1_, GameObject* obj2_)
 }
 
 //check rectangle collision between two rectangles
-bool Collision::RectCollision(Rect r1_, Rect r2_)
+bool Collision::RectCollision(Rect r1_, Rect r2_, float scale_)
 {
-	r1_.Scale(0.75f);
-	r2_.Scale(0.75f);
+	r1_.Scale(scale_);
+	r2_.Scale(scale_);
 
 	if (r1_.Right() < r2_.Left() 
 		|| r2_.Right() < r1_.Left() 
