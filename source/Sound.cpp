@@ -83,7 +83,7 @@ void Sound::StopSound(SOUNDS sound_)
 }
 
 void Sound::PlayGameSound(SOUNDS sound_)
-{
+{ /*
 	if ( sound_ == SOUNDS::SPIT ) 
 	{
 		BASS_ChannelPlay(soundSpit[currentSpitNum], true);
@@ -136,5 +136,5 @@ void Sound::PlayGameSound(SOUNDS sound_)
 	if ( sound_ == SOUNDS::PICKUP_DROP)
 	{
 		BASS_ChannelPlay(soundPickupDrop, true);
-	}
+	}*/
 }
