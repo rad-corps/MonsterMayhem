@@ -215,10 +215,11 @@ void Terrain::SetRiverTile(int col_, int row_,FOUR_WAY_ROTATION direction_, RIVE
 	info.type = type_;
 	riverTiles.push_back(info);
 
+	
 	//add this tile to the unwalkable terrain
 	Rect temp(Vector2(col_ * TERRAIN_W, row_ * TERRAIN_H), TERRAIN_W, TERRAIN_H);
 	unwalkableTerrain.push_back(temp);
-
+    RiverTerrain.push_back(temp);
 	//nodes[row_][col_].walkable = false;
 }
 
@@ -360,6 +361,11 @@ Terrain::GetUnwalkableTerrain()
 vector<Rect> Terrain::GetMudTerrain()
 {
 	return mudTerrain;
+}
+
+vector<Rect> Terrain::GetRiverTerrain()
+{
+	return RiverTerrain;
 }
 
 vector<Rect> Terrain::GetUnspittableTerrain()

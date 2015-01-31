@@ -83,6 +83,7 @@ Player::Player()
 	EatPowerUp(p1);
 	EatPowerUp(p2);
 	inMud = false;
+	inRiver = false;
 	alive = true;
 }
 
@@ -133,6 +134,11 @@ void Player::UndoUpdate()
 void Player::SetInMud(bool inMud_)
 {
 	inMud = inMud_;
+}
+
+void Player::SetInRiver(bool inRiver_)
+{
+	inRiver = inRiver_;
 }
 
 void Player::UpdateXMovement(float delta_)

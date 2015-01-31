@@ -42,6 +42,7 @@ public:
 	
 	//used for collision detection
 	vector<Rect> GetUnwalkableTerrain();
+	vector<Rect> GetRiverTerrain();
 	vector<Rect> GetMudTerrain();
 	vector<Rect> GetUnspittableTerrain();
 	Rect GetGoalTile();
@@ -57,6 +58,7 @@ private:
 	pair<int,int>		  goalTile;
 
 	vector<Rect> unwalkableTerrain;
+	vector<Rect> RiverTerrain;
 	vector<Rect> mudTerrain;
 	vector<Rect> unspittableTerrain;
 	Rect		 goalTerrain;

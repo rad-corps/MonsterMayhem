@@ -146,6 +146,26 @@ void PSGameLoop::CheckPlayerTerrainCollision()
 	}
 }
 
+void PSGameLoop::CheckPlayerRiverCollision()
+{
+	//check for collision with river and player
+	player.SetInRiver(false);
+
+	vector<Rect> RiverTerrain = terrain.GetRiverTerrain();
+	for (int i = 0; i < RiverTerrain.size(); ++i )
+	{
+		if ( Collision::RectCollision(RiverTerrain[i], player.GetRect()))
+		{
+		  player.SetInRiver(true);
+          PowerUp temp;
+          temp.Spawn(POWER_UP_TYPE::SPIT_FREQUENCY, Vector2());
+		  PowerUp EatPowerUp();
+		  player.EatPowerUp(temp); 
+
+		}
+	}
+}
+
 void PSGameLoop::CheckPlayerMudCollision()
 {
 	//check for collision with mud and player
@@ -277,11 +297,14 @@ ProgramState* PSGameLoop::Update(float delta_)
 	if ( gameState != GAME_LOOP_STATE::WAVE_BEGIN )
 	{
 		//Capture player input and check for collission
+
+		CheckPlayerRiverCollision();
 		player.UpdateYMovement(delta_);
 		CheckPlayerTerrainCollision();
-		player.UpdateXMovement(delta_);		
+		player.UpdateXMovement(delta_);
 		CheckPlayerTerrainCollision();
-		CheckPlayerMudCollision();	
+		CheckPlayerMudCollision();
+		
 		//CheckPlayerTerrainCollision();
 		CheckPlayerGoalCollision();
 

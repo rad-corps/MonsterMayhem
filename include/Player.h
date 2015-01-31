@@ -36,6 +36,7 @@ public:
 	void RegisterSpitObserver(SpitObserver* spitObserver_);
 	void RegisterPlayerObserver(PlayerObserver* playerObserver_);
 	void SetInMud( bool inMud );
+	void SetInRiver( bool inRiver );
 
 	void EatPowerUp(PowerUp& powerUp);
 
@@ -65,6 +66,7 @@ private:
 	Vector2 previousPos;
 
 	bool inMud;
+	bool inRiver;
 	bool alive;
 };
 

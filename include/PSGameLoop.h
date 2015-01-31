@@ -43,6 +43,7 @@ public:
 
 private:
 	void CheckPlayerMudCollision();
+	void CheckPlayerRiverCollision();
 	void CleanMonsterList();
 	void CheckPlayerTerrainCollision();
 	void CheckPlayerGoalCollision();
